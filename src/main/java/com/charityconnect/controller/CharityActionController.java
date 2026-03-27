@@ -58,6 +58,23 @@ public class CharityActionController {
                          @RequestParam BigDecimal amount,
                          Authentication authentication,
                          RedirectAttributes redirectAttributes) {
+        return processDonation(id, amount, authentication, redirectAttributes);
+    }
+
+    @PostMapping("/actions/donate-home")
+    public String donateHome(@RequestParam Long actionId,
+                             @RequestParam BigDecimal amount,
+                             Authentication authentication,
+                             RedirectAttributes redirectAttributes) {
+        return processDonation(actionId, amount, authentication, redirectAttributes);
+    }
+
+    private String processDonation(Long id, BigDecimal amount, Authentication authentication, RedirectAttributes redirectAttributes) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Veuillez vous connecter pour faire un don.");
+            return "redirect:/login";
+        }
+
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
 

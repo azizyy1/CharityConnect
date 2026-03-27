@@ -1,8 +1,10 @@
 package com.charityconnect.controller;
 
+import com.charityconnect.model.ActionStatus;
 import com.charityconnect.model.Organization;
 import com.charityconnect.model.Role;
 import com.charityconnect.model.User;
+import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -26,10 +28,12 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final OrganizationRepository organizationRepository;
+    private final CharityActionRepository charityActionRepository;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("actions", charityActionRepository.findByStatus(ActionStatus.ACTIVE));
         return "index";
     }
 

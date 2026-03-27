@@ -2,22 +2,236 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CharityConnect</title>
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --accent-color: #000000;
+            --text-color: #ffffff;
+            --overlay-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-actions a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .btn-donate-now {
+            background-color: var(--primary-color);
+            color: var(--accent-color) !important;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-donate-now:hover {
+            background-color: #e0e0e0;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(var(--overlay-color), var(--overlay-color)),
+                        url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-color);
+            padding: 0 20px;
+        }
+
+        .hero h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 70px;
+            max-width: 900px;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .hero p {
+            max-width: 800px;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .btn-main-donate {
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-main-donate:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .hero select:focus, .hero input:focus {
+            outline: 2px solid #ffffff;
+            background: #ffffff !important;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            nav { display: none; }
+            .hero h1 { font-size: 40px; }
+            .hero p { font-size: 16px; }
+        }
+    </style>
 </head>
 <body>
-<h1>Bienvenue sur CharityConnect</h1>
-<p>
-    <a th:href="@{/actions}">Voir les actions</a> |
-    <a th:href="@{/login}">Se connecter</a> |
-    <a th:href="@{/register}">Créer un compte</a>
-    <p><a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a> | <a th:href="@{/about}">À propos</a></p>
-</p>
 
-<h3>Comptes de démonstration</h3>
-<ul>
-    <li>Admin: admin@charityconnect.com / Admin@123</li>
-    <li>Organisation: org@charityconnect.com / Org@12345</li>
-    <li>Donateur: user@charityconnect.com / User@12345</li>
-</ul>
+<header>
+    <a th:href="@{/}" class="logo">CharityConnect</a>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/actions}">Donations</a>
+        <a th:href="@{/about}">Pages</a>
+        <a href="#">Events</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+        <a th:href="@{/login}" title="Se connecter">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
+        <a th:href="@{/actions}" class="btn-donate-now">Donate Now</a>
+    </div>
+</header>
+
+    <section class="hero">
+        <h4>Building stronger, brighter tomorrows together with youth</h4>
+        <h1>Empowering Youth for a Brighter Future</h1>
+        <p>
+            When we invest in young people, we invest in the future. By offering guidance, education, and support, we help youth overcome barriers, unlock potential, and become changemakers in communities.
+        </p>
+
+        <form th:action="@{/actions/donate-home}" method="post" style="margin-top: 30px; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;">
+                <select name="actionId" required style="padding: 15px; border-radius: 8px; border: none; min-width: 300px; background: white; color: #333; font-size: 16px;">
+                    <option value="" disabled selected>Select Donation Type</option>
+                    <option th:each="action : ${actions}" th:value="${action.id}" th:text="${action.title}"></option>
+                </select>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #333; font-weight: bold;">$</span>
+                    <input type="number" name="amount" placeholder="Amount" required min="1" step="0.01" style="padding: 15px 15px 15px 30px; border-radius: 8px; border: none; width: 150px; background: white; color: #333; font-size: 16px;">
+                </div>
+                <button type="submit" class="btn-main-donate" style="border: none; cursor: pointer; margin: 0; height: 54px; display: flex; align-items: center; justify-content: center;">
+                    Donate Now <span style="margin-left: 10px;">&rarr;</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="slider-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </section>
+
 </body>
 </html>

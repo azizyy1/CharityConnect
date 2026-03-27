@@ -42,19 +42,28 @@ public class DataInitializer {
                             .user(organizationUser)
                             .build()));
 
-            if (charityActionRepository.count() == 0) {
-                charityActionRepository.save(CharityAction.builder()
-                        .title("Aide scolaire pour enfants")
-                        .description("Collecte pour kits scolaires et fournitures de 120 enfants.")
-                        .category("Education")
-                        .location("Rabat")
-                        .targetAmount(new BigDecimal("10000.00"))
-                        .collectedAmount(new BigDecimal("2500.00"))
+            if (charityActionRepository.count() <= 1) {
+                String[] actionTitles = {
+                    "Orphan care essentials", "Emergency medical rides", "Animal rescue initiative",
+                    "Winter clothing drive", "Critical surgery fund", "School supply drive",
+                    "Women empowerment projects", "Urgent medical funds", "Meals for the hungry",
+                    "Disaster recovery aid", "Help children access school"
+                };
+
+                for (String title : actionTitles) {
+                    charityActionRepository.save(CharityAction.builder()
+                        .title(title)
+                        .description("Direct support for " + title.toLowerCase())
+                        .category("General")
+                        .location("Various")
+                        .targetAmount(new BigDecimal("50000.00"))
+                        .collectedAmount(BigDecimal.ZERO)
                         .startDate(LocalDate.now())
-                        .endDate(LocalDate.now().plusMonths(2))
+                        .endDate(LocalDate.now().plusYears(1))
                         .status(ActionStatus.ACTIVE)
                         .organization(organization)
                         .build());
+                }
             }
         };
     }
