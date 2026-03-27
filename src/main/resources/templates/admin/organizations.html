@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Organisations</title>
+</head>
+<body>
+<h1>Validation des organisations</h1>
+
+<p th:if="${message}" th:text="${message}"></p>
+
+<p><a th:href="@{/admin/dashboard}">Retour dashboard</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Email compte</th>
+    <th>Tax ID</th>
+    <th>Approuvée</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="org : ${organizations}">
+    <td th:text="${org.name}"></td>
+    <td th:text="${org.user.email}"></td>
+    <td th:text="${org.taxId}"></td>
+    <td th:text="${org.approved ? 'Oui' : 'Non'}"></td>
+    <td>
+      <form th:if="${!org.approved}" th:action="@{/admin/organizations/{id}/approve(id=${org.id})}" method="post">
+        <button type="submit">Valider</button>
+      </form>
+      <span th:if="${org.approved}">Déjà validée</span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

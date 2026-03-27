@@ -1,1 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+</head>
+<body>
 <h1>Dashboard Admin</h1>
+<p>Bienvenue dans l'espace administration.</p>
+<p>
+    <a th:href="@{/admin/organizations}">Valider les organisations</a> |
+    <a th:href="@{/actions}">Consulter les actions publiées</a>
+</p>
+</body>
+</html>

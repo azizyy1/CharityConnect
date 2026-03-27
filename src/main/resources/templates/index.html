@@ -1,8 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Accueil</title></head>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CharityConnect</title>
+</head>
 <body>
 <h1>Bienvenue sur CharityConnect</h1>
-<p><a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a></p>
+<p>
+    <a th:href="@{/actions}">Voir les actions</a> |
+    <a th:href="@{/login}">Se connecter</a> |
+    <a th:href="@{/register}">Créer un compte</a>
+</p>
+
+<h3>Comptes de démonstration</h3>
+<ul>
+    <li>Admin: admin@charityconnect.com / Admin@123</li>
+    <li>Organisation: org@charityconnect.com / Org@12345</li>
+    <li>Donateur: user@charityconnect.com / User@12345</li>
+</ul>
 </body>
 </html>

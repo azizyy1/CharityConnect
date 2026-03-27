@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actions caritatives</title>
+</head>
+<body>
+<h1>Actions caritatives</h1>
+
+<form th:action="@{/actions}" method="get">
+    <label>Catégorie:</label>
+    <input type="text" name="category">
+    <button type="submit">Filtrer</button>
+</form>
+
+<form th:action="@{/actions}" method="get">
+    <label>Mot-clé:</label>
+    <input type="text" name="keyword">
+    <button type="submit">Rechercher</button>
+</form>
+
+<ul>
+    <li th:each="action : ${actions}">
+        <a th:href="@{/actions/{id}(id=${action.id})}" th:text="${action.title}">Action</a>
+        - <span th:text="${action.category}">Categorie</span>
+        - <span th:text="${action.collectedAmount}">0</span> / <span th:text="${action.targetAmount}">0</span>
+    </li>
+</ul>
+
+<p><a th:href="@{/}">Retour accueil</a></p>
+</body>
+</html>

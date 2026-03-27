@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes actions</title>
+</head>
+<body>
+<h1>Mes actions caritatives</h1>
+
+<p th:if="${message}" th:text="${message}"></p>
+
+<p>
+  <a th:href="@{/organization/actions/new}">Créer une action</a> |
+  <a th:href="@{/organization/dashboard}">Retour dashboard</a>
+</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Titre</th>
+    <th>Catégorie</th>
+    <th>Objectif</th>
+    <th>Collecté</th>
+    <th>Statut</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="action : ${actions}">
+    <td th:text="${action.title}"></td>
+    <td th:text="${action.category}"></td>
+    <td th:text="${action.targetAmount}"></td>
+    <td th:text="${action.collectedAmount}"></td>
+    <td th:text="${action.status}"></td>
+    <td>
+      <a th:href="@{/actions/{id}(id=${action.id})}">Voir</a>
+      <a th:href="@{/organization/actions/{id}/edit(id=${action.id})}" th:if="${action.status.name() == 'ACTIVE'}">Modifier</a>
+      <form th:if="${action.status.name() == 'ACTIVE'}"
+            th:action="@{/organization/actions/{id}/archive(id=${action.id})}"
+            method="post" style="display:inline">
+        <button type="submit">Archiver</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

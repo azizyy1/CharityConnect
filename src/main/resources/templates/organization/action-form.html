@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${formMode == 'create'} ? 'Créer action' : 'Modifier action'">Action</title>
+</head>
+<body>
+<h1 th:text="${formMode == 'create'} ? 'Créer une action' : 'Modifier une action'"></h1>
+
+<form th:object="${action}"
+      th:action="${formMode == 'create'} ? @{/organization/actions} : @{/organization/actions/{id}(id=${action.id})}"
+      method="post">
+  <label>Titre</label><br>
+  <input type="text" th:field="*{title}" required><br><br>
+
+  <label>Description</label><br>
+  <textarea th:field="*{description}" rows="4"></textarea><br><br>
+
+  <label>Catégorie</label><br>
+  <input type="text" th:field="*{category}" required><br><br>
+
+  <label>Lieu</label><br>
+  <input type="text" th:field="*{location}"><br><br>
+
+  <label>Objectif financier</label><br>
+  <input type="number" step="0.01" min="0" th:field="*{targetAmount}" required><br><br>
+
+  <label>Date début</label><br>
+  <input type="date" th:field="*{startDate}"><br><br>
+
+  <label>Date fin</label><br>
+  <input type="date" th:field="*{endDate}"><br><br>
+
+  <label>Image (URL)</label><br>
+  <input type="text" th:field="*{image}"><br><br>
+
+  <button type="submit" th:text="${formMode == 'create'} ? 'Créer' : 'Mettre à jour'"></button>
+</form>
+
+<p><a th:href="@{/organization/actions}">Retour</a></p>
+</body>
+</html>
