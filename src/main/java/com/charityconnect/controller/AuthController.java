@@ -23,6 +23,11 @@ public class AuthController {
         return "index";
     }
 
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "auth/login";
