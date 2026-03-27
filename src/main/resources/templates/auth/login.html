@@ -9,7 +9,9 @@
 
 <p th:if="${param.error}">Email ou mot de passe invalide.</p>
 <p th:if="${param.logout}">Déconnexion réussie.</p>
-<p th:if="${param.registered}">Compte créé avec succès.</p>
+<p th:if="${message}" th:text="${message}"></p>
+<p th:if="${param.organization_pending}">Votre inscription organisation est en attente de validation admin.</p>
+<div th:if="${param.pending_admin_validation}">Compte organisation créé : en attente de validation admin.</div>
 
 <form th:action="@{/login}" method="post">
   <label>Email :</label><br>
@@ -22,5 +24,7 @@
 </form>
 
 <p>Pas encore de compte ? <a th:href="@{/register}">S'inscrire</a></p>
+<p>Organisation ? <a th:href="@{/register/organization}">Demander un compte organisation</a></p>
+<p>Vous êtes une organisation ? <a th:href="@{/register/organization}">Créer un compte organisation</a></p>
 </body>
 </html>

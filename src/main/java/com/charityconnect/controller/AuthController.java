@@ -1,21 +1,31 @@
 package com.charityconnect.controller;
 
+import com.charityconnect.model.Organization;
 import com.charityconnect.model.Role;
 import com.charityconnect.model.User;
+import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
+import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.validation.BindingResult;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
 
     private final UserRepository userRepository;
+    private final OrganizationRepository organizationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
@@ -40,15 +50,81 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user) {
+    public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            return "redirect:/register?error=email_exists";
+            redirectAttributes.addFlashAttribute("errorMessage", "Cet email est déjà utilisé.");
+            bindingResult.rejectValue("email", "email.exists", "Cet email est déjà utilisé.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "auth/register";
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
         user.setEnabled(true);
         userRepository.save(user);
+        redirectAttributes.addFlashAttribute("message", "Compte créé avec succès.");
         return "redirect:/login?registered";
+    }
+
+    @GetMapping("/register/organization")
+    public String registerOrganizationPage() {
+        return "auth/register-organization";
+    }
+
+    @PostMapping("/register/organization")
+    public String registerOrganization(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam(required = false) String phone,
+            @RequestParam String password,
+            @RequestParam String organizationName,
+            @RequestParam(required = false) String legalAddress,
+            @RequestParam(required = false) String taxId,
+            @RequestParam(required = false) String description
+    ) {
+        if (userRepository.existsByEmail(email)) {
+            return "redirect:/register/organization?error=email_exists";
+        }
+
+        User user = User.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phone(phone)
+                .password(passwordEncoder.encode(password))
+                .role(Role.ROLE_ORGANIZATION)
+                .enabled(true)
+                .build();
+        User savedUser = userRepository.save(user);
+
+        Organization organization = Organization.builder()
+                .name(organizationName)
+                .legalAddress(legalAddress)
+                .taxId(taxId)
+                .description(description)
+                .approved(false)
+                .user(savedUser)
+                .build();
+        organizationRepository.save(organization);
+
+        return "redirect:/login?organization_pending";
+    }
+
+    @Getter
+    @Setter
+    public static class OrganizationRegistrationForm {
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String phone;
+        private String password;
+
+        private String name;
+        private String legalAddress;
+        private String taxId;
+        private String description;
     }
 }

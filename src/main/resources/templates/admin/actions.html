@@ -1,10 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Audit des actions</title>
 </head>
 <body>
-$END$
+<h1>Audit des actions</h1>
+
+<p th:if="${message}" th:text="${message}"></p>
+
+<form th:action="@{/admin/actions}" method="get">
+  <label for="status">Statut</label>
+  <select id="status" name="status">
+    <option value="">Tous</option>
+    <option th:each="s : ${statuses}"
+            th:value="${s}"
+            th:text="${s}"
+            th:selected="${selectedStatus == s}"></option>
+  </select>
+
+  <label for="date">Date (début ≥)</label>
+  <input id="date" type="date" name="date" th:value="${selectedDate}">
+
+  <button type="submit">Filtrer</button>
+  <a th:href="@{/admin/actions}">Réinitialiser</a>
+</form>
+
+<p><a th:href="@{/admin/dashboard}">Retour dashboard</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Titre</th>
+    <th>Catégorie</th>
+    <th>Date début</th>
+    <th>Date fin</th>
+    <th>Statut</th>
+    <th>Organisation</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="action : ${actions}">
+    <td th:text="${action.title}"></td>
+    <td th:text="${action.category}"></td>
+    <td th:text="${action.startDate}"></td>
+    <td th:text="${action.endDate}"></td>
+    <td th:text="${action.status}"></td>
+    <td th:text="${action.organization.name}"></td>
+    <td>
+      <form th:if="${action.status.name() != 'ARCHIVED'}"
+            th:action="@{/admin/actions/{id}/archive(id=${action.id})}"
+            method="post">
+        <button type="submit">Archiver</button>
+      </form>
+      <span th:if="${action.status.name() == 'ARCHIVED'}">Déjà archivée</span>
+    </td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>

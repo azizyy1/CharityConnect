@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Utilisateurs</title>
 </head>
 <body>
-$END$
+<h1>Gestion des utilisateurs</h1>
+
+<p th:if="${message}" th:text="${message}"></p>
+
+<p><a th:href="@{/admin/dashboard}">Retour dashboard</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Email</th>
+    <th>Rôle</th>
+    <th>Enabled</th>
+    <th>Date de création</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.firstName + ' ' + user.lastName}"></td>
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.role}"></td>
+    <td th:text="${user.enabled ? 'Oui' : 'Non'}"></td>
+    <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+    <td>
+      <form th:action="@{/admin/users/{id}/toggle-enabled(id=${user.id})}" method="post">
+        <button type="submit" th:text="${user.enabled ? 'Désactiver' : 'Activer'}"></button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>

@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Audit des dons simulés</title>
 </head>
 <body>
-$END$
+<h1>Audit des dons simulés</h1>
+
+<form th:action="@{/admin/donations}" method="get">
+  <label for="status">Statut</label>
+  <select id="status" name="status">
+    <option value="">Tous</option>
+    <option th:each="s : ${statuses}"
+            th:value="${s}"
+            th:text="${s}"
+            th:selected="${selectedStatus == s}"></option>
+  </select>
+
+  <label for="date">Date (don ≥)</label>
+  <input id="date" type="date" name="date" th:value="${selectedDate}">
+
+  <button type="submit">Filtrer</button>
+  <a th:href="@{/admin/donations}">Réinitialiser</a>
+</form>
+
+<p><a th:href="@{/admin/dashboard}">Retour dashboard</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Date don</th>
+    <th>Montant</th>
+    <th>Statut</th>
+    <th>Utilisateur</th>
+    <th>Action caritative</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="donation : ${donations}">
+    <td th:text="${donation.donationDate}"></td>
+    <td th:text="${donation.amount}"></td>
+    <td th:text="${donation.status}"></td>
+    <td th:text="${donation.user.email}"></td>
+    <td th:text="${donation.charityAction.title}"></td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>

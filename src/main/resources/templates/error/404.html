@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Page introuvable</title>
 </head>
 <body>
-$END$
+<h1>404 - Page introuvable</h1>
+<p>La ressource demandée n'existe pas ou a été déplacée.</p>
+<p th:if="${path}">Chemin : <span th:text="${path}"></span></p>
+<p><a th:href="@{/}">Retour à l'accueil</a></p>
 </body>
 </html>

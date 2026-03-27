@@ -12,13 +12,21 @@
 <p>Collecté: <span th:text="${action.collectedAmount}"></span> / <span th:text="${action.targetAmount}"></span></p>
 <p>Progression: <span th:text="${progress}"></span>%</p>
 
-<p th:if="${param.donated}">Merci, votre don simulé a été enregistré.</p>
+<p th:if="${message}" th:text="${message}"></p>
+<p th:if="${param.participated}">Merci, votre participation a été enregistrée.</p>
 
 <form th:action="@{/actions/{id}/donate(id=${action.id})}" method="post">
   <label>Montant du don:</label>
   <input type="number" name="amount" min="1" step="0.01" required>
   <button type="submit">Faire un don</button>
 </form>
+
+<form th:action="@{/actions/{id}/participate(id=${action.id})}" method="post">
+  <label>Note (optionnelle):</label>
+  <input type="text" name="note" maxlength="1000">
+  <button type="submit">Participer</button>
+</form>
+
 
 <p><a th:href="@{/actions}">Retour à la liste</a></p>
 </body>

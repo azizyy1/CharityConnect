@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Erreur serveur</title>
 </head>
 <body>
-$END$
+<h1>Une erreur est survenue</h1>
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+<p th:unless="${errorMessage}">Une erreur inattendue est survenue. Merci de réessayer.</p>
+<p th:if="${path}">Chemin : <span th:text="${path}"></span></p>
+<p><a th:href="@{/}">Retour à l'accueil</a></p>
 </body>
 </html>

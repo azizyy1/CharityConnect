@@ -3,7 +3,9 @@ package com.charityconnect.controller;
 import com.charityconnect.model.ActionStatus;
 import com.charityconnect.model.CharityAction;
 import com.charityconnect.model.User;
+import com.charityconnect.model.Participation;
 import com.charityconnect.repository.CharityActionRepository;
+import com.charityconnect.repository.ParticipationRepository;
 import com.charityconnect.repository.UserRepository;
 import com.charityconnect.service.DonationService;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class CharityActionController {
 
     private final CharityActionRepository charityActionRepository;
     private final UserRepository userRepository;
+    private final ParticipationRepository participationRepository;
     private final DonationService donationService;
 
     @GetMapping("/actions")
@@ -52,7 +56,8 @@ public class CharityActionController {
     @PostMapping("/actions/{id}/donate")
     public String donate(@PathVariable Long id,
                          @RequestParam BigDecimal amount,
-                         Authentication authentication) {
+                         Authentication authentication,
+                         RedirectAttributes redirectAttributes) {
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
 
@@ -60,8 +65,30 @@ public class CharityActionController {
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
 
         donationService.donate(donor, action, amount);
-        return "redirect:/actions/" + id + "?donated";
+        redirectAttributes.addFlashAttribute("message", "Merci, votre don simulé a été enregistré.");
+        return "redirect:/actions/" + id;
     }
+    @PostMapping("/actions/{id}/participate")
+    public String participate(@PathVariable Long id,
+                              @RequestParam(required = false) String note,
+                              Authentication authentication) {
+        CharityAction action = charityActionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
+
+        User participant = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+
+        if (!participationRepository.existsByUserAndCharityAction(participant, action)) {
+            participationRepository.save(Participation.builder()
+                    .user(participant)
+                    .charityAction(action)
+                    .note(note)
+                    .build());
+        }
+
+        return "redirect:/actions/" + id + "?participated";
+    }
+
 
     private int calculateProgress(CharityAction action) {
         if (action.getTargetAmount() == null || action.getTargetAmount().signum() == 0) {

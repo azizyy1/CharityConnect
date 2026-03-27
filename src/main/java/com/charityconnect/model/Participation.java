@@ -2,18 +2,12 @@ package com.charityconnect.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,42 +21,30 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Donation {
+public class Participation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Le montant est obligatoire.")
-    @Positive(message = "Le montant du don doit être positif.")
-    @Column(nullable = false, precision = 14, scale = 2)
-    private BigDecimal amount;
-
-    @NotNull(message = "La date du don est obligatoire.")
     @Column(nullable = false)
-    private LocalDateTime donationDate;
+    private LocalDateTime participationDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DonationStatus status;
+    @Column(length = 1000)
+    private String note;
 
-    @Valid
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Valid
     @ManyToOne(optional = false)
     @JoinColumn(name = "charity_action_id", nullable = false)
     private CharityAction charityAction;
 
     @PrePersist
     void onCreate() {
-        if (donationDate == null) {
-            donationDate = LocalDateTime.now();
-        }
-        if (status == null) {
-            status = DonationStatus.SUCCESS;
+        if (participationDate == null) {
+            participationDate = LocalDateTime.now();
         }
     }
 }

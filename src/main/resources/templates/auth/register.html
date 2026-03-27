@@ -6,27 +6,32 @@
 </head>
 <body>
 <h2>Inscription</h2>
-<p th:if="${param.error}">Email déjà utilisé.</p>
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
 <form th:action="@{/register}" th:object="${user}" method="post">
     <label>Prénom :</label><br>
-    <input type="text" th:field="*{firstName}" required><br><br>
+    <input type="text" th:field="*{firstName}" required>
+    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p><br>
 
     <label>Nom :</label><br>
-    <input type="text" th:field="*{lastName}" required><br><br>
+    <input type="text" th:field="*{lastName}" required>
+    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br>
 
     <label>Email :</label><br>
-    <input type="email" th:field="*{email}" required><br><br>
+    <input type="email" th:field="*{email}" required>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p><br>
 
     <label>Téléphone :</label><br>
     <input type="text" th:field="*{phone}"><br><br>
 
     <label>Mot de passe :</label><br>
-    <input type="password" th:field="*{password}" required><br><br>
+    <input type="password" th:field="*{password}" required>
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p><br>
 
     <button type="submit">Créer le compte</button>
 </form>
 
 <p>Déjà inscrit ? <a th:href="@{/login}">Se connecter</a></p>
+<p>Vous représentez une organisation ? <a th:href="@{/register/organization}">Inscrire une organisation</a></p>
 </body>
 </html>

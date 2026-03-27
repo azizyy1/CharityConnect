@@ -4,6 +4,7 @@ import com.charityconnect.model.ActionStatus;
 import com.charityconnect.model.CharityAction;
 import com.charityconnect.model.Organization;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,4 +19,11 @@ public interface CharityActionRepository extends JpaRepository<CharityAction, Lo
     List<CharityAction> findByOrganization(Organization organization);
 
     Optional<CharityAction> findByIdAndOrganization(Long id, Organization organization);
+
+    List<CharityAction> findByStatusOrderByStartDateDesc(ActionStatus status);
+
+    List<CharityAction> findByStartDateGreaterThanEqualOrderByStartDateDesc(LocalDate date);
+
+    List<CharityAction> findByStatusAndStartDateGreaterThanEqualOrderByStartDateDesc(ActionStatus status,
+                                                                                     LocalDate date);
 }

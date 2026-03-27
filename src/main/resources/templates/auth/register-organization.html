@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Inscription organisation</title>
 </head>
 <body>
-$END$
+<h2>Inscription organisation</h2>
+<p th:if="${param.error}">Email déjà utilisé.</p>
+
+<form th:action="@{/register/organization}" method="post">
+  <h3>Informations du compte</h3>
+  <label>Prénom du responsable :</label><br>
+  <input type="text" name="firstName" required><br><br>
+
+  <label>Nom du responsable :</label><br>
+  <input type="text" name="lastName" required><br><br>
+
+  <label>Email :</label><br>
+  <input type="email" name="email" required><br><br>
+
+  <label>Téléphone :</label><br>
+  <input type="text" name="phone"><br><br>
+
+  <label>Mot de passe :</label><br>
+  <input type="password" name="password" required><br><br>
+
+  <h3>Informations organisation</h3>
+  <label>Nom de l'organisation :</label><br>
+  <input type="text" name="organizationName" required><br><br>
+
+  <label>Adresse légale :</label><br>
+  <input type="text" name="legalAddress"><br><br>
+
+  <label>Identifiant fiscal (Tax ID) :</label><br>
+  <input type="text" name="taxId"><br><br>
+
+  <label>Description :</label><br>
+  <textarea name="description" rows="4" cols="50"></textarea><br><br>
+
+  <button type="submit">Créer le compte organisation</button>
+</form>
+
+<p>Déjà inscrit ? <a th:href="@{/login}">Se connecter</a></p>
 </body>
 </html>

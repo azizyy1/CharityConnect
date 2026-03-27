@@ -4,11 +4,13 @@ import com.charityconnect.model.ActionStatus;
 import com.charityconnect.model.CharityAction;
 import com.charityconnect.model.Organization;
 import com.charityconnect.model.User;
+import jakarta.validation.Valid;
 import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,9 +55,16 @@ public class OrganizationController {
     }
 
     @PostMapping("/actions")
-    public String createAction(@ModelAttribute("action") CharityAction formAction,
+    public String createAction(@Valid @ModelAttribute("action") CharityAction formAction,
+                               BindingResult bindingResult,
                                Authentication authentication,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("formMode", "create");
+            return "organization/action-form";
+        }
+
         Organization organization = getCurrentOrganization(authentication);
 
         formAction.setId(null);
@@ -86,10 +95,16 @@ public class OrganizationController {
     }
 
     @PostMapping("/actions/{id}")
-    public String updateAction(@PathVariable Long id,
-                               @ModelAttribute("action") CharityAction formAction,
+    public String updateAction(@Valid @PathVariable Long id,
+                               @ModelAttribute("action") CharityAction formAction, BindingResult bindingResult,
                                Authentication authentication,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            formAction.setId(id);
+            model.addAttribute("formMode", "edit");
+            return "organization/action-form";
+        }
         Organization organization = getCurrentOrganization(authentication);
         CharityAction existingAction = charityActionRepository.findByIdAndOrganization(id, organization)
                 .orElseThrow(() -> new IllegalArgumentException("Action introuvable pour cette organisation."));
