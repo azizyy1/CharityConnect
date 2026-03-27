@@ -1,0 +1,277 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.charityconnect:charityconnect >------------------
+[INFO] Building charityconnect 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.13:run (default-cli) > test-compile @ charityconnect >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ charityconnect ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 19 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ charityconnect ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ charityconnect ---
+[INFO] skip non existing resourceDirectory /Users/azizyyy/Documents/charityconnect/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ charityconnect ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.13:run (default-cli) < test-compile @ charityconnect <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.13:run (default-cli) @ charityconnect ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-03-27T23:50:23.641+01:00  INFO 48677 --- [charityconnect] [           main] c.c.CharityconnectApplication            : Starting CharityconnectApplication using Java 25.0.1 with PID 48677 (/Users/azizyyy/Documents/charityconnect/target/classes started by azizyyy in /Users/azizyyy/Documents/charityconnect)
+2026-03-27T23:50:23.641+01:00  INFO 48677 --- [charityconnect] [           main] c.c.CharityconnectApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-03-27T23:50:23.810+01:00  INFO 48677 --- [charityconnect] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-27T23:50:23.826+01:00  INFO 48677 --- [charityconnect] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 5 JPA repository interfaces.
+2026-03-27T23:50:23.963+01:00  INFO 48677 --- [charityconnect] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-03-27T23:50:23.967+01:00  INFO 48677 --- [charityconnect] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-27T23:50:23.968+01:00  INFO 48677 --- [charityconnect] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.53]
+2026-03-27T23:50:23.985+01:00  INFO 48677 --- [charityconnect] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-27T23:50:23.985+01:00  INFO 48677 --- [charityconnect] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 332 ms
+2026-03-27T23:50:24.032+01:00  INFO 48677 --- [charityconnect] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-27T23:50:24.045+01:00  INFO 48677 --- [charityconnect] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-03-27T23:50:24.053+01:00  INFO 48677 --- [charityconnect] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-27T23:50:24.127+01:00  INFO 48677 --- [charityconnect] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-27T23:50:24.134+01:00  INFO 48677 --- [charityconnect] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-27T23:50:24.183+01:00  INFO 48677 --- [charityconnect] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:charitydb user=SA
+2026-03-27T23:50:24.183+01:00  INFO 48677 --- [charityconnect] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-27T23:50:24.202+01:00  INFO 48677 --- [charityconnect] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+        Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+        Database driver: undefined/unknown
+        Database version: 2.3.232
+        Autocommit mode: undefined/unknown
+        Isolation level: undefined/unknown
+        Minimum pool size: undefined/unknown
+        Maximum pool size: undefined/unknown
+2026-03-27T23:50:24.435+01:00  INFO 48677 --- [charityconnect] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table charity_action (
+        id bigint generated by default as identity,
+        category varchar(255) not null,
+        collected_amount numeric(14,2) not null,
+        description varchar(3000) not null,
+        end_date date not null,
+        image varchar(255),
+        location varchar(255),
+        start_date date not null,
+        status enum ('ACTIVE','ARCHIVED') not null,
+        target_amount numeric(14,2) not null,
+        title varchar(255) not null,
+        organization_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table donation (
+        id bigint generated by default as identity,
+        amount numeric(14,2) not null,
+        donation_date timestamp(6) not null,
+        status enum ('FAILED','PENDING','SUCCESS') not null,
+        charity_action_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table organization (
+        id bigint generated by default as identity,
+        approved boolean not null,
+        description varchar(2000) not null,
+        legal_address varchar(255) not null,
+        logo varchar(255),
+        name varchar(255) not null,
+        tax_id varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table participation (
+        id bigint generated by default as identity,
+        note varchar(1000),
+        participation_date timestamp(6) not null,
+        charity_action_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        id bigint generated by default as identity,
+        created_at timestamp(6) not null,
+        email varchar(255) not null,
+        enabled boolean not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        password varchar(255) not null,
+        phone varchar(255),
+        role enum ('ROLE_ADMIN','ROLE_ORGANIZATION','ROLE_USER') not null,
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists organization 
+       drop constraint if exists UKp6ascbiy1srqi0ftqbcgvsncb
+Hibernate: 
+    alter table if exists organization 
+       add constraint UKp6ascbiy1srqi0ftqbcgvsncb unique (tax_id)
+Hibernate: 
+    alter table if exists organization 
+       drop constraint if exists UKq13wkhwj7885gg61lwiyanwis
+Hibernate: 
+    alter table if exists organization 
+       add constraint UKq13wkhwj7885gg61lwiyanwis unique (user_id)
+Hibernate: 
+    alter table if exists users 
+       drop constraint if exists UK6dotkott2kjsp8vw4d0m25fb7
+Hibernate: 
+    alter table if exists users 
+       add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email)
+Hibernate: 
+    alter table if exists charity_action 
+       add constraint FKimuw42egrnsker45tuh7fppcl 
+       foreign key (organization_id) 
+       references organization
+Hibernate: 
+    alter table if exists donation 
+       add constraint FKsb10it7ir4viuxc719m5tma1f 
+       foreign key (charity_action_id) 
+       references charity_action
+Hibernate: 
+    alter table if exists donation 
+       add constraint FKjqx6doal59swi10cqcdgippee 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists organization 
+       add constraint FK7klnupuuu0cbbqabirlp4oujm 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists participation 
+       add constraint FKqg7cnbtw7huq571vhb2pr4xnb 
+       foreign key (charity_action_id) 
+       references charity_action
+Hibernate: 
+    alter table if exists participation 
+       add constraint FKt6kjfjn4ns10i9qhuhwg7s8l 
+       foreign key (user_id) 
+       references users
+2026-03-27T23:50:24.460+01:00  INFO 48677 --- [charityconnect] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-27T23:50:24.569+01:00  WARN 48677 --- [charityconnect] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-27T23:50:24.579+01:00  INFO 48677 --- [charityconnect] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-03-27T23:50:24.579+01:00  WARN 48677 --- [charityconnect] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-03-27T23:50:24.601+01:00  INFO 48677 --- [charityconnect] [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2026-03-27T23:50:24.684+01:00  INFO 48677 --- [charityconnect] [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:charitydb'
+2026-03-27T23:50:24.712+01:00  INFO 48677 --- [charityconnect] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-03-27T23:50:24.715+01:00  INFO 48677 --- [charityconnect] [           main] c.c.CharityconnectApplication            : Started CharityconnectApplication in 1.176 seconds (process running for 1.269)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, enabled, first_name, last_name, password, phone, role, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, enabled, first_name, last_name, password, phone, role, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, enabled, first_name, last_name, password, phone, role, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.approved,
+        o1_0.description,
+        o1_0.legal_address,
+        o1_0.logo,
+        o1_0.name,
+        o1_0.tax_id,
+        o1_0.user_id 
+    from
+        organization o1_0 
+    where
+        o1_0.user_id=?
+Hibernate: 
+    insert 
+    into
+        organization
+        (approved, description, legal_address, logo, name, tax_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    select
+        count(*) 
+    from
+        charity_action ca1_0
+Hibernate: 
+    insert 
+    into
+        charity_action
+        (category, collected_amount, description, end_date, image, location, organization_id, start_date, status, target_amount, title, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default)
