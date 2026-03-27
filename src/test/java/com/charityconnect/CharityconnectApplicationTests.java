@@ -1,4 +1,4 @@
-package com.charityconnect.charityconnect;
+package com.charityconnect;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
