@@ -1,0 +1,140 @@
+:root {
+    --primary-bg: #0a0a0a;
+    --modal-bg: #ffffff;
+    --input-border: #e0e0e0;
+    --btn-bg: #e5533d;
+    --text-main: #333333;
+    --overlay-color: rgba(0, 0, 0, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(var(--overlay-color), var(--overlay-color)),
+                url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.auth-container {
+    background-color: var(--modal-bg);
+    width: 100%;
+    max-width: 500px;
+    padding: 50px;
+    border-radius: 4px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.close-btn {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #000;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    color: var(--text-main);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--btn-bg);
+}
+
+.btn-submit {
+    background-color: var(--btn-bg);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.btn-submit:hover {
+    background-color: #d44834;
+}
+
+.btn-submit .arrow-circle {
+    background-color: white;
+    color: var(--btn-bg);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.auth-footer {
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
+}
+
+.auth-footer a {
+    text-decoration: none;
+    color: #000;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
