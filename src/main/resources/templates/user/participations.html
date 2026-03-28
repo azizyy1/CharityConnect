@@ -15,26 +15,16 @@
         <a th:href="@{/}" class="nav-link"><i class="fas fa-home"></i> Home</a>
         <a th:href="@{/actions}" class="nav-link"><i class="fas fa-search"></i> Donations</a>
         <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                <a th:href="@{/admin/dashboard}" class="btn-dashboard">Dashboard</a>
-            </th:block>
             <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
-                <a th:href="@{/organization/dashboard}" class="btn-dashboard">Dashboard</a>
                 <a th:href="@{/organization/profile}" title="Profile" class="profile-link">
                     <i class="fas fa-building"></i>
                 </a>
             </th:block>
             <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <a th:href="@{/user/dashboard}" class="btn-dashboard">Dashboard</a>
                 <a th:href="@{/user/profile}" title="Profile" class="profile-link">
                     <i class="fas fa-user-circle"></i>
                 </a>
             </th:block>
-            <form th:action="@{/logout}" method="post" style="display: inline;">
-                <button type="submit" class="btn-logout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
         </th:block>
     </nav>
 </header>

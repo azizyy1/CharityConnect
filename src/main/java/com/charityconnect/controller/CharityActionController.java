@@ -82,7 +82,7 @@ public class CharityActionController {
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
 
         donationService.donate(donor, action, amount);
-        redirectAttributes.addFlashAttribute("message", "Merci, votre don simulé a été enregistré.");
+        redirectAttributes.addFlashAttribute("message", "Votre générosité change des vies. Merci du fond du cœur pour ce don précieux qui apporte espoir et soutien à ceux qui en ont le plus besoin.");
         return "redirect:/actions/" + id;
     }
     @PostMapping("/actions/{id}/participate")

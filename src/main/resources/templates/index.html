@@ -24,20 +24,12 @@
 
     <div class="header-actions">
         <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                <a th:href="@{/admin/dashboard}" class="btn-donate-now">Dashboard</a>
-            </th:block>
             <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
                 <a th:href="@{/organization/profile}" class="btn-donate-now">Profile</a>
             </th:block>
             <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
                 <a th:href="@{/user/profile}" class="btn-donate-now">Profile</a>
             </th:block>
-            <form th:action="@{/logout}" method="post" style="display: inline;">
-                <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--primary-color); font-size: 20px; margin-left: 20px;" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </form>
         </th:block>
         <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
             <a th:href="@{/login}" class="btn-donate-now">Profile</a>
