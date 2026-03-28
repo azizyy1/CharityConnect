@@ -27,18 +27,18 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le nom de l'organisation est obligatoire.")
+    @NotBlank(message = "Organization name is required.")
     @Column(nullable = false)
     private String name;
 
-    @NotBlank(message = "L'adresse légale est obligatoire.")
+    @NotBlank(message = "Legal address is required.")
     private String legalAddress;
 
-    @NotBlank(message = "Le numéro fiscal est obligatoire.")
+    @NotBlank(message = "Tax ID is required.")
     @Column(unique = true)
     private String taxId;
 
-    @NotBlank(message = "La description est obligatoire.")
+    @NotBlank(message = "Description is required.")
     @Column(length = 2000)
     private String description;
 

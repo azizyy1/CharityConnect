@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head(${action.title}, ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/details.css}">
 </head>
@@ -9,7 +9,7 @@
 
 <div class="container">
     <div th:if="${param.participated}" class="alert alert-success">
-        <i class="fas fa-check-circle"></i> Merci, votre participation a été enregistrée.
+        <i class="fas fa-check-circle"></i> Thank you, your participation has been recorded.
     </div>
 
     <div class="action-header">

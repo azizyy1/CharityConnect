@@ -34,34 +34,34 @@ public class CharityAction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le titre est obligatoire.")
+    @NotBlank(message = "Title is required.")
     @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "La description est obligatoire.")
+    @NotBlank(message = "Description is required.")
     @Column(length = 3000)
     private String description;
 
-    @NotBlank(message = "La catégorie est obligatoire.")
+    @NotBlank(message = "Category is required.")
     @Column(nullable = false)
     private String category;
 
     private String location;
 
-    @NotNull(message = "L'objectif financier est obligatoire.")
-    @DecimalMin(value = "0.01", inclusive = true, message = "L'objectif financier doit être positif.")
+    @NotNull(message = "Target amount is required.")
+    @DecimalMin(value = "0.01", inclusive = true, message = "Target amount must be positive.")
     @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal targetAmount;
 
-    @NotNull(message = "Le montant collecté est obligatoire.")
-    @DecimalMin(value = "0.00", inclusive = true, message = "Le montant collecté ne peut pas être négatif.")
+    @NotNull(message = "Collected amount is required.")
+    @DecimalMin(value = "0.00", inclusive = true, message = "Collected amount cannot be negative.")
     @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal collectedAmount;
 
-    @NotNull(message = "La date de début est obligatoire.")
+    @NotNull(message = "Start date is required.")
     private LocalDate startDate;
 
-    @NotNull(message = "La date de fin est obligatoire.")
+    @NotNull(message = "End date is required.")
     private LocalDate endDate;
 
     private String image;

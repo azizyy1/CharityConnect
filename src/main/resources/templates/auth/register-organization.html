@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
         
         <h2>Register Organization</h2>
 
-        <div th:if="${param.error}" class="alert alert-error">Email déjà utilisé.</div>
+        <div th:if="${param.error}" class="alert alert-error">Email already in use.</div>
 
         <form th:action="@{/register/organization}" method="post">
             <h3>Account Information</h3>

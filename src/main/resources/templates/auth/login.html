@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,11 +13,11 @@
         
         <h2>Sign in to Faun</h2>
 
-        <div th:if="${param.error}" class="alert alert-error">Email ou mot de passe invalide.</div>
-        <div th:if="${param.logout}" class="alert alert-info">Déconnexion réussie.</div>
+        <div th:if="${param.error}" class="alert alert-error">Invalid email or password.</div>
+        <div th:if="${param.logout}" class="alert alert-info">Successfully logged out.</div>
         <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
-        <div th:if="${param.organization_pending}" class="alert alert-info">Votre inscription organisation est en attente de validation admin.</div>
-        <div th:if="${param.pending_admin_validation}" class="alert alert-info">Compte organisation créé : en attente de validation admin.</div>
+        <div th:if="${param.organization_pending}" class="alert alert-info">Your organization registration is pending admin validation.</div>
+        <div th:if="${param.pending_admin_validation}" class="alert alert-info">Organization account created: pending admin validation.</div>
 
         <form th:action="@{/login}" method="post">
             <div class="form-group">

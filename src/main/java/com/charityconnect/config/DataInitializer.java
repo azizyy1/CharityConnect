@@ -24,6 +24,7 @@ public class DataInitializer {
     private final OrganizationRepository organizationRepository;
     private final CharityActionRepository charityActionRepository;
     private final com.charityconnect.repository.ParticipationRepository participationRepository;
+    private final com.charityconnect.repository.DonationRepository donationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Bean
@@ -192,6 +193,14 @@ public class DataInitializer {
                                 .charityAction(action)
                                 .participationDate(java.time.LocalDateTime.now().minusDays(i + 1))
                                 .note("I'm happy to help with this important cause!")
+                                .build());
+
+                        donationRepository.save(com.charityconnect.model.Donation.builder()
+                                .amount(new BigDecimal(100 + random.nextInt(400)))
+                                .user(demoUser)
+                                .charityAction(action)
+                                .donationDate(java.time.LocalDateTime.now().minusDays(i + 1))
+                                .status(com.charityconnect.model.DonationStatus.SUCCESS)
                                 .build());
                     }
                 }

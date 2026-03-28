@@ -33,12 +33,12 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Le montant est obligatoire.")
-    @Positive(message = "Le montant du don doit être positif.")
+    @NotNull(message = "Amount is required.")
+    @Positive(message = "Donation amount must be positive.")
     @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal amount;
 
-    @NotNull(message = "La date du don est obligatoire.")
+    @NotNull(message = "Donation date is required.")
     @Column(nullable = false)
     private LocalDateTime donationDate;
 

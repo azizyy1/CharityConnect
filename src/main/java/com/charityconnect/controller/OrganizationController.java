@@ -95,7 +95,7 @@ public class OrganizationController {
         }
 
         charityActionRepository.save(formAction);
-        redirectAttributes.addFlashAttribute("message", "Action créée avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Action created successfully.");
         return "redirect:/organization/actions";
     }
 
@@ -105,7 +105,7 @@ public class OrganizationController {
                                  Model model) {
         Organization organization = getCurrentOrganization(authentication);
         CharityAction action = charityActionRepository.findByIdAndOrganization(id, organization)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable pour cette organisation."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found for this organization."));
 
         model.addAttribute("action", action);
         model.addAttribute("formMode", "edit");
@@ -125,7 +125,7 @@ public class OrganizationController {
         }
         Organization organization = getCurrentOrganization(authentication);
         CharityAction existingAction = charityActionRepository.findByIdAndOrganization(id, organization)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable pour cette organisation."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found for this organization."));
 
         existingAction.setTitle(formAction.getTitle());
         existingAction.setDescription(formAction.getDescription());
@@ -137,7 +137,7 @@ public class OrganizationController {
         existingAction.setImage(formAction.getImage());
 
         charityActionRepository.save(existingAction);
-        redirectAttributes.addFlashAttribute("message", "Action mise à jour avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Action updated successfully.");
         return "redirect:/organization/actions";
     }
 
@@ -147,11 +147,11 @@ public class OrganizationController {
                                 RedirectAttributes redirectAttributes) {
         Organization organization = getCurrentOrganization(authentication);
         CharityAction action = charityActionRepository.findByIdAndOrganization(id, organization)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable pour cette organisation."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found for this organization."));
 
         action.setStatus(ActionStatus.ARCHIVED);
         charityActionRepository.save(action);
-        redirectAttributes.addFlashAttribute("message", "Action archivée.");
+        redirectAttributes.addFlashAttribute("message", "Action archived.");
         return "redirect:/organization/actions";
     }
 
@@ -186,15 +186,15 @@ public class OrganizationController {
         organization.setLogo(formOrg.getLogo());
 
         organizationRepository.save(organization);
-        redirectAttributes.addFlashAttribute("message", "Profil de l'organisation mis à jour avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Organization profile updated successfully.");
         return "redirect:/organization/profile";
     }
 
     private Organization getCurrentOrganization(Authentication authentication) {
         User currentUser = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         return organizationRepository.findByUser(currentUser)
-                .orElseThrow(() -> new IllegalArgumentException("Profil organisation introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Organization profile not found."));
     }
 }

@@ -66,7 +66,7 @@ public class AuthController {
     @GetMapping("/events/register/{id}")
     public String registerEventPage(@PathVariable Long id, Model model) {
         CharityAction action = charityActionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Événement introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Event not found."));
         model.addAttribute("event", action);
         return "events/register";
     }
@@ -101,8 +101,8 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Cet email est déjà utilisé.");
-            bindingResult.rejectValue("email", "email.exists", "Cet email est déjà utilisé.");
+            redirectAttributes.addFlashAttribute("errorMessage", "This email is already in use.");
+            bindingResult.rejectValue("email", "email.exists", "This email is already in use.");
         }
 
         if (bindingResult.hasErrors()) {
@@ -113,7 +113,7 @@ public class AuthController {
         user.setRole(Role.ROLE_USER);
         user.setEnabled(true);
         userRepository.save(user);
-        redirectAttributes.addFlashAttribute("message", "Compte créé avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Account created successfully.");
         return "redirect:/login?registered";
     }
 

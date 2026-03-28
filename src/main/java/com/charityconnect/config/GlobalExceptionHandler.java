@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public String handleNotFound(NoHandlerFoundException exception,
                                  HttpServletRequest request,
                                  Model model) {
-        model.addAttribute("errorMessage", "La page demandée est introuvable.");
+        model.addAttribute("errorMessage", "The requested page was not found.");
         model.addAttribute("path", request.getRequestURI());
         return "error/404";
     }
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     public String handleGeneralException(Exception exception,
                                          HttpServletRequest request,
                                          Model model) {
-        model.addAttribute("errorMessage", "Une erreur inattendue est survenue. Merci de réessayer.");
+        model.addAttribute("errorMessage", "An unexpected error occurred. Please try again.");
         model.addAttribute("path", request.getRequestURI());
         return "error/500";
     }

@@ -58,11 +58,11 @@ public class AdminController {
     public String approveOrganization(@PathVariable Long id,
                                       RedirectAttributes redirectAttributes) {
         Organization organization = organizationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Organisation introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Organization not found."));
 
         organization.setApproved(true);
         organizationRepository.save(organization);
-        redirectAttributes.addFlashAttribute("message", "Organisation validée.");
+        redirectAttributes.addFlashAttribute("message", "Organization approved.");
         return "redirect:/admin/organizations";
     }
     @GetMapping("/admin/actions")
@@ -124,11 +124,11 @@ public class AdminController {
     public String archiveAction(@PathVariable Long id,
                                 RedirectAttributes redirectAttributes) {
         CharityAction action = charityActionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
         action.setStatus(ActionStatus.ARCHIVED);
         charityActionRepository.save(action);
-        redirectAttributes.addFlashAttribute("message", "Action archivée avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Action archived successfully.");
         return "redirect:/admin/actions";
     }
 
@@ -136,13 +136,13 @@ public class AdminController {
     public String toggleUserEnabled(@PathVariable Long id,
                                     RedirectAttributes redirectAttributes) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         user.setEnabled(!user.isEnabled());
         userRepository.save(user);
         redirectAttributes.addFlashAttribute(
                 "message",
-                user.isEnabled() ? "Compte activé." : "Compte désactivé."
+                user.isEnabled() ? "Account enabled." : "Account disabled."
         );
         return "redirect:/admin/users";
     }

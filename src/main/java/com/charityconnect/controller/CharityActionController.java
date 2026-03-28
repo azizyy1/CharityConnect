@@ -46,7 +46,7 @@ public class CharityActionController {
     @GetMapping("/actions/{id}")
     public String actionDetails(@PathVariable Long id, Model model) {
         CharityAction action = charityActionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
         model.addAttribute("action", action);
         model.addAttribute("progress", calculateProgress(action));
@@ -71,18 +71,18 @@ public class CharityActionController {
 
     private String processDonation(Long id, BigDecimal amount, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Veuillez vous connecter pour faire un don.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Please log in to make a donation.");
             return "redirect:/login";
         }
 
         CharityAction action = charityActionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
         User donor = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         donationService.donate(donor, action, amount);
-        redirectAttributes.addFlashAttribute("message", "Votre générosité change des vies. Merci du fond du cœur pour ce don précieux qui apporte espoir et soutien à ceux qui en ont le plus besoin.");
+        redirectAttributes.addFlashAttribute("message", "Your generosity changes lives. Thank you from the bottom of our hearts for this precious donation that brings hope and support to those who need it most.");
         return "redirect:/actions/" + id;
     }
     @PostMapping("/actions/{id}/participate")
@@ -90,10 +90,10 @@ public class CharityActionController {
                               @RequestParam(required = false) String note,
                               Authentication authentication) {
         CharityAction action = charityActionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Action introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
         User participant = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         if (!participationRepository.existsByUserAndCharityAction(participant, action)) {
             participationRepository.save(Participation.builder()

@@ -32,21 +32,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le prénom est obligatoire.")
+    @NotBlank(message = "First name is required.")
     @Column(nullable = false)
     private String firstName;
 
-    @NotBlank(message = "Le nom est obligatoire.")
+    @NotBlank(message = "Last name is required.")
     @Column(nullable = false)
     private String lastName;
 
-    @NotBlank(message = "L'email est obligatoire.")
-    @Email(message = "Veuillez renseigner un email valide.")
+    @NotBlank(message = "Email is required.")
+    @Email(message = "Please provide a valid email.")
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Le mot de passe est obligatoire.")
-    @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères.")
+    @NotBlank(message = "Password is required.")
+    @Size(min = 8, message = "Password must be at least 8 characters long.")
     @Column(nullable = false)
     private String password;
 

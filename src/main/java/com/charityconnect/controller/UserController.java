@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/user/dashboard")
     public String dashboard(Authentication authentication, Model model) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         List<Donation> donations = donationRepository.findByUserOrderByDonationDateDesc(user);
         List<Participation> participations = participationRepository.findByUserOrderByParticipationDateDesc(user);
@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping("/user/participations")
     public String participations(Authentication authentication, Model model) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
         model.addAttribute("participations", participationRepository.findByUserOrderByParticipationDateDesc(user));
@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/user/donations")
     public String donations(Authentication authentication, Model model) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
         model.addAttribute("donations", donationRepository.findByUserOrderByDonationDateDesc(user));
@@ -67,7 +67,7 @@ public class UserController {
     @GetMapping("/user/profile")
     public String profile(Authentication authentication, Model model) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
         return "user/profile";
@@ -76,7 +76,7 @@ public class UserController {
     @GetMapping("/user/profile/edit")
     public String editProfileForm(Authentication authentication, Model model) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
         return "user/profile-edit";
@@ -92,14 +92,14 @@ public class UserController {
         }
 
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         user.setFirstName(formUser.getFirstName());
         user.setLastName(formUser.getLastName());
         user.setPhone(formUser.getPhone());
 
         userRepository.save(user);
-        redirectAttributes.addFlashAttribute("message", "Profil mis à jour avec succès.");
+        redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
         return "redirect:/user/profile";
     }
 }
