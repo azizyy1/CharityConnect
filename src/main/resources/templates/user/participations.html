@@ -1,33 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Participations - CharityConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head th:replace="~{fragments/layout :: head('My Participations', ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/user-participations.css}">
 </head>
 <body>
 
-<header>
-    <a th:href="@{/}" class="logo">CharityConnect</a>
-    <nav>
-        <a th:href="@{/}" class="nav-link"><i class="fas fa-home"></i> Home</a>
-        <a th:href="@{/actions}" class="nav-link"><i class="fas fa-search"></i> Donations</a>
-        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-            <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
-                <a th:href="@{/organization/profile}" title="Profile" class="profile-link">
-                    <i class="fas fa-building"></i>
-                </a>
-            </th:block>
-            <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <a th:href="@{/user/profile}" title="Profile" class="profile-link">
-                    <i class="fas fa-user-circle"></i>
-                </a>
-            </th:block>
-        </th:block>
-    </nav>
-</header>
+<header th:replace="~{fragments/layout :: header(false)}"></header>
 
     <div class="main-content">
         <a th:href="@{/user/dashboard}" class="nav-back">
@@ -73,5 +51,6 @@
             </div>
         </div>
     </div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

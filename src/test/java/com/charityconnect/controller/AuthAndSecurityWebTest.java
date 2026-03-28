@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.charityconnect.model.User;
 import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
@@ -27,7 +28,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = {AuthController.class, UserController.class, OrganizationController.class})
+@WebMvcTest(controllers = {AuthController.class, UserController.class, OrganizationController.class, CharityActionController.class})
 @Import(SecurityConfig.class)
 class AuthAndSecurityWebTest {
 
@@ -54,6 +55,12 @@ class AuthAndSecurityWebTest {
     
     @MockBean
     private com.charityconnect.repository.ParticipationRepository participationRepository;
+
+    @MockBean
+    private com.charityconnect.repository.DonationRepository donationRepository;
+
+    @MockBean
+    private com.charityconnect.service.DonationService donationService;
 
     @Test
     void loginPageShouldBeAccessibleWithoutAuthentication() throws Exception {
@@ -104,6 +111,11 @@ class AuthAndSecurityWebTest {
 
     @Test
     void protectedUserRouteShouldBeAccessibleWithUserRole() throws Exception {
+        User user = User.builder().email("user@test.com").firstName("Test").lastName("User").build();
+        when(userRepository.findByEmail("user@test.com")).thenReturn(java.util.Optional.of(user));
+        when(donationRepository.findByUserOrderByDonationDateDesc(any())).thenReturn(java.util.List.of());
+        when(participationRepository.findByUserOrderByParticipationDateDesc(any())).thenReturn(java.util.List.of());
+
         mockMvc.perform(get("/user/dashboard")
                         .with(user("user@test.com").roles("USER")))
                 .andExpect(status().isOk())
@@ -115,5 +127,21 @@ class AuthAndSecurityWebTest {
         mockMvc.perform(get("/organization/dashboard")
                         .with(user("user@test.com").roles("USER")))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void publicPagesShouldBeAccessibleWithoutAuthentication() throws Exception {
+        when(charityActionRepository.findByStatus(any())).thenReturn(java.util.List.of());
+        when(donationRepository.findAll()).thenReturn(java.util.List.of());
+        when(participationRepository.count()).thenReturn(0L);
+        when(charityActionRepository.count()).thenReturn(0L);
+
+        mockMvc.perform(get("/")).andExpect(status().isOk());
+        mockMvc.perform(get("/about")).andExpect(status().isOk());
+        mockMvc.perform(get("/events")).andExpect(status().isOk());
+        mockMvc.perform(get("/blog")).andExpect(status().isOk());
+        mockMvc.perform(get("/contact")).andExpect(status().isOk());
+        mockMvc.perform(get("/volunteer")).andExpect(status().isOk());
+        mockMvc.perform(get("/actions")).andExpect(status().isOk());
     }
 }

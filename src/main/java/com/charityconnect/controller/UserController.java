@@ -29,7 +29,7 @@ public class UserController {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
 
-        List<Donation> donations = donationRepository.findByUser(user);
+        List<Donation> donations = donationRepository.findByUserOrderByDonationDateDesc(user);
         List<Participation> participations = participationRepository.findByUserOrderByParticipationDateDesc(user);
 
         BigDecimal totalDonated = donations.stream()
@@ -60,7 +60,7 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable."));
 
         model.addAttribute("user", user);
-        model.addAttribute("donations", donationRepository.findByUser(user));
+        model.addAttribute("donations", donationRepository.findByUserOrderByDonationDateDesc(user));
         return "user/donations";
     }
 

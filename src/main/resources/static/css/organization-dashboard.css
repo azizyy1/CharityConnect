@@ -16,9 +16,14 @@
 }
 
 body {
-    display: flex;
+    display: block;
     background-color: var(--main-bg);
     min-height: 100vh;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: calc(100vh - 80px);
 }
 
 /* Sidebar */
@@ -28,9 +33,10 @@ body {
     color: var(--text-light);
     display: flex;
     flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    z-index: 1000;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+    z-index: 100;
 }
 
 .sidebar-header {
@@ -82,7 +88,6 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-left: 260px;
     flex: 1;
     padding: 40px;
 }

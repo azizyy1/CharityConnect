@@ -32,6 +32,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    height: 80px;
 }
 
 .logo {
@@ -94,9 +95,33 @@ nav a:hover, .btn-logout:hover {
     color: var(--text-dark);
     font-weight: 500;
     font-size: 16px;
-    margin-left: 30px;
+    margin-left: 20px;
     transition: 0.3s;
     font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-logout-profile {
+    background-color: transparent;
+    color: #e5533d;
+    border: 1px solid #e5533d;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.btn-logout-profile:hover {
+    background-color: #e5533d;
+    color: white;
 }
 
 /* Common Components */

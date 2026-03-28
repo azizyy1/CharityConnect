@@ -23,6 +23,7 @@ public class DataInitializer {
     private final UserRepository userRepository;
     private final OrganizationRepository organizationRepository;
     private final CharityActionRepository charityActionRepository;
+    private final com.charityconnect.repository.ParticipationRepository participationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Bean
@@ -30,7 +31,7 @@ public class DataInitializer {
         return args -> {
             createUserIfMissing("admin@charityconnect.com", "Admin", "System", Role.ROLE_ADMIN, "Admin@123");
             User organizationUser = createUserIfMissing("org@charityconnect.com", "Org", "Manager", Role.ROLE_ORGANIZATION, "Org@12345");
-            createUserIfMissing("user@charityconnect.com", "Demo", "User", Role.ROLE_USER, "User@12345");
+            User demoUser = createUserIfMissing("user@charityconnect.com", "Demo", "User", Role.ROLE_USER, "User@12345");
 
             Organization organization = organizationRepository.findByUser(organizationUser)
                     .orElseGet(() -> organizationRepository.save(Organization.builder()
@@ -119,27 +120,80 @@ public class DataInitializer {
                         "Education",
                         "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                         "In many rural areas, the distance to the nearest school is a major barrier to education. This program provides bicycles for students, funds school bus routes, and helps pay for school uniforms and tuition fees for families in extreme poverty. Our mission is to ensure that every child has the physical and financial means to attend school regularly. Your donation helps us remove the obstacles that keep children out of the classroom, paving the way for a generation of educated and empowered citizens."
+                    ),
+                    new ActionData(
+                        "Acts of love change the world",
+                        "Event",
+                        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "Join us for a gala evening dedicated to celebrating our community's impact and raising funds for future projects."
+                    ),
+                    new ActionData(
+                        "Care flows where hands unite",
+                        "Event",
+                        "https://images.unsplash.com/photo-1559027615-cd99713b8bb7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "A community-led workshop where volunteers come together to pack care packages for those in need."
+                    ),
+                    new ActionData(
+                        "Building bridges for the future",
+                        "Event",
+                        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "A networking event for youth and professionals to share experiences and build mentorship opportunities."
+                    ),
+                    new ActionData(
+                        "Unity in diversity festival",
+                        "Event",
+                        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "Celebrating the rich cultural heritage of Morocco through music, art, and food."
+                    ),
+                    new ActionData(
+                        "Empowerment through education gala",
+                        "Event",
+                        "https://images.unsplash.com/photo-1540575861501-7ad0582373f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "A formal event to raise awareness and funds for educational scholarships and school infrastructure."
                     )
                 };
 
                 java.util.Random random = new java.util.Random();
-                for (ActionData data : sampleActions) {
+                String[] moroccanLocations = {
+                    "Palais des Congrès, Marrakech",
+                    "Anfa Park, Casablanca",
+                    "Bibliothèque Nationale, Rabat",
+                    "Technopark, Casablanca",
+                    "Esplanade de la Kasbah, Tanger",
+                    "Hôtel Michlifen, Ifrane"
+                };
+
+                for (int i = 0; i < sampleActions.length; i++) {
+                    ActionData data = sampleActions[i];
                     BigDecimal target = new BigDecimal(5000 + random.nextInt(45000));
                     BigDecimal collected = target.multiply(new BigDecimal(random.nextDouble() * 0.8)).setScale(2, java.math.RoundingMode.HALF_UP);
                     
-                    charityActionRepository.save(CharityAction.builder()
+                    String location = data.category.equals("Event") ? moroccanLocations[i % moroccanLocations.length] : "Various";
+                    LocalDate startDate = data.category.equals("Event") ? LocalDate.now().plusMonths(1 + random.nextInt(6)) : LocalDate.now();
+
+                    CharityAction action = charityActionRepository.save(CharityAction.builder()
                         .title(data.title)
                         .description(data.description)
                         .category(data.category)
                         .image(data.image)
-                        .location("Various")
+                        .location(location)
                         .targetAmount(target)
                         .collectedAmount(collected)
-                        .startDate(LocalDate.now())
-                        .endDate(LocalDate.now().plusYears(1))
+                        .startDate(startDate)
+                        .endDate(startDate.plusDays(30))
                         .status(ActionStatus.ACTIVE)
                         .organization(organization)
                         .build());
+
+                    // Add demo participations for some actions
+                    if (i < 3) {
+                        participationRepository.save(com.charityconnect.model.Participation.builder()
+                                .user(demoUser)
+                                .charityAction(action)
+                                .participationDate(java.time.LocalDateTime.now().minusDays(i + 1))
+                                .note("I'm happy to help with this important cause!")
+                                .build());
+                    }
                 }
             }
         };

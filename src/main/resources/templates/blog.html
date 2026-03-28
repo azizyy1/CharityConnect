@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Blog', ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/blog.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header(false)}"></header>
+
+<section class="blog-hero">
+    <span class="section-tag">Insights & Stories</span>
+    <h1 class="section-title">Our Blog</h1>
+    <p class="section-subtitle">
+        Stay updated with the latest stories, news, and insights from the CharityConnect community. Discover how your contributions are making a real difference in the lives of people in Morocco.
+    </p>
+</section>
+
+<div class="container">
+    <div class="blog-grid">
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> March 25, 2026</span>
+                    <span><i class="far fa-folder"></i> Impact</span>
+                </div>
+                <h2 class="blog-post-title">How Your Donations Changed Lives in Casablanca</h2>
+                <p class="blog-excerpt">Last month, we distributed over 500 food baskets to families in need in the Casablanca area. Read more about the stories of hope and resilience...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> March 18, 2026</span>
+                    <span><i class="far fa-folder"></i> Education</span>
+                </div>
+                <h2 class="blog-post-title">New Education Center Opens in Marrakech</h2>
+                <p class="blog-excerpt">We are thrilled to announce the opening of our newest education center, providing digital literacy and language skills to youth in Marrakech...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> March 10, 2026</span>
+                    <span><i class="far fa-folder"></i> Volunteering</span>
+                </div>
+                <h2 class="blog-post-title">Volunteering: A Journey of Personal Growth</h2>
+                <p class="blog-excerpt">Meet Amina, one of our most dedicated volunteers, as she shares her experiences and the impact volunteering has had on her life and community...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> March 02, 2026</span>
+                    <span><i class="far fa-folder"></i> Health</span>
+                </div>
+                <h2 class="blog-post-title">Mobile Medical Clinic Reaches Remote Villages</h2>
+                <p class="blog-excerpt">Our mobile medical team recently completed a two-week tour of remote Atlas Mountain villages, providing essential healthcare services to hundreds...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> February 24, 2026</span>
+                    <span><i class="far fa-folder"></i> Community</span>
+                </div>
+                <h2 class="blog-post-title">Building Sustainable Communities Together</h2>
+                <p class="blog-excerpt">Learn about our long-term vision for community development and the innovative projects we are launching to create lasting social change...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <div class="blog-img-container">
+                <img src="https://images.unsplash.com/photo-1578357078586-491aff1abf2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Blog Post">
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i> February 15, 2026</span>
+                    <span><i class="far fa-folder"></i> Empowerment</span>
+                </div>
+                <h2 class="blog-post-title">Women's Cooperative Flourishes in Tangier</h2>
+                <p class="blog-excerpt">The newly formed women's artisan cooperative in Tangier is already seeing incredible results. See how these women are transforming their futures...</p>
+                <a href="#" class="read-more">Read Full Story &rarr;</a>
+            </div>
+        </article>
+    </div>
+    
+    <div class="pagination">
+        <a href="#" class="page-link active">1</a>
+        <a href="#" class="page-link">2</a>
+        <a href="#" class="page-link">3</a>
+        <a href="#" class="page-link next"><i class="fas fa-chevron-right"></i></a>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Contact Us', ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/contact.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header(false)}"></header>
+
+<section class="contact-hero">
+    <span class="section-tag">Get in Touch</span>
+    <h1 class="section-title">Contact Us</h1>
+    <p class="section-subtitle">
+        Have questions about our programs, or want to know how you can help? We'd love to hear from you. Our team is here to support you and provide all the information you need.
+    </p>
+</section>
+
+<div class="container">
+    <div class="contact-grid">
+        <div class="contact-info">
+            <h2 class="contact-info-title">Contact Information</h2>
+            <p class="contact-info-desc">Feel free to reach out to us through any of the following channels. We aim to respond to all inquiries within 24 hours.</p>
+            
+            <div class="info-list">
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="info-content">
+                        <h3>Our Location</h3>
+                        <p>123 Boulevard d'Anfa, Suite 104<br>Casablanca 20000, Morocco</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-phone"></i></div>
+                    <div class="info-content">
+                        <h3>Phone Number</h3>
+                        <p>+212 522-123456</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-content">
+                        <h3>Email Address</h3>
+                        <p>contact@charityconnect.ma</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-box">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-container">
+            <form action="#" class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="What is this regarding?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="6" placeholder="Write your message here..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-send">Send Message <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="map-container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106376.56000632363!2d-7.669394605953936!3d33.5722629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca!5e0!3m2!1sen!2sma!4v1711660000000!5m2!1sen!2sma" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

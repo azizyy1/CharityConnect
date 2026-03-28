@@ -98,7 +98,7 @@ public class AdminController {
         if (userEmail != null && !userEmail.isBlank()) {
             User user = userRepository.findByEmail(userEmail).orElse(null);
             if (user != null) {
-                donations = donationRepository.findByUser(user);
+                donations = donationRepository.findByUserOrderByDonationDateDesc(user);
             } else {
                 donations = List.of();
             }

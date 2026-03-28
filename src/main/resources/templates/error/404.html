@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found | CharityConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head th:replace="~{fragments/layout :: head('404 Page Not Found', ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/error.css}">
 </head>
 <body>
+    <header th:replace="~{fragments/layout :: header(false)}"></header>
     <div class="error-container">
         <div class="error-icon">
             <i class="fas fa-search"></i>
@@ -19,5 +16,6 @@
             <i class="fas fa-home"></i> Back to Home
         </a>
     </div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

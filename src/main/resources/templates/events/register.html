@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Register for ' + ${event.title}, ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/event-register.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header(false)}"></header>
+
+<section class="register-hero">
+    <span class="section-tag">Event Registration</span>
+    <h1 class="event-title" th:text="${event.title}">Event Title</h1>
+    <p class="event-desc" th:text="${event.description}">Event description goes here...</p>
+</section>
+
+<div class="register-container">
+    <div class="register-grid">
+        <div class="info-card">
+            <h2 class="card-title"><i class="fas fa-info-circle"></i> Event Details</h2>
+            <div class="event-details-list">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="detail-content">
+                        <span>Date</span>
+                        <strong th:text="${#temporals.format(event.startDate, 'dd MMMM yyyy')}">April 24, 2026</strong>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="detail-content">
+                        <span>Location</span>
+                        <strong th:text="${event.location}">Marrakech</strong>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-user"></i></div>
+                    <div class="detail-content">
+                        <span>Organizer</span>
+                        <strong th:text="${event.organization.name}">Hope Association</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="card-title"><i class="fas fa-pen-nib"></i> Register</h2>
+            
+            <th:block th:if="${#authorization.expression('!isAuthenticated()')}">
+                <div class="alert-signin">
+                    <p><i class="fas fa-lock"></i> Authentication Required</p>
+                    <span style="font-size: 14px; color: #666; display: block; margin-bottom: 20px;">Please sign in to your account to confirm your participation in this event.</span>
+                    <a th:href="@{/login}" class="btn-submit">Sign In to Register</a>
+                </div>
+            </th:block>
+
+            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                <form th:action="@{/actions/{id}/participate(id=${event.id})}" method="post">
+                    <div class="form-group">
+                        <label>Your Email</label>
+                        <input type="text" class="form-control" th:value="${#authentication.name}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Why do you want to join? (Optional)</label>
+                        <textarea name="note" class="form-control" placeholder="Tell us why you're interested..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Confirm Participation <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

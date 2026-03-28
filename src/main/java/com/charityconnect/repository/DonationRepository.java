@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DonationRepository extends JpaRepository<Donation, Long> {
 
-    List<Donation> findByUser(User user);
+    List<Donation> findByUserOrderByDonationDateDesc(User user);
 
     List<Donation> findByCharityAction(CharityAction charityAction);
 

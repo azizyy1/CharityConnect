@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Volunteer Opportunities', ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/events.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header(false)}"></header>
+
+<section class="events-hero">
+    <span class="section-tag">Give your time, change a life.</span>
+    <h1 class="section-title">Volunteer Opportunities</h1>
+    <p class="section-subtitle">
+        Join our network of passionate volunteers and contribute to meaningful projects. Whether it's for an hour or a long-term commitment, your skills and dedication make a real impact on our community.
+    </p>
+</section>
+
+<div class="container">
+    <div class="events-list">
+        <!-- Message if no opportunities -->
+        <div th:if="${#lists.isEmpty(opportunities)}" style="padding: 40px; text-align: center; color: #777;">
+            <i class="fas fa-hands-helping" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
+            <p>No active volunteer opportunities at the moment. Please check back later!</p>
+        </div>
+
+        <!-- Opportunity Cards (using same layout as events) -->
+        <div th:each="opp : ${opportunities}" class="event-card">
+            <div class="event-date">
+                <span class="month-day" th:text="${opp.category}">Category</span>
+                <span class="time" th:text="${#temporals.format(opp.startDate, 'MMM dd, yyyy')}">Date</span>
+            </div>
+            <div class="event-main">
+                <h3 class="event-title" th:text="${opp.title}">Title</h3>
+                <p class="event-desc" th:text="${opp.description}">Description</p>
+            </div>
+            <div class="event-organizer">
+                <span class="organizer-name" th:text="${opp.organization.name}">Organizer</span>
+                <span class="organizer-label">Organization</span>
+            </div>
+            <div class="event-location">
+                <span class="location-name" th:text="${opp.location}">Location</span>
+                <span class="location-address" th:text="${opp.organization.legalAddress}">Address</span>
+            </div>
+            <div class="event-action">
+                <a th:href="@{/actions/{id}(id=${opp.id})}" class="btn-arrow" title="View & Participate"><i class="fas fa-hands-helping"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

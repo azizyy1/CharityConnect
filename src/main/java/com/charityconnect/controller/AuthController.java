@@ -1,6 +1,7 @@
 package com.charityconnect.controller;
 
 import com.charityconnect.model.ActionStatus;
+import com.charityconnect.model.CharityAction;
 import com.charityconnect.model.Organization;
 import com.charityconnect.model.Role;
 import com.charityconnect.model.User;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +55,36 @@ public class AuthController {
     @GetMapping("/about")
     public String aboutPage() {
         return "about";
+    }
+
+    @GetMapping("/events")
+    public String eventsPage(Model model) {
+        model.addAttribute("events", charityActionRepository.findByCategoryIgnoreCaseAndStatus("Event", ActionStatus.ACTIVE));
+        return "events";
+    }
+
+    @GetMapping("/events/register/{id}")
+    public String registerEventPage(@PathVariable Long id, Model model) {
+        CharityAction action = charityActionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Événement introuvable."));
+        model.addAttribute("event", action);
+        return "events/register";
+    }
+
+    @GetMapping("/blog")
+    public String blogPage() {
+        return "blog";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact";
+    }
+
+    @GetMapping("/volunteer")
+    public String volunteerPage(Model model) {
+        model.addAttribute("opportunities", charityActionRepository.findByStatus(ActionStatus.ACTIVE));
+        return "volunteer";
     }
 
     @GetMapping("/login")

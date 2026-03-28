@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Dashboard - CharityConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head th:replace="~{fragments/layout :: head('Organization Dashboard', ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/organization-dashboard.css}">
 </head>
 <body>
 
-    <div class="sidebar">
+    <header th:replace="~{fragments/layout :: header(false)}"></header>
+
+    <div class="dashboard-wrapper">
+        <div class="sidebar">
         <div class="sidebar-header">
             CharityConnect
         </div>
@@ -31,10 +30,12 @@
             </a>
         </div>
         <div class="sidebar-footer">
-            <a th:href="@{/logout}" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sign Out</span>
-            </a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn" style="background: none; border: none; width: 100%; text-align: left; padding: 0; cursor: pointer; color: inherit; font-family: inherit; font-size: inherit;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -89,7 +90,7 @@
                 <p>View, edit or archive your current actions.</p>
             </a>
         </div>
-    </div>
-
+        </div><!-- main-content -->
+    </div><!-- dashboard-wrapper -->
 </body>
 </html>

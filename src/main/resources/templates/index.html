@@ -1,41 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CharityConnect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/common.css}">
+<head th:replace="~{fragments/layout :: head('CharityConnect', ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 
-<header class="home-header">
-    <a th:href="@{/}" class="logo">CharityConnect</a>
-
-    <nav>
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/actions}">Donations</a>
-        <a th:href="@{/about}">About</a>
-        <a href="#">Events</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-    </nav>
-
-    <div class="header-actions">
-        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-            <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
-                <a th:href="@{/organization/profile}" class="btn-donate-now">Profile</a>
-            </th:block>
-            <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <a th:href="@{/user/profile}" class="btn-donate-now">Profile</a>
-            </th:block>
-        </th:block>
-        <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
-            <a th:href="@{/login}" class="btn-donate-now">Profile</a>
-        </th:block>
-    </div>
-</header>
+<header th:replace="~{fragments/layout :: header(true)}"></header>
 
     <section class="hero">
         <h4>Building stronger, brighter tomorrows together with youth</h4>
@@ -219,53 +189,7 @@
         </div>
     </section>
 
-    <footer class="main-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <a th:href="@{/}" class="logo" style="color: #fff; margin-bottom: 25px; display: block;">
-                    <i class="fas fa-heart"></i> Faun
-                </a>
-                <p>
-                    At Faun, we stand beside the forgotten and underserved. Through community projects, emergency aid, and long-term support, we aim to restore hope where it's needed most.
-                </p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>CharityConnect</h4>
-                <ul>
-                    <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{/about}">About Us</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a th:href="@{/actions}">Donations</a></li>
-                    <li><a href="#">Volunteers</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Refund and Returns Policy</a></li>
-                    <li><a href="#">Donation Policy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Stay Connected</h4>
-                <p><i class="fas fa-phone" style="margin-right: 10px;"></i> +1 (213) 555-0184</p>
-                <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@fauncause.org</p>
-                <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 9 Hope Street, Suite 104<br>Brooklyn, NY 11201, United States</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Faun. All rights reserved. Powered by <strong>Gloria Themes</strong>.</p>
-        </div>
-    </footer>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 
     <script>
         function animateCounter(element, target, prefix = '', suffix = '', divisor = 1) {
