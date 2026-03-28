@@ -254,7 +254,7 @@
                 <tbody>
                     <tr th:each="donation : ${donations}">
                         <td th:text="${donation.donationDate}" style="font-size: 14px;"></td>
-                        <td class="amount" th:text="${'$' + donation.amount}"></td>
+                        <td class="amount" th:text="${donation.amount + ' DH'}"></td>
                         <td>
                             <span class="badge-status" th:text="${donation.status}"></span>
                         </td>

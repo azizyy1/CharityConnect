@@ -262,7 +262,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Financial Target ($)</label>
+                        <label>Financial Target (DH)</label>
                         <input type="number" step="0.01" min="0" th:field="*{targetAmount}" class="form-control" required>
                         <p class="error-msg" th:if="${#fields.hasErrors('targetAmount')}" th:errors="*{targetAmount}"></p>
                     </div>

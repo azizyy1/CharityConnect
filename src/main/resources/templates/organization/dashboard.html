@@ -278,7 +278,7 @@
                     <i class="fas fa-donate"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 th:text="'$' + ${#numbers.formatDecimal(totalCollected, 1, 'COMMA', 2, 'POINT')}">$0.00</h3>
+                    <h3 th:text="${#numbers.formatDecimal(totalCollected, 1, 'COMMA', 2, 'POINT') + ' DH'}">0.00 DH</h3>
                     <p>Total Collected</p>
                 </div>
             </div>

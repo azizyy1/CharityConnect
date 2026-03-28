@@ -268,8 +268,8 @@
                     <tr th:each="action : ${actions}">
                         <td th:text="${action.title}" style="font-weight: 500;"></td>
                         <td th:text="${action.category}"></td>
-                        <td th:text="'$' + ${#numbers.formatDecimal(action.targetAmount, 1, 'COMMA', 2, 'POINT')}"></td>
-                        <td th:text="'$' + ${#numbers.formatDecimal(action.collectedAmount, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(action.targetAmount, 1, 'COMMA', 2, 'POINT') + ' DH'}"></td>
+                        <td th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'COMMA', 2, 'POINT') + ' DH'}"></td>
                         <td>
                             <span th:class="'badge ' + (${action.status.name() == 'ACTIVE'} ? 'badge-active' : 'badge-archived')"
                                   th:text="${action.status}">

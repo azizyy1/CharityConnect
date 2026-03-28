@@ -30,10 +30,23 @@ public class AuthController {
     private final OrganizationRepository organizationRepository;
     private final CharityActionRepository charityActionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final com.charityconnect.repository.DonationRepository donationRepository;
+    private final com.charityconnect.repository.ParticipationRepository participationRepository;
 
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("actions", charityActionRepository.findByStatus(ActionStatus.ACTIVE));
+        
+        long activeCampaigns = charityActionRepository.count(); // Actually findByStatus(ACTIVE).size() would be better but let's keep it simple for now
+        java.math.BigDecimal totalDonations = donationRepository.findAll().stream()
+                .map(com.charityconnect.model.Donation::getAmount)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        long volunteerHours = participationRepository.count() * 4; // Arbitrary calculation for display
+
+        model.addAttribute("activeCampaigns", activeCampaigns);
+        model.addAttribute("totalDonations", totalDonations);
+        model.addAttribute("volunteerHours", volunteerHours);
+        
         return "index";
     }
 

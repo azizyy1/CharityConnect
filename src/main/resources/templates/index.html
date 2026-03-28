@@ -4,436 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CharityConnect</title>
-    <style>
-        :root {
-            --primary-color: #ffffff;
-            --accent-color: #000000;
-            --text-color: #ffffff;
-            --overlay-color: rgba(0, 0, 0, 0.4);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 50px;
-            z-index: 1000;
-            background: transparent;
-        }
-
-        .logo {
-            color: var(--primary-color);
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            margin-right: 10px;
-        }
-
-        nav {
-            display: flex;
-            gap: 30px;
-        }
-
-        nav a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            opacity: 0.8;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-actions a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .btn-donate-now {
-            background-color: var(--primary-color);
-            color: var(--accent-color) !important;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-donate-now:hover {
-            background-color: #e0e0e0;
-        }
-
-        .hero {
-            height: 100vh;
-            background: linear-gradient(var(--overlay-color), var(--overlay-color)),
-                        url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: var(--text-color);
-            padding: 0 20px;
-        }
-
-        .hero h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        .hero h1 {
-            font-size: 70px;
-            max-width: 900px;
-            line-height: 1.1;
-            margin-bottom: 30px;
-        }
-
-        .hero p {
-            max-width: 800px;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .btn-main-donate {
-            background-color: var(--primary-color);
-            color: var(--accent-color);
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-main-donate:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .hero select:focus, .hero input:focus {
-            outline: 2px solid #ffffff;
-            background: #ffffff !important;
-        }
-
-        .slider-dots {
-            position: absolute;
-            bottom: 30px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .dot.active {
-            background-color: var(--primary-color);
-            width: 30px;
-            border-radius: 10px;
-        }
-
-        /* Impact Section */
-        .impact-section {
-            padding: 100px 50px;
-            background: #fff;
-            text-align: center;
-        }
-
-        .section-tag {
-            color: #e5533d;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 2px;
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .section-title {
-            font-size: 48px;
-            color: #1a1a1a;
-            margin-bottom: 60px;
-            font-weight: 800;
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stat-item {
-            flex: 1;
-            min-width: 250px;
-            padding: 40px;
-            border-radius: 20px;
-            background: #f9f9f9;
-            transition: 0.3s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-
-        .stat-number {
-            font-size: 42px;
-            font-weight: 800;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 18px;
-        }
-
-        /* Campaigns Section */
-        .campaigns-section {
-            padding: 100px 50px;
-            background: #f4f7f6;
-        }
-
-        .campaign-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .campaign-card {
-            background: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .campaign-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .campaign-img {
-            height: 250px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .campaign-content {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .campaign-cat {
-            color: #e5533d;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .campaign-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        .progress-container {
-            margin-bottom: 20px;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #eee;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #e5533d;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .btn-card {
-            display: block;
-            text-align: center;
-            background: #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 700;
-            margin-top: auto;
-            transition: 0.3s;
-        }
-
-        .btn-card:hover {
-            background: #e5533d;
-        }
-
-        /* How it works */
-        .how-section {
-            padding: 100px 50px;
-            background: #fff;
-        }
-
-        .how-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .how-item {
-            text-align: center;
-        }
-
-        .how-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(229, 83, 61, 0.1);
-            color: #e5533d;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 25px;
-        }
-
-        .how-item h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #1a1a1a;
-        }
-
-        .how-item p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 80px 50px 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto 60px;
-        }
-
-        .footer-col h4 {
-            font-size: 20px;
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 15px;
-        }
-
-        .footer-col ul li a {
-            color: #ccc;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .footer-col ul li a:hover {
-            color: #e5533d;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            header { padding: 20px; }
-            nav { display: none; }
-            .hero h1 { font-size: 40px; }
-            .hero p { font-size: 16px; }
-            .section-title { font-size: 32px; }
-            .impact-section, .campaigns-section, .how-section { padding: 60px 20px; }
-        }
-    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 
-<header>
+<header class="home-header">
     <a th:href="@{/}" class="logo">CharityConnect</a>
 
     <nav>
@@ -493,15 +70,15 @@
         <h2 class="section-title">Help is our main goal</h2>
         <div class="stats-container">
             <div class="stat-item">
-                <span class="stat-number">120+</span>
+                <span id="stat-campaigns" class="stat-number" th:attr="data-target=${activeCampaigns != null ? activeCampaigns : 11}" th:text="${activeCampaigns != null ? activeCampaigns + '+' : '11+'}">11+</span>
                 <span class="stat-label">Campaigns Funded</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">$1.2M</span>
+                <span id="stat-donations" class="stat-number" th:attr="data-target=${totalDonations != null ? totalDonations : 0}" th:text="${totalDonations != null ? #numbers.formatDecimal(totalDonations, 1, 'COMMA', 0, 'POINT') + ' DH' : '0 DH'}">0 DH</span>
                 <span class="stat-label">Donations Collected</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">50k+</span>
+                <span id="stat-hours" class="stat-number" th:attr="data-target=${volunteerHours != null ? volunteerHours : 0}" th:text="${volunteerHours != null ? #numbers.formatInteger(volunteerHours, 1, 'COMMA') + 'k+' : '0k+'}">0k+</span>
                 <span class="stat-label">Volunteer Hours</span>
             </div>
         </div>
@@ -522,7 +99,7 @@
                             <div class="progress-fill" th:style="'width: ' + ${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'"></div>
                         </div>
                         <div class="progress-info">
-                            <span th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 0, 'POINT') + ' $'}">0 $</span>
+                            <span th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 0, 'POINT') + ' DH'}">0 DH</span>
                             <span th:text="${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'">0%</span>
                         </div>
                     </div>
@@ -558,47 +135,193 @@
         </div>
     </section>
 
-    <footer>
+    <!-- Opportunity Section -->
+    <section class="opportunity-section">
+        <div class="opportunity-content">
+            <span class="section-tag">Opportunity</span>
+            <h2 class="section-title" style="margin-bottom: 30px; text-align: left;">We believe that youth are the future</h2>
+            <p style="color: #666; line-height: 1.6; margin-bottom: 30px;">
+                Our platform provides a bridge between those who want to help and those who need it most. We focus on long-term impact rather than short-term fixes.
+            </p>
+            <ul class="opportunity-list">
+                <li><i class="fas fa-check"></i> Verified Charity Organizations</li>
+                <li><i class="fas fa-check"></i> Transparent Donation Tracking</li>
+                <li><i class="fas fa-check"></i> Impactful Volunteer Opportunities</li>
+                <li><i class="fas fa-check"></i> Community Driven Projects</li>
+            </ul>
+            <a th:href="@{/about}" class="btn-view-all">Learn More About Us &rarr;</a>
+        </div>
+        <div class="opportunity-image">
+            <img src="https://images.unsplash.com/photo-1524069290683-0457abfe42c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Youth Empowerment">
+            <div class="floating-stat">
+                <i class="fas fa-users"></i>
+                <div>
+                    <h5 id="stat-floating-volunteers" data-target="10000">10k+</h5>
+                    <p>Active Volunteers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Every Action Section -->
+    <section class="every-action-section">
+        <div class="every-action-image">
+            <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Action">
+        </div>
+        <div class="every-action-content">
+            <span class="section-tag">Every Action Counts</span>
+            <h2 class="section-title" style="margin-bottom: 30px; text-align: left;">Small steps, big changes</h2>
+            <p style="color: #666; line-height: 1.6;">
+                You don't need a lot to make a difference. Whether it's a small donation or an hour of your time, your contribution helps us build a better world for everyone.
+            </p>
+            <div class="action-points-grid">
+                <div class="action-point">
+                    <h4 style="color: #e5533d;"><i class="fas fa-heart" style="margin-right: 10px;"></i> Direct Impact</h4>
+                    <p>Your donations go directly to the causes you care about, ensuring maximum efficiency.</p>
+                </div>
+                <div class="action-point">
+                    <h4 style="color: #e5533d;"><i class="fas fa-shield-alt" style="margin-right: 10px;"></i> Full Transparency</h4>
+                    <p>Track your contributions and see exactly how they are being used by organizations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news-section">
+        <div class="news-header">
+            <div>
+                <span class="section-tag">Latest News</span>
+                <h2 class="section-title" style="margin-bottom: 0; text-align: left;">Stay updated with us</h2>
+            </div>
+            <a href="#" class="btn-view-all">View All News &rarr;</a>
+        </div>
+        <div class="news-grid">
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="News" class="news-img">
+                <div class="news-meta">
+                    <span><i class="far fa-calendar"></i> Oct 12, 2024</span>
+                    <span><i class="far fa-user"></i> Admin</span>
+                </div>
+                <h3>How to make a difference this holiday season</h3>
+                <p>Learn about simple ways you can contribute to your local community and help those in need...</p>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="News" class="news-img">
+                <div class="news-meta">
+                    <span><i class="far fa-calendar"></i> Oct 05, 2024</span>
+                    <span><i class="far fa-user"></i> CharityConnect</span>
+                </div>
+                <h3>Success story: Education for all campaign</h3>
+                <p>Thanks to our generous donors, we've successfully funded education for over 500 children...</p>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="News" class="news-img">
+                <div class="news-meta">
+                    <span><i class="far fa-calendar"></i> Sep 28, 2024</span>
+                    <span><i class="far fa-user"></i> Support</span>
+                </div>
+                <h3>New features launched on our platform</h3>
+                <p>We've added new tools to help you track your impact and connect with organizations more easily...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4 style="color: #e5533d;">CharityConnect</h4>
-                <p style="color: #888; line-height: 1.6;">A modern platform connecting compassionate donors with impactful charity organizations worldwide.</p>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <a href="#" style="color: #fff;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" style="color: #fff;"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: #fff;"><i class="fab fa-instagram"></i></a>
+                <a th:href="@{/}" class="logo" style="color: #fff; margin-bottom: 25px; display: block;">
+                    <i class="fas fa-heart"></i> Faun
+                </a>
+                <p>
+                    At Faun, we stand beside the forgotten and underserved. Through community projects, emergency aid, and long-term support, we aim to restore hope where it's needed most.
+                </p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
             <div class="footer-col">
-                <h4>Quick Links</h4>
+                <h4>CharityConnect</h4>
                 <ul>
                     <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{/actions}">Donations</a></li>
                     <li><a th:href="@{/about}">About Us</a></li>
-                    <li><a href="#">Latest News</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a th:href="@{/actions}">Donations</a></li>
+                    <li><a href="#">Volunteers</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Support</h4>
+                <h4>Legal</h4>
                 <ul>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Refund and Returns Policy</a></li>
+                    <li><a href="#">Donation Policy</a></li>
                     <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Newsletter</h4>
-                <p style="color: #888; margin-bottom: 20px;">Subscribe to get updates on new campaigns.</p>
-                <div style="display: flex;">
-                    <input type="email" placeholder="Email Address" style="padding: 12px; border: none; border-radius: 5px 0 0 5px; width: 100%;">
-                    <button style="background: #e5533d; color: #fff; border: none; padding: 0 20px; border-radius: 0 5px 5px 0; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
-                </div>
+                <h4>Stay Connected</h4>
+                <p><i class="fas fa-phone" style="margin-right: 10px;"></i> +1 (213) 555-0184</p>
+                <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@fauncause.org</p>
+                <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 9 Hope Street, Suite 104<br>Brooklyn, NY 11201, United States</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 CharityConnect. All rights reserved.</p>
+            <p>&copy; 2025 Faun. All rights reserved. Powered by <strong>Gloria Themes</strong>.</p>
         </div>
     </footer>
+
+    <script>
+        function animateCounter(element, target, prefix = '', suffix = '', divisor = 1) {
+            let current = 0;
+            const duration = 2000; // 2 seconds
+            const stepTime = 20;
+            const steps = duration / stepTime;
+            const increment = target / steps;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    const finalVal = Math.floor(target / divisor);
+                    element.innerText = prefix + finalVal + suffix;
+                    clearInterval(timer);
+                    
+                    // Restart after 3 seconds for the "non-stop loop" effect
+                    setTimeout(() => animateCounter(element, target, prefix, suffix, divisor), 3000);
+                } else {
+                    const currentVal = Math.floor(current / divisor);
+                    element.innerText = prefix + currentVal + suffix;
+                }
+            }, stepTime);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const campaignsEl = document.getElementById('stat-campaigns');
+            const donationsEl = document.getElementById('stat-donations');
+            const hoursEl = document.getElementById('stat-hours');
+            const floatingVolunteersEl = document.getElementById('stat-floating-volunteers');
+
+            if (campaignsEl) {
+                const target = parseInt(campaignsEl.getAttribute('data-target'));
+                animateCounter(campaignsEl, target, '', '+');
+            }
+            if (donationsEl) {
+                const target = parseInt(donationsEl.getAttribute('data-target'));
+                animateCounter(donationsEl, target, '', ' DH');
+            }
+            if (hoursEl) {
+                const target = parseInt(hoursEl.getAttribute('data-target'));
+                animateCounter(hoursEl, target, '', 'k+');
+            }
+            if (floatingVolunteersEl) {
+                const target = parseInt(floatingVolunteersEl.getAttribute('data-target'));
+                animateCounter(floatingVolunteersEl, target, '', 'k+', 1000);
+            }
+        });
+    </script>
 </body>
 </html>

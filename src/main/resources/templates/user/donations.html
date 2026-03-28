@@ -280,7 +280,7 @@
                                    class="action-link" 
                                    th:text="${donation.charityAction.title}">Action</a>
                             </td>
-                            <td class="amount" th:text="${#numbers.formatDecimal(donation.amount, 1, 'WHITESPACE', 2, 'POINT') + ' $'}">0.00 $</td>
+                            <td class="amount" th:text="${#numbers.formatDecimal(donation.amount, 1, 'WHITESPACE', 2, 'POINT') + ' DH'}">0.00 DH</td>
                             <td th:text="${#temporals.format(donation.donationDate, 'dd MMM yyyy HH:mm')}">Date</td>
                             <td>
                                 <span class="status-badge status-completed" th:text="${donation.status}">COMPLETED</span>

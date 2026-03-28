@@ -200,6 +200,9 @@
         .description-text {
             color: #555;
             white-space: pre-line;
+            font-size: 17px;
+            line-height: 1.8;
+            text-align: justify;
         }
 
         .sidebar-card {
@@ -346,8 +349,8 @@
             <div class="progress-section">
                 <div class="progress-stats">
                     <div>
-                        <span class="collected-amount" th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 2, 'POINT') + ' $'}">0.00 $</span>
-                        <span class="target-amount" th:text="' raised of ' + ${#numbers.formatDecimal(action.targetAmount, 1, 'WHITESPACE', 2, 'POINT') + ' $'}">0.00 $</span>
+                        <span class="collected-amount" th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 2, 'POINT') + ' DH'}">0.00 DH</span>
+                        <span class="target-amount" th:text="' raised of ' + ${#numbers.formatDecimal(action.targetAmount, 1, 'WHITESPACE', 2, 'POINT') + ' DH'}">0.00 DH</span>
                     </div>
                     <div th:text="${progress + '%'}">0%</div>
                 </div>
@@ -373,7 +376,7 @@
                 <h3 class="card-title">Make a Donation</h3>
                 <form th:action="@{/actions/{id}/donate(id=${action.id})}" method="post" class="donation-form">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Amount ($)</label>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Amount (DH)</label>
                         <input type="number" name="amount" min="1" step="0.01" value="10.00" required>
                     </div>
                     <button type="submit" class="btn-action btn-primary">

@@ -1,256 +1,393 @@
 diff --git a/src/main/resources/templates/index.html b/src/main/resources/templates/index.html
-index fe2919d..c16ce21 100644
+index 27140cf..096918b 100644
 --- a/src/main/resources/templates/index.html
 +++ b/src/main/resources/templates/index.html
-@@ -2,236 +2,22 @@
- <html lang="fr" xmlns:th="http://www.thymeleaf.org">
- <head>
-     <meta charset="UTF-8">
--    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>CharityConnect</title>
--    <style>
--        :root {
--            --primary-color: #ffffff;
--            --accent-color: #000000;
--            --text-color: #ffffff;
--            --overlay-color: rgba(0, 0, 0, 0.4);
--        }
--
--        * {
--            margin: 0;
--            padding: 0;
--            box-sizing: border-box;
--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
--        }
--
--        body {
--            background-color: #f4f4f4;
--            color: #333;
--        }
--
--        header {
--            position: absolute;
--            top: 0;
--            left: 0;
--            width: 100%;
--            display: flex;
--            justify-content: space-between;
--            align-items: center;
--            padding: 30px 50px;
--            z-index: 1000;
--            background: transparent;
--        }
--
--        .logo {
--            color: var(--primary-color);
--            font-size: 24px;
--            font-weight: bold;
--            text-decoration: none;
--            display: flex;
--            align-items: center;
--        }
--
--        .logo i {
--            margin-right: 10px;
--        }
--
--        nav {
--            display: flex;
--            gap: 30px;
--        }
--
--        nav a {
--            color: var(--primary-color);
--            text-decoration: none;
--            font-weight: 500;
--            font-size: 16px;
--            transition: 0.3s;
--        }
--
--        nav a:hover {
--            opacity: 0.8;
--        }
--
--        .header-actions {
--            display: flex;
--            align-items: center;
--            gap: 20px;
--        }
--
--        .header-actions a {
--            color: var(--primary-color);
--            text-decoration: none;
--        }
--
--        .btn-donate-now {
--            background-color: var(--primary-color);
--            color: var(--accent-color) !important;
--            padding: 12px 25px;
--            border-radius: 50px;
--            font-weight: bold;
--            transition: 0.3s;
--        }
--
--        .btn-donate-now:hover {
--            background-color: #e0e0e0;
--        }
--
--        .hero {
--            height: 100vh;
--            background: linear-gradient(var(--overlay-color), var(--overlay-color)),
--                        url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
--            background-size: cover;
--            background-position: center;
--            display: flex;
--            flex-direction: column;
--            justify-content: center;
--            align-items: center;
--            text-align: center;
--            color: var(--text-color);
--            padding: 0 20px;
--        }
--
--        .hero h4 {
--            font-size: 18px;
--            margin-bottom: 20px;
--            font-weight: 400;
--            letter-spacing: 1px;
--        }
--
--        .hero h1 {
--            font-size: 70px;
--            max-width: 900px;
--            line-height: 1.1;
--            margin-bottom: 30px;
--        }
--
--        .hero p {
--            max-width: 800px;
--            font-size: 18px;
--            line-height: 1.6;
--            margin-bottom: 40px;
--            opacity: 0.9;
--        }
--
--        .btn-main-donate {
--            background-color: var(--primary-color);
--            color: var(--accent-color);
--            padding: 15px 40px;
--            border-radius: 50px;
--            text-decoration: none;
--            font-weight: bold;
--            font-size: 18px;
--            display: inline-flex;
--            align-items: center;
--            gap: 10px;
--            transition: 0.3s;
--        }
--
--        .btn-main-donate:hover {
--            background-color: #e0e0e0;
--            transform: translateY(-2px);
--        }
--
--        .hero select:focus, .hero input:focus {
--            outline: 2px solid #ffffff;
--            background: #ffffff !important;
--        }
--
--        .slider-dots {
--            position: absolute;
--            bottom: 30px;
--            display: flex;
--            gap: 10px;
--        }
--
--        .dot {
--            width: 10px;
--            height: 10px;
--            background-color: rgba(255, 255, 255, 0.5);
--            border-radius: 50%;
--            cursor: pointer;
--        }
--
--        .dot.active {
--            background-color: var(--primary-color);
--            width: 30px;
--            border-radius: 10px;
--        }
--
--        @media (max-width: 768px) {
--            header { padding: 20px; }
--            nav { display: none; }
--            .hero h1 { font-size: 40px; }
--            .hero p { font-size: 16px; }
--        }
--    </style>
- </head>
- <body>
--
--<header>
--    <a th:href="@{/}" class="logo">CharityConnect</a>
--
--    <nav>
--        <a th:href="@{/}">Home</a>
--        <a th:href="@{/actions}">Donations</a>
--        <a th:href="@{/about}">Pages</a>
--        <a href="#">Events</a>
--        <a href="#">Blog</a>
--        <a href="#">Contact</a>
--    </nav>
--
--    <div class="header-actions">
--        <a th:href="@{/login}" title="Se connecter">
--            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
--        </a>
--        <a th:href="@{/actions}" class="btn-donate-now">Donate Now</a>
--    </div>
--</header>
--
--    <section class="hero">
--        <h4>Building stronger, brighter tomorrows together with youth</h4>
--        <h1>Empowering Youth for a Brighter Future</h1>
--        <p>
--            When we invest in young people, we invest in the future. By offering guidance, education, and support, we help youth overcome barriers, unlock potential, and become changemakers in communities.
--        </p>
--
--        <form th:action="@{/actions/donate-home}" method="post" style="margin-top: 30px; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); max-width: 800px; margin-left: auto; margin-right: auto;">
--            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;">
--                <select name="actionId" required style="padding: 15px; border-radius: 8px; border: none; min-width: 300px; background: white; color: #333; font-size: 16px;">
--                    <option value="" disabled selected>Select Donation Type</option>
--                    <option th:each="action : ${actions}" th:value="${action.id}" th:text="${action.title}"></option>
--                </select>
--                <div style="position: relative;">
--                    <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #333; font-weight: bold;">$</span>
--                    <input type="number" name="amount" placeholder="Amount" required min="1" step="0.01" style="padding: 15px 15px 15px 30px; border-radius: 8px; border: none; width: 150px; background: white; color: #333; font-size: 16px;">
--                </div>
--                <button type="submit" class="btn-main-donate" style="border: none; cursor: pointer; margin: 0; height: 54px; display: flex; align-items: center; justify-content: center;">
--                    Donate Now <span style="margin-left: 10px;">&rarr;</span>
--                </button>
--            </div>
--        </form>
--
--        <div class="slider-dots">
--            <div class="dot active"></div>
--            <div class="dot"></div>
--            <div class="dot"></div>
--        </div>
--    </section>
--
-+<h1>Bienvenue sur CharityConnect</h1>
-+<p>
-+    <a th:href="@{/actions}">Voir les actions</a> |
-+    <a th:href="@{/login}">Se connecter</a> |
-+    <a th:href="@{/register}">Créer un compte</a>
-+    <p><a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a> | <a th:href="@{/about}">À propos</a></p>
-+</p>
+@@ -420,6 +420,377 @@
+             font-size: 14px;
+         }
+
++        /* Features List */
++        .features-row {
++            padding: 80px 50px;
++            background: #fff;
++            display: flex;
++            justify-content: center;
++            gap: 40px;
++            max-width: 1200px;
++            margin: 0 auto;
++        }
 +
-+<h3>Comptes de démonstration</h3>
-+<ul>
-+    <li>Admin: admin@charityconnect.com / Admin@123</li>
-+    <li>Organisation: org@charityconnect.com / Org@12345</li>
-+    <li>Donateur: user@charityconnect.com / User@12345</li>
-+</ul>
- </body>
- </html>
-\ No newline at end of file
++        .feature-box {
++            flex: 1;
++            display: flex;
++            gap: 20px;
++            align-items: flex-start;
++        }
++
++        .feature-box i {
++            font-size: 32px;
++            color: #e5533d;
++            background: #fff0ee;
++            padding: 15px;
++            border-radius: 12px;
++        }
++
++        .feature-box h4 {
++            font-size: 18px;
++            margin-bottom: 10px;
++            color: #1a1a1a;
++        }
++
++        .feature-box p {
++            font-size: 14px;
++            color: #666;
++            line-height: 1.5;
++        }
++
++        /* Opportunity Section */
++        .opportunity-section {
++            padding: 100px 50px;
++            background: #fff;
++            display: flex;
++            align-items: center;
++            gap: 80px;
++            max-width: 1300px;
++            margin: 0 auto;
++        }
++
++        .opportunity-content {
++            flex: 1;
++        }
++
++        .opportunity-image {
++            flex: 1;
++            position: relative;
++        }
++
++        .opportunity-image img {
++            width: 100%;
++            border-radius: 20px;
++            display: block;
++        }
++
++        .floating-stat {
++            position: absolute;
++            bottom: 40px;
++            left: -40px;
++            background: #fff;
++            padding: 30px;
++            border-radius: 15px;
++            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
++            display: flex;
++            align-items: center;
++            gap: 20px;
++            max-width: 300px;
++        }
++
++        .floating-stat i {
++            font-size: 40px;
++            color: #1a1a1a;
++        }
++
++        .floating-stat h5 {
++            font-size: 20px;
++            margin-bottom: 5px;
++        }
++
++        .floating-stat p {
++            font-size: 14px;
++            color: #666;
++        }
++
++        .opportunity-list {
++            list-style: none;
++            margin: 40px 0;
++        }
++
++        .opportunity-list li {
++            display: flex;
++            align-items: center;
++            gap: 15px;
++            margin-bottom: 20px;
++            font-weight: 600;
++            color: #1a1a1a;
++        }
++
++        .opportunity-list li i {
++            color: #e5533d;
++            background: #eee;
++            width: 24px;
++            height: 24px;
++            border-radius: 4px;
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            font-size: 12px;
++        }
++
++        /* Brands Section */
++        .brands-section {
++            padding: 60px 50px;
++            background: #fff;
++            text-align: center;
++            border-top: 1px solid #eee;
++        }
++
++        .brands-grid {
++            display: flex;
++            justify-content: center;
++            align-items: center;
++            flex-wrap: wrap;
++            gap: 60px;
++            max-width: 1200px;
++            margin: 40px auto 0;
++            opacity: 0.6;
++        }
++
++        .brands-grid img {
++            height: 40px;
++            filter: grayscale(100%);
++        }
++
++        /* Volunteers Section */
++        .volunteers-section {
++            padding: 100px 50px;
++            background: #fff;
++        }
++
++        .volunteers-header {
++            display: flex;
++            justify-content: space-between;
++            align-items: flex-end;
++            margin-bottom: 60px;
++            max-width: 1200px;
++            margin-left: auto;
++            margin-right: auto;
++        }
++
++        .volunteers-header h2 {
++            font-size: 56px;
++            max-width: 600px;
++            line-height: 1.1;
++        }
++
++        .volunteers-header p {
++            max-width: 500px;
++            color: #666;
++            font-size: 18px;
++            margin-bottom: 30px;
++        }
++
++        .volunteer-grid {
++            display: grid;
++            grid-template-columns: repeat(4, 1fr);
++            gap: 30px;
++            max-width: 1200px;
++            margin: 0 auto;
++        }
++
++        .volunteer-card {
++            text-align: left;
++        }
++
++        .volunteer-img {
++            width: 100%;
++            height: 400px;
++            object-fit: cover;
++            border-radius: 20px;
++            margin-bottom: 20px;
++        }
++
++        .volunteer-card h4 {
++            font-size: 20px;
++            margin-bottom: 5px;
++        }
++
++        .volunteer-card p {
++            color: #666;
++            font-size: 14px;
++        }
++
++        /* Every Action Section */
++        .every-action-section {
++            padding: 100px 50px;
++            background: #f9f9f9;
++            display: flex;
++            align-items: center;
++            gap: 80px;
++            max-width: 1300px;
++            margin: 0 auto;
++        }
++
++        .every-action-image {
++            flex: 1;
++        }
++
++        .every-action-image img {
++            width: 100%;
++            border-radius: 20px;
++        }
++
++        .every-action-content {
++            flex: 1;
++        }
++
++        .action-points-grid {
++            display: grid;
++            grid-template-columns: 1fr 1fr;
++            gap: 40px;
++            margin-top: 40px;
++        }
++
++        .action-point h4 {
++            font-size: 18px;
++            margin-bottom: 15px;
++        }
++
++        .action-point p {
++            font-size: 14px;
++            color: #666;
++            line-height: 1.6;
++        }
++
++        /* Donation Form Section */
++        .donation-form-section {
++            padding: 100px 50px;
++            background: #fff;
++            display: flex;
++            gap: 80px;
++            max-width: 1300px;
++            margin: 0 auto;
++        }
++
++        .donation-form-info {
++            flex: 1;
++        }
++
++        .donation-form-card {
++            flex: 1;
++            background: #f9f9f9;
++            padding: 50px;
++            border-radius: 20px;
++        }
++
++        .donation-amount-grid {
++            display: grid;
++            grid-template-columns: repeat(3, 1fr);
++            gap: 15px;
++            margin: 30px 0;
++        }
++
++        .amount-btn {
++            background: #fff;
++            border: 1px solid #eee;
++            padding: 15px;
++            border-radius: 10px;
++            font-weight: 700;
++            cursor: pointer;
++            transition: 0.3s;
++        }
++
++        .amount-btn.active {
++            background: #e5533d;
++            color: #fff;
++            border-color: #e5533d;
++        }
++
++        /* News Section */
++        .news-section {
++            padding: 100px 50px;
++            background: #fff;
++        }
++
++        .news-header {
++            display: flex;
++            justify-content: space-between;
++            align-items: flex-end;
++            margin-bottom: 60px;
++            max-width: 1200px;
++            margin-left: auto;
++            margin-right: auto;
++        }
++
++        .news-grid {
++            display: grid;
++            grid-template-columns: repeat(3, 1fr);
++            gap: 30px;
++            max-width: 1200px;
++            margin: 0 auto;
++        }
++
++        .news-card {
++            text-align: left;
++        }
++
++        .news-img {
++            width: 100%;
++            height: 250px;
++            object-fit: cover;
++            border-radius: 20px;
++            margin-bottom: 25px;
++        }
++
++        .news-meta {
++            font-size: 14px;
++            color: #666;
++            margin-bottom: 15px;
++            display: flex;
++            gap: 20px;
++        }
++
++        .news-card h3 {
++            font-size: 24px;
++            line-height: 1.3;
++            margin-bottom: 20px;
++        }
++
++        .news-card p {
++            color: #666;
++            line-height: 1.6;
++            margin-bottom: 25px;
++        }
++
++        .btn-view-all {
++            padding: 12px 30px;
++            border: 1px solid #1a1a1a;
++            border-radius: 50px;
++            text-decoration: none;
++            color: #1a1a1a;
++            font-weight: 700;
++            display: inline-flex;
++            align-items: center;
++            gap: 10px;
++            transition: 0.3s;
++        }
++
++        .btn-view-all:hover {
++            background: #1a1a1a;
++            color: #fff;
++        }
++
++        @media (max-width: 1024px) {
++            .volunteer-grid { grid-template-columns: repeat(2, 1fr); }
++            .news-grid { grid-template-columns: repeat(2, 1fr); }
++            .opportunity-section, .every-action-section, .donation-form-section {
++                flex-direction: column;
++                gap: 40px;
++            }
++        }
++
+         @media (max-width: 768px) {
+             header { padding: 20px; }
+             nav { display: none; }
+@@ -427,6 +798,10 @@
+             .hero p { font-size: 16px; }
+             .section-title { font-size: 32px; }
+             .impact-section, .campaigns-section, .how-section { padding: 60px 20px; }
++            .features-row { flex-direction: column; padding: 40px 20px; }
++            .volunteer-grid, .news-grid { grid-template-columns: 1fr; }
++            .action-points-grid { grid-template-columns: 1fr; }
++            .donation-amount-grid { grid-template-columns: 1fr 1fr; }
+         }
+     </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
