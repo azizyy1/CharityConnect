@@ -1,50 +1,273 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Audit des dons simulés</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Audit - CharityConnect Admin</title>
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f4f7f6;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        /* Filter Section */
+        .filter-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .form-control {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .btn-filter {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-reset {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Table Styling */
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--border-color);
+            color: #888;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .badge-status {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; }
+            .sidebar-header span, .sidebar-menu a span { display: none; }
+            .main-content { margin-left: 80px; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<h1>Audit des dons simulés</h1>
 
-<form th:action="@{/admin/donations}" method="get">
-  <label for="status">Statut</label>
-  <select id="status" name="status">
-    <option value="">Tous</option>
-    <option th:each="s : ${statuses}"
-            th:value="${s}"
-            th:text="${s}"
-            th:selected="${selectedStatus == s}"></option>
-  </select>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <span>CharityConnect</span>
+        </div>
+        <div class="sidebar-menu">
+            <a th:href="@{/admin/dashboard}">
+                <i class="fas fa-chart-line"></i> &nbsp; <span>Dashboard</span>
+            </a>
+            <a th:href="@{/admin/organizations}">
+                <i class="fas fa-building"></i> &nbsp; <span>Organizations</span>
+            </a>
+            <a th:href="@{/admin/actions}">
+                <i class="fas fa-hand-holding-heart"></i> &nbsp; <span>Actions</span>
+            </a>
+            <a th:href="@{/admin/users}">
+                <i class="fas fa-users"></i> &nbsp; <span>Users</span>
+            </a>
+            <a th:href="@{/admin/donations}" class="active">
+                <i class="fas fa-donate"></i> &nbsp; <span>Donations</span>
+            </a>
+        </div>
+    </div>
 
-  <label for="date">Date (don ≥)</label>
-  <input id="date" type="date" name="date" th:value="${selectedDate}">
+    <div class="main-content">
+        <div class="header">
+            <h1>Donation Transaction Audit</h1>
+            <a th:href="@{/admin/dashboard}" style="text-decoration: none; color: var(--primary-color);"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
 
-  <button type="submit">Filtrer</button>
-  <a th:href="@{/admin/donations}">Réinitialiser</a>
-</form>
+        <div class="filter-card">
+            <form th:action="@{/admin/donations}" method="get" class="filter-form">
+                <div class="form-group">
+                    <label for="userEmail">User Email</label>
+                    <input id="userEmail" type="text" name="userEmail" th:value="${selectedUserEmail}" class="form-control" placeholder="Search by email...">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" class="form-control">
+                        <option value="">All Statuses</option>
+                        <option th:each="s : ${statuses}"
+                                th:value="${s}"
+                                th:text="${s}"
+                                th:selected="${selectedStatus == s}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date From</label>
+                    <input id="date" type="date" name="date" th:value="${selectedDate}" class="form-control">
+                </div>
+                <button type="submit" class="btn-filter">Apply Filters</button>
+                <a th:href="@{/admin/donations}" class="btn-reset">Clear</a>
+            </form>
+        </div>
 
-<p><a th:href="@{/admin/dashboard}">Retour dashboard</a></p>
+        <div class="content-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>User</th>
+                        <th>Charity Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="donation : ${donations}">
+                        <td th:text="${donation.donationDate}" style="font-size: 14px;"></td>
+                        <td class="amount" th:text="${'$' + donation.amount}"></td>
+                        <td>
+                            <span class="badge-status" th:text="${donation.status}"></span>
+                        </td>
+                        <td th:text="${donation.user.email}"></td>
+                        <td th:text="${donation.charityAction.title}" style="font-weight: 500;"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(donations)}">
+                        <td colspan="5" style="text-align: center; padding: 30px; color: #888;">No donations recorded.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<table border="1" cellpadding="6" cellspacing="0">
-  <thead>
-  <tr>
-    <th>Date don</th>
-    <th>Montant</th>
-    <th>Statut</th>
-    <th>Utilisateur</th>
-    <th>Action caritative</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="donation : ${donations}">
-    <td th:text="${donation.donationDate}"></td>
-    <td th:text="${donation.amount}"></td>
-    <td th:text="${donation.status}"></td>
-    <td th:text="${donation.user.email}"></td>
-    <td th:text="${donation.charityAction.title}"></td>
-  </tr>
-  </tbody>
-</table>
 </body>
 </html>

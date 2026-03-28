@@ -2,20 +2,280 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CharityConnect</title>
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f4f7f6;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            transition: 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card .label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        /* Action Links */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .action-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: 0.3s;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-card i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .action-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .action-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn-logout {
+            color: var(--primary-color) !important;
+            font-weight: bold;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; }
+            .sidebar-header span, .sidebar-menu a span { display: none; }
+            .main-content { margin-left: 80px; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<h1>Dashboard Admin</h1>
-<p>Bienvenue dans l'espace administration.</p>
-<p>
-    <a th:href="@{/admin/organizations}">Valider les organisations</a> |
-    <a th:href="@{/admin/actions}">Gérer les actions</a> |
-    <a th:href="@{/admin/users}">Lister les utilisateurs</a> |
-    <a th:href="@{/admin/users}">Gérer les utilisateurs</a> |
-    <a th:href="@{/admin/donations}">Suivi des dons</a> |
-    <a th:href="@{/admin/actions}">Audit des actions</a> |
-    <a th:href="@{/admin/donations}">Audit des dons simulés</a> |
-    <a th:href="@{/actions}">Consulter les actions publiées</a>
-</p>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <span>CharityConnect</span>
+        </div>
+        <div class="sidebar-menu">
+            <a th:href="@{/admin/dashboard}" class="active">
+                <i class="fas fa-chart-line"></i> &nbsp; <span>Dashboard</span>
+            </a>
+            <a th:href="@{/admin/organizations}">
+                <i class="fas fa-building"></i> &nbsp; <span>Organizations</span>
+            </a>
+            <a th:href="@{/admin/actions}">
+                <i class="fas fa-hand-holding-heart"></i> &nbsp; <span>Actions</span>
+            </a>
+            <a th:href="@{/admin/users}">
+                <i class="fas fa-users"></i> &nbsp; <span>Users</span>
+            </a>
+            <a th:href="@{/admin/donations}">
+                <i class="fas fa-donate"></i> &nbsp; <span>Donations</span>
+            </a>
+            <a th:href="@{/}" target="_blank">
+                <i class="fas fa-external-link-alt"></i> &nbsp; <span>View Site</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; display:flex; align-items:center; width:100%; padding:0; font-size:14px;">
+                    <i class="fas fa-sign-out-alt"></i> &nbsp; <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Dashboard Overview</h1>
+            <div class="user-info">
+                <span>Welcome, <strong>Admin</strong></span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="label">Total Users</span>
+                <span class="value" th:text="${totalUsers}">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Organizations</span>
+                <span class="value" th:text="${totalOrganizations}">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Charity Actions</span>
+                <span class="value" th:text="${totalActions}">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Total Donations</span>
+                <span class="value" th:text="${totalDonations}">0</span>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 25px; color: var(--text-dark);">Quick Management</h2>
+        
+        <div class="action-grid">
+            <a th:href="@{/admin/organizations}" class="action-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Approve Organizations</h3>
+                <p>Review and validate pending organization accounts.</p>
+            </a>
+            <a th:href="@{/admin/actions}" class="action-card">
+                <i class="fas fa-tasks"></i>
+                <h3>Manage Actions</h3>
+                <p>Audit, filter and archive charity actions.</p>
+            </a>
+            <a th:href="@{/admin/users}" class="action-card">
+                <i class="fas fa-user-shield"></i>
+                <h3>User Management</h3>
+                <p>View all accounts and toggle access status.</p>
+            </a>
+            <a th:href="@{/admin/donations}" class="action-card">
+                <i class="fas fa-history"></i>
+                <h3>Donation Audit</h3>
+                <p>Track and monitor all donation transactions.</p>
+            </a>
+        </div>
+    </div>
+
 </body>
 </html>

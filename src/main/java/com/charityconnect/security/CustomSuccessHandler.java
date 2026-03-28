@@ -31,7 +31,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 break;
             }
             if ("ROLE_USER".equals(role)) {
-                redirectUrl = "/user/dashboard";
+                redirectUrl = "/";
                 break;
             }
         }

@@ -9,6 +9,7 @@ import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.core.Authentication;
@@ -31,7 +32,23 @@ public class OrganizationController {
     private final CharityActionRepository charityActionRepository;
 
     @GetMapping("/dashboard")
-    public String dashboard() {
+    public String dashboard(Authentication authentication, Model model) {
+        Organization organization = getCurrentOrganization(authentication);
+        List<CharityAction> actions = charityActionRepository.findByOrganization(organization);
+        
+        long activeActions = actions.stream()
+                .filter(a -> a.getStatus() == ActionStatus.ACTIVE)
+                .count();
+        
+        BigDecimal totalCollected = actions.stream()
+                .map(a -> a.getCollectedAmount() != null ? a.getCollectedAmount() : BigDecimal.ZERO)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        model.addAttribute("totalActions", actions.size());
+        model.addAttribute("activeActions", activeActions);
+        model.addAttribute("totalCollected", totalCollected);
+        model.addAttribute("organization", organization);
+        
         return "organization/dashboard";
     }
 
@@ -39,6 +56,7 @@ public class OrganizationController {
     public String listMyActions(Authentication authentication, Model model) {
         Organization organization = getCurrentOrganization(authentication);
         model.addAttribute("actions", charityActionRepository.findByOrganization(organization));
+        model.addAttribute("organization", organization);
         return "organization/actions";
     }
 
@@ -135,6 +153,41 @@ public class OrganizationController {
         charityActionRepository.save(action);
         redirectAttributes.addFlashAttribute("message", "Action archivée.");
         return "redirect:/organization/actions";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Authentication authentication, Model model) {
+        Organization organization = getCurrentOrganization(authentication);
+        model.addAttribute("organization", organization);
+        return "organization/profile";
+    }
+
+    @GetMapping("/profile/edit")
+    public String editProfileForm(Authentication authentication, Model model) {
+        Organization organization = getCurrentOrganization(authentication);
+        model.addAttribute("organization", organization);
+        return "organization/profile-edit";
+    }
+
+    @PostMapping("/profile/edit")
+    public String updateProfile(@Valid @ModelAttribute("organization") Organization formOrg,
+                                 BindingResult bindingResult,
+                                 Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "organization/profile-edit";
+        }
+
+        Organization organization = getCurrentOrganization(authentication);
+        organization.setName(formOrg.getName());
+        organization.setTaxId(formOrg.getTaxId());
+        organization.setLegalAddress(formOrg.getLegalAddress());
+        organization.setDescription(formOrg.getDescription());
+        organization.setLogo(formOrg.getLogo());
+
+        organizationRepository.save(organization);
+        redirectAttributes.addFlashAttribute("message", "Profil de l'organisation mis à jour avec succès.");
+        return "redirect:/organization/profile";
     }
 
     private Organization getCurrentOrganization(Authentication authentication) {

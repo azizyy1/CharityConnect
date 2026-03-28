@@ -1,48 +1,321 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${formMode == 'create'} ? 'Créer action' : 'Modifier action'">Action</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${formMode == 'create' ? 'Create Action - CharityConnect' : 'Edit Action - CharityConnect'}">Action</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f4f7f6;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(229, 83, 61, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #d44834;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            display: inline-block;
+            margin-left: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .sidebar-header, .sidebar-menu span, .sidebar-footer span { display: none; }
+            .main-content { margin-left: 70px; padding: 20px; }
+            .sidebar-menu a { padding: 15px; justify-content: center; }
+            .sidebar-menu a i { margin-right: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${formMode == 'create'} ? 'Créer une action' : 'Modifier une action'"></h1>
 
-<form th:object="${action}"
-      th:action="${formMode == 'create'} ? @{/organization/actions} : @{/organization/actions/{id}(id=${action.id})}"
-      method="post">
-  <label>Titre</label><br>
-  <input type="text" th:field="*{title}" required>
-  <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p><br>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            CharityConnect
+        </div>
+        <div class="sidebar-menu">
+            <a th:href="@{/organization/dashboard}">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a th:href="@{/organization/actions}" class="active">
+                <i class="fas fa-hand-holding-heart"></i>
+                <span>My Actions</span>
+            </a>
+            <a th:href="@{/actions}">
+                <i class="fas fa-globe"></i>
+                <span>Public List</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a th:href="@{/logout}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </div>
+    </div>
 
-  <label>Description</label><br>
-  <textarea th:field="*{description}" rows="4"></textarea>
-  <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p><br>
+    <div class="main-content">
+        <div class="header">
+            <h1 th:text="${formMode == 'create'} ? 'Create New Action' : 'Edit Action'">Action</h1>
+        </div>
 
-  <label>Catégorie</label><br>
-  <input type="text" th:field="*{category}" required>
-  <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p><br>
+        <div class="form-card">
+            <form th:object="${action}"
+                  th:action="${formMode == 'create'} ? @{/organization/actions} : @{/organization/actions/{id}(id=${action.id})}"
+                  method="post">
+                
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Title</label>
+                        <input type="text" th:field="*{title}" class="form-control" placeholder="Enter action title" required>
+                        <p class="error-msg" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                    </div>
 
-  <label>Lieu</label><br>
-  <input type="text" th:field="*{location}"><br><br>
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea th:field="*{description}" class="form-control" placeholder="Describe your cause..."></textarea>
+                        <p class="error-msg" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                    </div>
 
-  <label>Objectif financier</label><br>
-  <input type="number" step="0.01" min="0" th:field="*{targetAmount}" required>
-  <p th:if="${#fields.hasErrors('targetAmount')}" th:errors="*{targetAmount}"></p><br>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" th:field="*{category}" class="form-control" placeholder="e.g. Education, Health" required>
+                        <p class="error-msg" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
+                    </div>
 
-  <label>Date début</label><br>
-  <input type="date" th:field="*{startDate}">
-  <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p><br>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" th:field="*{location}" class="form-control" placeholder="e.g. Paris, Online">
+                    </div>
 
-  <label>Date fin</label><br>
-  <input type="date" th:field="*{endDate}">
-  <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p><br>
+                    <div class="form-group">
+                        <label>Financial Target ($)</label>
+                        <input type="number" step="0.01" min="0" th:field="*{targetAmount}" class="form-control" required>
+                        <p class="error-msg" th:if="${#fields.hasErrors('targetAmount')}" th:errors="*{targetAmount}"></p>
+                    </div>
 
-  <label>Image (URL)</label><br>
-  <input type="text" th:field="*{image}"><br><br>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" th:field="*{image}" class="form-control" placeholder="https://example.com/image.jpg" id="imageInput">
+                        <div id="imagePreview" style="margin-top: 10px; display: none;">
+                            <img src="" alt="Preview" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
+                        </div>
+                    </div>
 
-  <button type="submit" th:text="${formMode == 'create'} ? 'Créer' : 'Mettre à jour'"></button>
-</form>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" th:field="*{startDate}" class="form-control">
+                        <p class="error-msg" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+                    </div>
 
-<p><a th:href="@{/organization/actions}">Retour</a></p>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" th:field="*{endDate}" class="form-control">
+                        <p class="error-msg" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn-submit" th:text="${formMode == 'create'} ? 'Create Action' : 'Update Action'"></button>
+                    <a th:href="@{/organization/actions}" class="btn-cancel">Cancel and Go Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('imageInput');
+            const previewDiv = document.getElementById('imagePreview');
+            const previewImg = previewDiv.querySelector('img');
+
+            function updatePreview() {
+                const url = imageInput.value;
+                if (url) {
+                    previewImg.src = url;
+                    previewDiv.style.display = 'block';
+                } else {
+                    previewDiv.style.display = 'none';
+                }
+            }
+
+            imageInput.addEventListener('input', updatePreview);
+            // Initial preview if editing
+            updatePreview();
+        });
+    </script>
 </body>
 </html>

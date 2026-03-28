@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Organization Profile - CharityConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f4f7f6;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* Navbar Style */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover, .btn-logout:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-dashboard {
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+
+        .btn-dashboard:hover {
+            background-color: #d44834;
+            color: white !important;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        .profile-container {
+            max-width: 900px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.3s;
+            color: var(--text-dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(229, 83, 61, 0.1);
+        }
+
+        .form-control:disabled {
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+            color: #888;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #d44834;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229, 83, 61, 0.3);
+        }
+
+        .btn-cancel {
+            display: inline-block;
+            margin-left: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .btn-cancel:hover {
+            text-decoration: underline;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 14px; }
+            .main-content { padding: 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a th:href="@{/}" class="logo">CharityConnect</a>
+    <nav>
+        <a th:href="@{/}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a th:href="@{/actions}" class="nav-link"><i class="fas fa-search"></i> Donations</a>
+        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/organization/dashboard}" class="btn-dashboard">Dashboard</a>
+            <a th:href="@{/organization/profile}" title="Profile" style="color: var(--text-dark); font-size: 20px; margin-left: 20px;">
+                <i class="fas fa-building"></i>
+            </a>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn-logout" style="background: none; border: none; cursor: pointer; color: var(--text-dark); font-weight: 500; font-size: 16px; margin-left: 30px; transition: 0.3s; font-family: inherit;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </th:block>
+    </nav>
+</header>
+
+<div class="main-content">
+    <a th:href="@{/organization/profile}" class="nav-back">
+        <i class="fas fa-arrow-left"></i> Back to Profile
+    </a>
+    
+    <div class="header">
+        <h1>Edit Organization Profile</h1>
+    </div>
+
+    <div class="profile-container">
+        <form th:action="@{/organization/profile/edit}" th:object="${organization}" method="post">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>Organization Name</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="Enter organization name" required>
+                    <p class="error-msg" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+                <div class="form-group full-width">
+                    <label>About Us / Mission</label>
+                    <textarea th:field="*{description}" class="form-control" placeholder="Describe your organization's mission..."></textarea>
+                    <p class="error-msg" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Tax ID / Registration Number</label>
+                    <input type="text" th:field="*{taxId}" class="form-control" placeholder="e.g. TAX-123456" required>
+                    <p class="error-msg" th:if="${#fields.hasErrors('taxId')}" th:errors="*{taxId}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Legal Address</label>
+                    <input type="text" th:field="*{legalAddress}" class="form-control" placeholder="Enter legal address" required>
+                    <p class="error-msg" th:if="${#fields.hasErrors('legalAddress')}" th:errors="*{legalAddress}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Logo URL</label>
+                    <input type="text" th:field="*{logo}" class="form-control" placeholder="https://example.com/logo.png">
+                </div>
+                <div class="form-group">
+                    <label>Email (Account email cannot be changed)</label>
+                    <input type="email" th:value="${organization.user.email}" class="form-control" disabled title="Account email cannot be changed">
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a th:href="@{/organization/profile}" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

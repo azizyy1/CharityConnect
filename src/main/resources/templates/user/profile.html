@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Participations - CharityConnect</title>
+    <title>My Profile - CharityConnect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -92,12 +92,100 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
             font-size: 28px;
             color: var(--text-dark);
+        }
+
+        .profile-container {
+            max-width: 800px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #666;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .info-group label {
+            display: block;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-group p {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .dashboard-btn-container {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .btn-to-dashboard {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(229, 83, 61, 0.3);
+        }
+
+        .btn-to-dashboard:hover {
+            background-color: #d44834;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 83, 61, 0.4);
         }
 
         .nav-back {
@@ -110,99 +198,11 @@
             font-weight: 500;
         }
 
-        /* Table Card */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            padding: 15px 20px;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            font-size: 13px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        td {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-dark);
-            vertical-align: middle;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .action-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .action-link:hover {
-            text-decoration: underline;
-        }
-
-        .empty-state {
-            padding: 60px;
-            text-align: center;
-            color: #666;
-        }
-
-        .empty-state i {
-            font-size: 64px;
-            color: #ccc;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .btn-browse {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        .btn-browse:hover {
-            background-color: #d44834;
-            transform: translateY(-2px);
-        }
-
-        .status-badge {
-            background: #e1f5fe;
-            color: #039be5;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
             nav a { margin-left: 15px; font-size: 14px; }
             .main-content { padding: 20px; }
+            .info-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -242,45 +242,51 @@
         <a th:href="@{/user/dashboard}" class="nav-back">
             <i class="fas fa-arrow-left"></i> Back to Dashboard
         </a>
-
+        
         <div class="header">
-            <h1>My Volunteer Participations</h1>
+            <h1>My Profile</h1>
+            <a th:href="@{/user/profile/edit}" class="btn-dashboard" style="text-decoration: none;">
+                <i class="fas fa-edit"></i> Edit Profile
+            </a>
         </div>
 
-        <div class="card">
-            <div th:if="${#lists.isEmpty(participations)}" class="empty-state">
-                <i class="fas fa-calendar-times"></i>
-                <p>You haven't participated in any actions yet.</p>
-                <a th:href="@{/actions}" class="btn-browse">Browse Actions</a>
+        <div th:if="${message}" class="alert-success" th:text="${message}" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #28a745;"></div>
+
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar" th:text="${#strings.substring(user.lastName, 0, 1)}">U</div>
+                <div class="profile-info">
+                    <h2 th:text="${user.firstName + ' ' + user.lastName}">User Name</h2>
+                    <p th:text="${user.email}">user@example.com</p>
+                </div>
             </div>
 
-            <div th:if="${!#lists.isEmpty(participations)}" class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Action</th>
-                            <th>Date</th>
-                            <th>Note</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="participation : ${participations}">
-                            <td>
-                                <a th:href="@{/actions/{id}(id=${participation.charityAction.id})}" 
-                                   class="action-link" 
-                                   th:text="${participation.charityAction.title}">Action</a>
-                            </td>
-                            <td th:text="${#temporals.format(participation.participationDate, 'dd MMM yyyy HH:mm')}">Date</td>
-                            <td th:text="${participation.note != null && !participation.note.isEmpty() ? participation.note : '-'}">Note</td>
-                            <td>
-                                <span class="status-badge">Registered</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="info-grid">
+                <div class="info-group">
+                    <label>First Name</label>
+                    <p th:text="${user.firstName}">First Name</p>
+                </div>
+                <div class="info-group">
+                    <label>Last Name</label>
+                    <p th:text="${user.lastName}">Last Name</p>
+                </div>
+                <div class="info-group">
+                    <label>Email Address</label>
+                    <p th:text="${user.email}">user@example.com</p>
+                </div>
+                <div class="info-group">
+                    <label>Account Status</label>
+                    <p th:text="${user.enabled ? 'Active' : 'Disabled'}">Active</p>
+                </div>
+            </div>
+
+            <div class="dashboard-btn-container">
+                <a th:href="@{/user/dashboard}" class="btn-to-dashboard">
+                    <i class="fas fa-th-large"></i> Go to My Dashboard
+                </a>
             </div>
         </div>
     </div>
+
 </body>
 </html>

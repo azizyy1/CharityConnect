@@ -1,13 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Page introuvable</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | CharityConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --secondary-color: #2c3e50;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--secondary-color);
+        }
+
+        .error-container {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .error-icon {
+            font-size: 100px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 80px;
+            margin: 0;
+            line-height: 1;
+            color: var(--secondary-color);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 10px 0 20px;
+            font-weight: 500;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-home {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            background-color: #d44834;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 83, 61, 0.3);
+        }
+    </style>
 </head>
 <body>
-<h1>404 - Page introuvable</h1>
-<p>La ressource demandée n'existe pas ou a été déplacée.</p>
-<p th:if="${path}">Chemin : <span th:text="${path}"></span></p>
-<p><a th:href="@{/}">Retour à l'accueil</a></p>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <h1>404</h1>
+        <h2>Oops! Page Not Found</h2>
+        <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a th:href="@{/}" class="btn-home">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+    </div>
 </body>
 </html>

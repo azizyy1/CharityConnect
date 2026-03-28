@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Participations - CharityConnect</title>
+    <title>My Donations - CharityConnect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,7 @@
             --text-dark: #333333;
             --card-bg: #ffffff;
             --border-color: #e0e0e0;
+            --success-color: #28a745;
         }
 
         * {
@@ -160,6 +161,23 @@
             text-decoration: underline;
         }
 
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .amount {
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
         .empty-state {
             padding: 60px;
             text-align: center;
@@ -188,15 +206,6 @@
         .btn-browse:hover {
             background-color: #d44834;
             transform: translateY(-2px);
-        }
-
-        .status-badge {
-            background: #e1f5fe;
-            color: #039be5;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -244,37 +253,37 @@
         </a>
 
         <div class="header">
-            <h1>My Volunteer Participations</h1>
+            <h1>My Donation History</h1>
         </div>
 
         <div class="card">
-            <div th:if="${#lists.isEmpty(participations)}" class="empty-state">
-                <i class="fas fa-calendar-times"></i>
-                <p>You haven't participated in any actions yet.</p>
-                <a th:href="@{/actions}" class="btn-browse">Browse Actions</a>
+            <div th:if="${#lists.isEmpty(donations)}" class="empty-state">
+                <i class="fas fa-hand-holding-usd"></i>
+                <p>You haven't made any donations yet.</p>
+                <a th:href="@{/actions}" class="btn-browse">Browse Causes</a>
             </div>
 
-            <div th:if="${!#lists.isEmpty(participations)}" class="table-container">
+            <div th:if="${!#lists.isEmpty(donations)}" class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Action</th>
+                            <th>Amount</th>
                             <th>Date</th>
-                            <th>Note</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="participation : ${participations}">
+                        <tr th:each="donation : ${donations}">
                             <td>
-                                <a th:href="@{/actions/{id}(id=${participation.charityAction.id})}" 
+                                <a th:href="@{/actions/{id}(id=${donation.charityAction.id})}" 
                                    class="action-link" 
-                                   th:text="${participation.charityAction.title}">Action</a>
+                                   th:text="${donation.charityAction.title}">Action</a>
                             </td>
-                            <td th:text="${#temporals.format(participation.participationDate, 'dd MMM yyyy HH:mm')}">Date</td>
-                            <td th:text="${participation.note != null && !participation.note.isEmpty() ? participation.note : '-'}">Note</td>
+                            <td class="amount" th:text="${#numbers.formatDecimal(donation.amount, 1, 'WHITESPACE', 2, 'POINT') + ' $'}">0.00 $</td>
+                            <td th:text="${#temporals.format(donation.donationDate, 'dd MMM yyyy HH:mm')}">Date</td>
                             <td>
-                                <span class="status-badge">Registered</span>
+                                <span class="status-badge status-completed" th:text="${donation.status}">COMPLETED</span>
                             </td>
                         </tr>
                     </tbody>

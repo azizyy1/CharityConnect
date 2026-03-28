@@ -34,7 +34,11 @@ public class AdminController {
     private final DonationRepository donationRepository;
 
     @GetMapping("/admin/dashboard")
-    public String dashboard() {
+    public String dashboard(Model model) {
+        model.addAttribute("totalUsers", userRepository.count());
+        model.addAttribute("totalOrganizations", organizationRepository.count());
+        model.addAttribute("totalActions", charityActionRepository.count());
+        model.addAttribute("totalDonations", donationRepository.count());
         return "admin/dashboard";
     }
 
@@ -85,11 +89,20 @@ public class AdminController {
 
     @GetMapping("/admin/donations")
     public String donations(@RequestParam(required = false) DonationStatus status,
+                            @RequestParam(required = false) String userEmail,
                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                             Model model) {
         List<Donation> donations;
         LocalDateTime dateStart = date != null ? date.atStartOfDay() : null;
-        if (status != null && dateStart != null) {
+
+        if (userEmail != null && !userEmail.isBlank()) {
+            User user = userRepository.findByEmail(userEmail).orElse(null);
+            if (user != null) {
+                donations = donationRepository.findByUser(user);
+            } else {
+                donations = List.of();
+            }
+        } else if (status != null && dateStart != null) {
             donations = donationRepository.findByStatusAndDonationDateGreaterThanEqualOrderByDonationDateDesc(status, dateStart);
         } else if (status != null) {
             donations = donationRepository.findByStatusOrderByDonationDateDesc(status);
@@ -103,6 +116,7 @@ public class AdminController {
         model.addAttribute("statuses", DonationStatus.values());
         model.addAttribute("selectedStatus", status);
         model.addAttribute("selectedDate", date);
+        model.addAttribute("selectedUserEmail", userEmail);
         return "admin/donations";
     }
 

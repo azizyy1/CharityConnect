@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Profile - CharityConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e5533d;
+            --sidebar-bg: #1a1a1a;
+            --main-bg: #f4f7f6;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* Navbar Style */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover, .btn-logout:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-dashboard {
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+
+        .btn-dashboard:hover {
+            background-color: #d44834;
+            color: white !important;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        .profile-container {
+            max-width: 900px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-logo {
+            width: 120px;
+            height: 120px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-logo i {
+            font-size: 60px;
+            color: var(--primary-color);
+        }
+
+        .profile-info h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .profile-info p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .info-group {
+            margin-bottom: 10px;
+        }
+
+        .info-group.full-width {
+            grid-column: span 2;
+        }
+
+        .info-group label {
+            display: block;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .info-group p {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .dashboard-btn-container {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .btn-to-dashboard {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(229, 83, 61, 0.3);
+        }
+
+        .btn-to-dashboard:hover {
+            background-color: #d44834;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 83, 61, 0.4);
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 14px; }
+            .main-content { padding: 20px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-group.full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a th:href="@{/}" class="logo">CharityConnect</a>
+    <nav>
+        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a th:href="@{/actions}" class="nav-link"><i class="fas fa-search"></i> Donations</a>
+            <a th:href="@{/organization/profile}" class="btn-dashboard">
+                <i class="fas fa-user-circle"></i> Profile
+            </a>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn-logout" style="background: none; border: none; cursor: pointer; color: var(--text-dark); font-weight: 500; font-size: 16px; margin-left: 30px; transition: 0.3s; font-family: inherit;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </th:block>
+    </nav>
+</header>
+
+    <div class="main-content">
+        <a th:href="@{/organization/dashboard}" class="nav-back">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        
+        <div class="header">
+            <h1>Organization Profile</h1>
+            <a th:href="@{/organization/profile/edit}" class="btn-dashboard" style="text-decoration: none;">
+                <i class="fas fa-edit"></i> Edit Profile
+            </a>
+        </div>
+
+        <div th:if="${message}" class="alert-success" th:text="${message}" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #28a745;"></div>
+
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-logo">
+                    <img th:if="${organization.logo != null && !organization.logo.isEmpty()}" th:src="${organization.logo}" alt="Logo">
+                    <i th:unless="${organization.logo != null && !organization.logo.isEmpty()}" class="fas fa-university"></i>
+                </div>
+                <div class="profile-info">
+                    <h2 th:text="${organization.name}">Organization Name</h2>
+                    <p th:text="${organization.user.email}">contact@organization.com</p>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-group">
+                    <label>Legal Name</label>
+                    <p th:text="${organization.name}">Organization Name</p>
+                </div>
+                <div class="info-group">
+                    <label>Tax ID / Registration Number</label>
+                    <p th:text="${organization.taxId}">TAX-123456</p>
+                </div>
+                <div class="info-group">
+                    <label>Verification Status</label>
+                    <div>
+                        <span th:if="${organization.approved}" class="status-badge status-approved">
+                            <i class="fas fa-check-circle"></i> Approved
+                        </span>
+                        <span th:unless="${organization.approved}" class="status-badge status-pending">
+                            <i class="fas fa-clock"></i> Pending Approval
+                        </span>
+                    </div>
+                </div>
+                <div class="info-group">
+                    <label>Contact Email</label>
+                    <p th:text="${organization.user.email}">contact@organization.com</p>
+                </div>
+                <div class="info-group full-width">
+                    <label>Legal Address</label>
+                    <p th:text="${organization.legalAddress}">123 Charity Lane, Good City</p>
+                </div>
+                <div class="info-group full-width">
+                    <label>About Us</label>
+                    <p th:text="${organization.description}">Our organization mission description...</p>
+                </div>
+            </div>
+
+            <div class="dashboard-btn-container">
+                <a th:href="@{/organization/dashboard}" class="btn-to-dashboard">
+                    <i class="fas fa-th-large"></i> Go to My Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

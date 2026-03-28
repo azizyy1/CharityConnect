@@ -173,13 +173,263 @@
             border-radius: 10px;
         }
 
+        /* Impact Section */
+        .impact-section {
+            padding: 100px 50px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .section-tag {
+            color: #e5533d;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            font-weight: 800;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 40px;
+            border-radius: 20px;
+            background: #f9f9f9;
+            transition: 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Campaigns Section */
+        .campaigns-section {
+            padding: 100px 50px;
+            background: #f4f7f6;
+        }
+
+        .campaign-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .campaign-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campaign-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .campaign-img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .campaign-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campaign-cat {
+            color: #e5533d;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .campaign-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #e5533d;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-card {
+            display: block;
+            text-align: center;
+            background: #1a1a1a;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: auto;
+            transition: 0.3s;
+        }
+
+        .btn-card:hover {
+            background: #e5533d;
+        }
+
+        /* How it works */
+        .how-section {
+            padding: 100px 50px;
+            background: #fff;
+        }
+
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .how-item {
+            text-align: center;
+        }
+
+        .how-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(229, 83, 61, 0.1);
+            color: #e5533d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 25px;
+        }
+
+        .how-item h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .how-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 80px 50px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #e5533d;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             header { padding: 20px; }
             nav { display: none; }
             .hero h1 { font-size: 40px; }
             .hero p { font-size: 16px; }
+            .section-title { font-size: 32px; }
+            .impact-section, .campaigns-section, .how-section { padding: 60px 20px; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -189,17 +439,32 @@
     <nav>
         <a th:href="@{/}">Home</a>
         <a th:href="@{/actions}">Donations</a>
-        <a th:href="@{/about}">Pages</a>
+        <a th:href="@{/about}">About</a>
         <a href="#">Events</a>
         <a href="#">Blog</a>
         <a href="#">Contact</a>
     </nav>
 
     <div class="header-actions">
-        <a th:href="@{/login}" title="Se connecter">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        </a>
-        <a th:href="@{/actions}" class="btn-donate-now">Donate Now</a>
+        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <a th:href="@{/admin/dashboard}" class="btn-donate-now">Dashboard</a>
+            </th:block>
+            <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
+                <a th:href="@{/organization/profile}" class="btn-donate-now">Profile</a>
+            </th:block>
+            <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
+                <a th:href="@{/user/profile}" class="btn-donate-now">Profile</a>
+            </th:block>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--primary-color); font-size: 20px; margin-left: 20px;" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </th:block>
+        <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/login}" class="btn-donate-now">Profile</a>
+        </th:block>
     </div>
 </header>
 
@@ -210,21 +475,11 @@
             When we invest in young people, we invest in the future. By offering guidance, education, and support, we help youth overcome barriers, unlock potential, and become changemakers in communities.
         </p>
 
-        <form th:action="@{/actions/donate-home}" method="post" style="margin-top: 30px; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); max-width: 800px; margin-left: auto; margin-right: auto;">
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;">
-                <select name="actionId" required style="padding: 15px; border-radius: 8px; border: none; min-width: 300px; background: white; color: #333; font-size: 16px;">
-                    <option value="" disabled selected>Select Donation Type</option>
-                    <option th:each="action : ${actions}" th:value="${action.id}" th:text="${action.title}"></option>
-                </select>
-                <div style="position: relative;">
-                    <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #333; font-weight: bold;">$</span>
-                    <input type="number" name="amount" placeholder="Amount" required min="1" step="0.01" style="padding: 15px 15px 15px 30px; border-radius: 8px; border: none; width: 150px; background: white; color: #333; font-size: 16px;">
-                </div>
-                <button type="submit" class="btn-main-donate" style="border: none; cursor: pointer; margin: 0; height: 54px; display: flex; align-items: center; justify-content: center;">
-                    Donate Now <span style="margin-left: 10px;">&rarr;</span>
-                </button>
-            </div>
-        </form>
+        <div style="margin-top: 30px;">
+            <a th:href="@{/actions}" class="btn-main-donate" style="border: none; cursor: pointer; height: 60px; display: inline-flex; align-items: center; justify-content: center; padding: 0 50px;">
+                Donate Now <span >&rarr;</span>
+            </a>
+        </div>
 
         <div class="slider-dots">
             <div class="dot active"></div>
@@ -233,5 +488,117 @@
         </div>
     </section>
 
+    <section class="impact-section">
+        <span class="section-tag">Our Impact</span>
+        <h2 class="section-title">Help is our main goal</h2>
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">120+</span>
+                <span class="stat-label">Campaigns Funded</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">$1.2M</span>
+                <span class="stat-label">Donations Collected</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50k+</span>
+                <span class="stat-label">Volunteer Hours</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="campaigns-section" th:if="${not #lists.isEmpty(actions)}">
+        <span class="section-tag" style="text-align: center;">Featured Causes</span>
+        <h2 class="section-title" style="text-align: center;">Urgent Campaigns</h2>
+        <div class="campaign-grid">
+            <div th:each="action, iter : ${actions}" th:if="${iter.index < 3}" class="campaign-card">
+                <img th:src="${action.image != null && !action.image.isEmpty() ? action.image : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}" alt="Campaign" class="campaign-img">
+                <div class="campaign-content">
+                    <span class="campaign-cat" th:text="${action.category}">Category</span>
+                    <h3 class="campaign-title" th:text="${action.title}">Campaign Title</h3>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" th:style="'width: ' + ${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'"></div>
+                        </div>
+                        <div class="progress-info">
+                            <span th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 0, 'POINT') + ' $'}">0 $</span>
+                            <span th:text="${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'">0%</span>
+                        </div>
+                    </div>
+                    
+                    <a th:href="@{/actions/{id}(id=${action.id})}" class="btn-card">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <a th:href="@{/actions}" style="color: #1a1a1a; font-weight: 700; text-decoration: none; border-bottom: 2px solid #e5533d; padding-bottom: 5px;">View All Campaigns &rarr;</a>
+        </div>
+    </section>
+
+    <section class="how-section">
+        <span class="section-tag" style="text-align: center;">How it works</span>
+        <h2 class="section-title" style="text-align: center;">Be the change</h2>
+        <div class="how-grid">
+            <div class="how-item">
+                <div class="how-icon"><i class="fas fa-search"></i></div>
+                <h3>Find a cause</h3>
+                <p>Browse through various charity campaigns verified by our team and choose the one that resonates with you.</p>
+            </div>
+            <div class="how-item">
+                <div class="how-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <h3>Donate or Volunteer</h3>
+                <p>Support campaigns financially or give your time as a volunteer. Every contribution makes a real difference.</p>
+            </div>
+            <div class="how-item">
+                <div class="how-icon"><i class="fas fa-bullhorn"></i></div>
+                <h3>Spread the word</h3>
+                <p>Share campaigns with your network to increase visibility and help organizations reach their goals faster.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="color: #e5533d;">CharityConnect</h4>
+                <p style="color: #888; line-height: 1.6;">A modern platform connecting compassionate donors with impactful charity organizations worldwide.</p>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <a href="#" style="color: #fff;"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" style="color: #fff;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="color: #fff;"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/actions}">Donations</a></li>
+                    <li><a th:href="@{/about}">About Us</a></li>
+                    <li><a href="#">Latest News</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p style="color: #888; margin-bottom: 20px;">Subscribe to get updates on new campaigns.</p>
+                <div style="display: flex;">
+                    <input type="email" placeholder="Email Address" style="padding: 12px; border: none; border-radius: 5px 0 0 5px; width: 100%;">
+                    <button style="background: #e5533d; color: #fff; border: none; padding: 0 20px; border-radius: 0 5px 5px 0; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CharityConnect. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
