@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in to Faun</title>
+    <title>Sign in to CharityConnect</title>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="auth-container">
         <a th:href="@{/}" class="close-btn">&times;</a>
         
-        <h2>Sign in to Faun</h2>
+        <h2>Sign in to CharityConnect</h2>
 
         <div th:if="${param.error}" class="alert alert-error">Invalid email or password.</div>
         <div th:if="${param.logout}" class="alert alert-info">Successfully logged out.</div>

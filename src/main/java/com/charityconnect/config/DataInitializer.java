@@ -39,7 +39,7 @@ public class DataInitializer {
                             .name("Hope Association")
                             .legalAddress("Casablanca")
                             .taxId("HC-2026")
-                            .description("Organisation de démonstration pour CharityConnect")
+                            .description("Demonstration organization for CharityConnect")
                             .approved(true)
                             .user(organizationUser)
                             .build()));
@@ -59,13 +59,13 @@ public class DataInitializer {
                     new ActionData(
                         "Orphan care essentials",
                         "Children",
-                        "https://images.unsplash.com/photo-1594708767771-a7502209ff51?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "/images/orphan-care.png",
                         "Every child deserves a chance at a bright future. Our 'Orphan Care Essentials' program provides orphans with the basic necessities they need to thrive, including nutritious meals, clean clothing, and access to medical care. Your contribution helps us provide a safe and nurturing environment for these children, ensuring they have the resources they need to grow, learn, and succeed. By supporting this campaign, you are investing in the lives of vulnerable children and giving them the hope they need to build a better tomorrow."
                     ),
                     new ActionData(
                         "Emergency medical rides",
                         "Health",
-                        "https://images.unsplash.com/photo-1581093196277-9f60800987ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "/images/emergency-medical.png",
                         "In critical moments, every second counts. Many people in remote or underserved areas face significant barriers to accessing life-saving medical care due to lack of transportation. Our 'Emergency Medical Rides' initiative provides free, reliable transport for patients in urgent need. Whether it's a woman in labor, a child with a sudden high fever, or an elderly person suffering from a stroke, your donation ensures they get to a hospital quickly and safely. We operate 24/7 to bridge the gap between emergency and treatment."
                     ),
                     new ActionData(
@@ -156,12 +156,12 @@ public class DataInitializer {
 
                 java.util.Random random = new java.util.Random();
                 String[] moroccanLocations = {
-                    "Palais des Congrès, Marrakech",
+                    "Congress Palace, Marrakech",
                     "Anfa Park, Casablanca",
-                    "Bibliothèque Nationale, Rabat",
+                    "National Library, Rabat",
                     "Technopark, Casablanca",
-                    "Esplanade de la Kasbah, Tanger",
-                    "Hôtel Michlifen, Ifrane"
+                    "Esplanade of the Kasbah, Tangier",
+                    "Michlifen Hotel, Ifrane"
                 };
 
                 for (int i = 0; i < sampleActions.length; i++) {
