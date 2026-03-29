@@ -206,8 +206,11 @@
                     element.innerText = prefix + finalVal + suffix;
                     clearInterval(timer);
                     
-                    // Restart after 3 seconds for the "non-stop loop" effect
-                    setTimeout(() => animateCounter(element, target, prefix, suffix, divisor), 3000);
+                    // Restart after 30 seconds for the "non-stop loop" effect
+                    setTimeout(() => {
+                        element.innerText = '0';
+                        animateCounter(element, target, prefix, suffix, divisor);
+                    }, 30000);
                 } else {
                     const currentVal = Math.floor(current / divisor);
                     element.innerText = prefix + currentVal + suffix;

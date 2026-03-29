@@ -12,6 +12,8 @@ public interface CharityActionRepository extends JpaRepository<CharityAction, Lo
 
     List<CharityAction> findByStatus(ActionStatus status);
 
+    long countByStatus(ActionStatus status);
+
     List<CharityAction> findByCategoryIgnoreCaseAndStatus(String category, ActionStatus status);
 
     List<CharityAction> findByTitleContainingIgnoreCaseAndStatus(String keyword, ActionStatus status);

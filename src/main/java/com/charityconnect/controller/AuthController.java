@@ -8,6 +8,9 @@ import com.charityconnect.model.User;
 import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
+import com.charityconnect.repository.DonationRepository;
+import com.charityconnect.repository.ParticipationRepository;
+import java.math.BigDecimal;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +35,15 @@ public class AuthController {
     private final OrganizationRepository organizationRepository;
     private final CharityActionRepository charityActionRepository;
     private final PasswordEncoder passwordEncoder;
-    private final com.charityconnect.repository.DonationRepository donationRepository;
-    private final com.charityconnect.repository.ParticipationRepository participationRepository;
+    private final DonationRepository donationRepository;
+    private final ParticipationRepository participationRepository;
 
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("actions", charityActionRepository.findByStatus(ActionStatus.ACTIVE));
         
-        long activeCampaigns = charityActionRepository.count(); // Actually findByStatus(ACTIVE).size() would be better but let's keep it simple for now
-        java.math.BigDecimal totalDonations = donationRepository.findAll().stream()
-                .map(com.charityconnect.model.Donation::getAmount)
-                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        long activeCampaigns = charityActionRepository.countByStatus(ActionStatus.ACTIVE);
+        BigDecimal totalDonations = donationRepository.sumAllDonations();
         long volunteerHours = participationRepository.count() * 4; // Arbitrary calculation for display
 
         model.addAttribute("activeCampaigns", activeCampaigns);
