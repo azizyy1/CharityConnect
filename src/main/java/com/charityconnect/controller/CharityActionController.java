@@ -133,20 +133,24 @@ public class CharityActionController {
 
         // Send confirmation email
         String recipientEmail = (email != null && !email.isBlank()) ? email : participant.getEmail();
-        String mailResult = emailService.sendVolunteerConfirmation(recipientEmail, action.getTitle(), participant.getFirstName());
+        EmailService.MailResponse mailResponse = emailService.sendVolunteerConfirmation(recipientEmail, action.getTitle(), participant.getFirstName());
 
-        if ("SUCCESS".equals(mailResult)) {
-            redirectAttributes.addFlashAttribute("mailSuccess", true);
-            return "redirect:/actions/" + id + "?participated";
+        if ("SUCCESS".equals(mailResponse.status())) {
+            return "redirect:/actions/" + id + "?participated&mailSent";
+        } else if ("SIMULATED".equals(mailResponse.status())) {
+            redirectAttributes.addFlashAttribute("simulatedSubject", mailResponse.subject());
+            redirectAttributes.addFlashAttribute("simulatedBody", mailResponse.body());
+            redirectAttributes.addFlashAttribute("recipientEmail", recipientEmail);
+            return "redirect:/actions/" + id + "?participated&mailSimulated";
         } else {
-            redirectAttributes.addFlashAttribute("mailErrorDetail", mailResult + " (Attempted recipient: " + recipientEmail + ")");
+            redirectAttributes.addFlashAttribute("mailErrorDetail", mailResponse.error() + " (Attempted recipient: " + recipientEmail + ")");
             return "redirect:/actions/" + id + "?participated&mailError";
         }
     }
 
 
     private int calculateProgress(CharityAction action) {
-        if (action.getTargetAmount() == null || action.getTargetAmount().signum() == 0) {
+        if (action.getTargetAmount() == null || action.getTargetAmount().signum() == 0 || action.getCollectedAmount() == null) {
             return 0;
         }
         BigDecimal percent = action.getCollectedAmount()

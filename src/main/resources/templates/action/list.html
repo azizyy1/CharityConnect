@@ -35,11 +35,11 @@
                 
                 <div class="card-progress">
                     <div class="progress-bar">
-                        <div class="progress-fill" th:style="'width: ' + ${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'"></div>
+                        <div class="progress-fill" th:style="'width: ' + ${ (action.targetAmount == null || action.targetAmount.signum() == 0) ? 0 : ((action.collectedAmount ?: 0).multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'"></div>
                     </div>
                     <div class="progress-text">
-                        <span th:text="${#numbers.formatDecimal(action.collectedAmount, 1, 'WHITESPACE', 0, 'POINT') + ' DH'}">0 DH</span>
-                        <span th:text="${ (action.targetAmount.signum() == 0) ? 0 : (action.collectedAmount.multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'">0%</span>
+                        <span th:text="${#numbers.formatDecimal(action.collectedAmount ?: 0, 1, 'WHITESPACE', 0, 'POINT') + ' DH'}">0 DH</span>
+                        <span th:text="${ (action.targetAmount == null || action.targetAmount.signum() == 0) ? 0 : ((action.collectedAmount ?: 0).multiply(new java.math.BigDecimal(100)).divide(action.targetAmount, 0, T(java.math.RoundingMode).FLOOR)) } + '%'">0%</span>
                     </div>
                 </div>
 

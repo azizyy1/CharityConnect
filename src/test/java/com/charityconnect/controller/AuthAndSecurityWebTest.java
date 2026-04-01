@@ -62,6 +62,9 @@ class AuthAndSecurityWebTest {
     @MockBean
     private com.charityconnect.service.DonationService donationService;
 
+    @MockBean
+    private com.charityconnect.service.EmailService emailService;
+
     @Test
     void loginPageShouldBeAccessibleWithoutAuthentication() throws Exception {
         mockMvc.perform(get("/login"))
