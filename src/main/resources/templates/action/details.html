@@ -8,8 +8,15 @@
 <header th:replace="~{fragments/layout :: header(false)}"></header>
 
 <div class="container">
-    <div th:if="${param.participated}" class="alert alert-success">
-        <i class="fas fa-check-circle"></i> Thank you, your participation has been recorded.
+    <div th:if="${param.participated && !param.mailError}" class="alert alert-success">
+        <i class="fas fa-check-circle"></i> Thank you, your participation has been recorded. A confirmation email has been sent to the address you provided.
+    </div>
+    <div th:if="${param.mailError}" class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i> Participation recorded, but we couldn't send the confirmation email.
+        <div th:if="${mailErrorDetail}" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 4px; font-family: monospace; font-size: 13px;">
+            <strong>Error details:</strong> <span th:text="${mailErrorDetail}">Error message</span>
+        </div>
+        <p style="margin-top: 10px; font-size: 14px;">Please check your SMTP configuration in <code>application.properties</code>.</p>
     </div>
 
     <div class="action-header">
@@ -67,15 +74,11 @@
 
             <div class="sidebar-card">
                 <h3 class="card-title">Volunteer</h3>
-                <form th:action="@{/actions/{id}/participate(id=${action.id})}" method="post">
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Add a note (optional)</label>
-                        <input type="text" name="note" maxlength="1000" placeholder="Why do you want to join?">
-                    </div>
-                    <button type="submit" class="btn-action btn-primary" style="background-color: var(--secondary-color);">
-                        <i class="fas fa-hands-helping"></i> Sign Up to Help
-                    </button>
-                </form>
+                <div style="margin-top: 15px;">
+                    <a th:href="@{/actions/{id}/volunteer(id=${action.id})}" class="btn-action btn-primary" style="background-color: var(--secondary-color); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;">
+                        <i class="fas fa-hands-helping" style="margin-right: 8px;"></i> Sign Up to Help
+                    </a>
+                </div>
             </div>
 
             <div class="sidebar-card">

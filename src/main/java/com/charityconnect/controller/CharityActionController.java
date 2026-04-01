@@ -8,6 +8,7 @@ import com.charityconnect.repository.CharityActionRepository;
 import com.charityconnect.repository.ParticipationRepository;
 import com.charityconnect.repository.UserRepository;
 import com.charityconnect.service.DonationService;
+import com.charityconnect.service.EmailService;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class CharityActionController {
     private final UserRepository userRepository;
     private final ParticipationRepository participationRepository;
     private final DonationService donationService;
+    private final EmailService emailService;
 
     @GetMapping("/actions")
     public String listActions(@RequestParam(required = false) String category,
@@ -51,6 +53,23 @@ public class CharityActionController {
         model.addAttribute("action", action);
         model.addAttribute("progress", calculateProgress(action));
         return "action/details";
+    }
+
+    @GetMapping("/actions/{id}/volunteer")
+    public String volunteerForm(@PathVariable Long id, Authentication authentication, Model model) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        CharityAction action = charityActionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Action not found."));
+
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        model.addAttribute("action", action);
+        model.addAttribute("user", user);
+        return "action/volunteer-form";
     }
 
     @PostMapping("/actions/{id}/donate")
@@ -88,12 +107,21 @@ public class CharityActionController {
     @PostMapping("/actions/{id}/participate")
     public String participate(@PathVariable Long id,
                               @RequestParam(required = false) String note,
-                              Authentication authentication) {
+                              @RequestParam(required = false) String phone,
+                              @RequestParam(required = false) String email,
+                              Authentication authentication,
+                              RedirectAttributes redirectAttributes) {
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
         User participant = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        // Update phone if provided
+        if (phone != null && !phone.isBlank()) {
+            participant.setPhone(phone);
+            userRepository.save(participant);
+        }
 
         if (!participationRepository.existsByUserAndCharityAction(participant, action)) {
             participationRepository.save(Participation.builder()
@@ -103,7 +131,17 @@ public class CharityActionController {
                     .build());
         }
 
-        return "redirect:/actions/" + id + "?participated";
+        // Send confirmation email
+        String recipientEmail = (email != null && !email.isBlank()) ? email : participant.getEmail();
+        String mailResult = emailService.sendVolunteerConfirmation(recipientEmail, action.getTitle(), participant.getFirstName());
+
+        if ("SUCCESS".equals(mailResult)) {
+            redirectAttributes.addFlashAttribute("mailSuccess", true);
+            return "redirect:/actions/" + id + "?participated";
+        } else {
+            redirectAttributes.addFlashAttribute("mailErrorDetail", mailResult + " (Attempted recipient: " + recipientEmail + ")");
+            return "redirect:/actions/" + id + "?participated&mailError";
+        }
     }
 
 
