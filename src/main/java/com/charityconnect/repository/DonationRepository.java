@@ -23,6 +23,8 @@ public interface DonationRepository extends MongoRepository<Donation, String> {
 
     List<Donation> findByUserOrderByDonationDateDesc(User user);
 
+    List<Donation> findByUserIdOrderByDonationDateDesc(String userId);
+
     List<Donation> findByCharityAction(CharityAction charityAction);
 
     List<Donation> findByStatusOrderByDonationDateDesc(DonationStatus status);

@@ -155,7 +155,7 @@ class AuthAndSecurityWebTest {
     @Test
     void publicPagesShouldBeAccessibleWithoutAuthentication() throws Exception {
         when(charityActionRepository.findByStatus(any())).thenReturn(java.util.List.of());
-        when(donationRepository.findAll()).thenReturn(java.util.List.of());
+        when(donationRepository.sumAllDonations()).thenReturn(java.math.BigDecimal.ZERO);
         when(participationRepository.count()).thenReturn(0L);
         when(charityActionRepository.count()).thenReturn(0L);
 

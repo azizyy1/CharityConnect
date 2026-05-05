@@ -50,7 +50,7 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
-        model.addAttribute("participations", participationRepository.findByUserOrderByParticipationDateDesc(user));
+        model.addAttribute("participations", participationRepository.findByUserIdOrderByParticipationDateDesc(user.getId()));
         return "user/participations";
     }
 
@@ -60,7 +60,7 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         model.addAttribute("user", user);
-        model.addAttribute("donations", donationRepository.findByUserOrderByDonationDateDesc(user));
+        model.addAttribute("donations", donationRepository.findByUserIdOrderByDonationDateDesc(user.getId()));
         return "user/donations";
     }
 

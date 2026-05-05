@@ -10,5 +10,7 @@ public interface ParticipationRepository extends MongoRepository<Participation, 
 
     List<Participation> findByUserOrderByParticipationDateDesc(User user);
 
+    List<Participation> findByUserIdOrderByParticipationDateDesc(String userId);
+
     boolean existsByUserAndCharityAction(User user, CharityAction charityAction);
 }

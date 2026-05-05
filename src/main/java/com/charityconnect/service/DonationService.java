@@ -32,7 +32,9 @@ public class DonationService {
                 .build();
 
         action.setCollectedAmount(action.getCollectedAmount().add(amount));
-        donationRepository.save(donation);
+        Donation savedDonation = donationRepository.save(donation);
         charityActionRepository.save(action);
+        
+        System.out.println("[DEBUG_LOG] Donation saved successfully: ID=" + savedDonation.getId() + " for User=" + donor.getEmail());
     }
 }

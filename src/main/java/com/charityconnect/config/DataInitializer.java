@@ -30,7 +30,7 @@ public class DataInitializer {
     @Bean
     CommandLineRunner initDefaultData() {
         return args -> {
-            createUserIfMissing("admin@charityconnect.com", "Admin", "System", Role.ROLE_ADMIN, "Admin@123");
+            User adminUser = createUserIfMissing("admin@charityconnect.com", "Admin", "System", Role.ROLE_ADMIN, "Admin@123");
             User organizationUser = createUserIfMissing("org@charityconnect.com", "Org", "Manager", Role.ROLE_ORGANIZATION, "Org@12345");
             User demoUser = createUserIfMissing("user@charityconnect.com", "Demo", "User", Role.ROLE_USER, "User@12345");
 
@@ -166,8 +166,7 @@ public class DataInitializer {
 
                 for (int i = 0; i < sampleActions.length; i++) {
                     ActionData data = sampleActions[i];
-                    BigDecimal target = new BigDecimal(5000 + random.nextInt(45000));
-                    BigDecimal collected = target.multiply(new BigDecimal(random.nextDouble() * 0.8)).setScale(2, java.math.RoundingMode.HALF_UP);
+                    BigDecimal target = new BigDecimal(15000 + random.nextInt(35000));
                     
                     String location = data.category.equals("Event") ? moroccanLocations[i % moroccanLocations.length] : "Various";
                     LocalDate startDate = data.category.equals("Event") ? LocalDate.now().plusMonths(1 + random.nextInt(6)) : LocalDate.now();
@@ -179,12 +178,59 @@ public class DataInitializer {
                         .image(data.image)
                         .location(location)
                         .targetAmount(target)
-                        .collectedAmount(collected)
+                        .collectedAmount(BigDecimal.ZERO)
                         .startDate(startDate)
                         .endDate(startDate.plusDays(30))
                         .status(ActionStatus.ACTIVE)
                         .organization(organization)
                         .build());
+
+                    // Generate more realistic and varied collected amounts
+                    double percentage;
+                    int diceRoll = random.nextInt(10);
+                    if (diceRoll < 3) {
+                        // 30% of actions are almost finished (75-95%)
+                        percentage = 0.75 + (random.nextDouble() * 0.20);
+                    } else if (diceRoll < 7) {
+                        // 40% of actions are moderately funded (30-60%)
+                        percentage = 0.30 + (random.nextDouble() * 0.30);
+                    } else {
+                        // 30% of actions are just starting (5-20%)
+                        percentage = 0.05 + (random.nextDouble() * 0.15);
+                    }
+
+                    BigDecimal targetAmount = action.getTargetAmount();
+                    BigDecimal targetCollected = targetAmount.multiply(BigDecimal.valueOf(percentage))
+                            .setScale(0, java.math.RoundingMode.HALF_UP);
+
+                    // Distribute this amount into several donations
+                    int numDonations = 5 + random.nextInt(10);
+                    BigDecimal remainingToCollect = targetCollected;
+                    
+                    for (int j = 0; j < numDonations; j++) {
+                        BigDecimal amount;
+                        if (j == numDonations - 1) {
+                            amount = remainingToCollect;
+                        } else {
+                            // Random slice of the remaining amount
+                            double slice = 0.05 + (random.nextDouble() * 0.25);
+                            amount = remainingToCollect.multiply(BigDecimal.valueOf(slice))
+                                    .setScale(0, java.math.RoundingMode.HALF_UP);
+                        }
+                        
+                        if (amount.compareTo(BigDecimal.ZERO) > 0) {
+                            donationRepository.save(com.charityconnect.model.Donation.builder()
+                                .amount(amount)
+                                .user(adminUser)
+                                .charityAction(action)
+                                .donationDate(java.time.LocalDateTime.now().minusDays(random.nextInt(30)))
+                                .build());
+                            remainingToCollect = remainingToCollect.subtract(amount);
+                        }
+                    }
+                    
+                    action.setCollectedAmount(targetCollected);
+                    charityActionRepository.save(action);
                 }
             }
         };

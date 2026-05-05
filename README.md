@@ -1,78 +1,78 @@
-# CharityConnect
+# CharityConnect 🌟
 
-CharityConnect is a modern web platform designed to bridge the gap between donors and charitable organizations. It enables users to discover meaningful causes, participate in events, and make donations to support various initiatives.
+CharityConnect est une plateforme web moderne conçue pour combler le fossé entre les donateurs et les organisations caritatives. Elle permet aux utilisateurs de découvrir des causes significatives, de participer à des événements et de faire des dons pour soutenir diverses initiatives.
 
-## 🚀 Key Features
+## 📝 À propos
+Plateforme de mise en relation entre donateurs et associations caritatives intégrant un système de recommandations intelligentes, un suivi d'impact en temps réel et une gestion simplifiée des campagnes de bienfaisance.
 
-### For Donors
-- **Personalized Recommendations**: Discover actions based on your interests (Education, Health, Environment, etc.) and past contributions.
-- **Easy Participation**: Join charitable events and actions with a single click.
-- **Donation Tracking**: Support causes financially and track the overall impact.
-- **User Dashboard**: Manage your interests, view your participation history, and see your contributions.
-- **Onboarding Flow**: New users are guided to select their interests upon their first login to personalize their experience.
+## 🚀 Fonctionnalités Clés
 
-### For Organizations
-- **Action Management**: Create, update, and manage charitable actions and campaigns.
-- **Supporter Insights**: View lists of participants and donors for each action.
-- **Verified Profiles**: Organizations undergo an admin approval process to ensure trust and transparency.
+### 👤 Pour les Donateurs
+- **Recommandations Personnalisées** : Algorithme suggérant des actions basées sur vos intérêts (Éducation, Santé, Environnement, etc.) et votre historique.
+- **Participation en un Clic** : Rejoignez des événements caritatifs instantanément.
+- **Suivi des Dons & Impact** : Visualisez l'évolution globale des collectes en temps réel.
+- **Tableau de Bord Dédié** : Gérez vos préférences, consultez vos participations et vos contributions financières.
+- **Parcours d'Onboarding** : Expérience personnalisée dès la première connexion pour définir vos centres d'intérêt.
 
-### For Administrators
-- **Organization Approval**: Review and approve new organization registrations.
-- **Global Overview**: Monitor all activities, users, and actions on the platform.
+### 🏢 Pour les Organisations
+- **Gestion Complète des Actions** : Création, édition et suivi de campagnes caritatives.
+- **Gestion des Partisans** : Accès aux listes détaillées des participants et des donateurs.
+- **Validation de Profil** : Système d'approbation administrative pour garantir la légitimité des associations.
 
-## 🛠 Tech Stack
+### 🛡️ Pour les Administrateurs
+- **Modération des Organisations** : Revue et validation des inscriptions des nouveaux partenaires.
+- **Supervision Globale** : Monitoring de l'activité, des utilisateurs et des flux financiers du site.
 
-- **Backend**: Java 17+, Spring Boot 3.5.x
-- **Database**: MongoDB (Spring Data MongoDB)
-- **Security**: Spring Security (Role-based access control, secure session management)
-- **Frontend**: Thymeleaf, HTML5, CSS3, JavaScript (Vanilla)
-- **Localization**: Multi-language support (English & French)
-- **Email**: Integrated email notification system (MimeMessage with "CharityConnect" branding)
+## 🛠 Stack Technique
 
-## 📦 Installation & Setup
+- **Backend** : Java 17+, Spring Boot 3.5.x
+- **Base de données** : MongoDB (Spring Data MongoDB)
+- **Sécurité** : Spring Security (RBAC, protection contre le cache, logout sécurisé)
+- **Frontend** : Thymeleaf, HTML5, CSS3, JavaScript (Vanilla)
+- **Localisation** : Internationalisation (i18n) - Français et Anglais
+- **Email** : Envoi de confirmations via MimeMessage avec branding CharityConnect
 
-### Prerequisites
-- **Java 17** or higher
-- **Maven** (optional, you can use the included `./mvnw` wrapper)
+## 📦 Installation et Configuration
 
-### Getting Started
+### Prérequis
+- **Java 17** ou version supérieure
 
-1. **Clone the repository**:
+### Démarrage Rapide
+
+1. **Cloner le projet** :
    ```bash
    git clone https://github.com/azizyy1/CharityConnect.git
    cd CharityConnect
    ```
 
-2. **Database Configuration**:
-   The project uses an **Embedded MongoDB** for development. You don't need to install or run a separate MongoDB instance. It will automatically download and start a local instance when you run the application.
+2. **Base de données** :
+   Le projet utilise un **MongoDB Embarqué**. Aucune installation de base de données n'est requise localement ; elle démarre automatiquement avec l'application.
 
-3. **Run the application**:
+3. **Lancer le serveur** :
    ```bash
    ./mvnw spring-boot:run
    ```
 
-4. **Access the site**:
-   Open your browser and navigate to **`http://localhost:8081`**.
+4. **Accès local** :
+   Rendez-vous sur **`http://localhost:8081`**.
 
-## 🔐 Default Accounts
+## 🔐 Comptes de Test
 
-For testing purposes, you can use the following pre-configured accounts:
-
-| Role | Email | Password |
+| Rôle | Email | Mot de passe |
 |------|-------|----------|
-| **Admin** | `admin@charityconnect.com` | `Admin@123` |
-| **Organization** | `org@charityconnect.com` | `Org@12345` |
-| **User** | `user@charityconnect.com` | `User@12345` |
+| **Administrateur** | `admin@charityconnect.com` | `Admin@123` |
+| **Organisation** | `org@charityconnect.com` | `Org@12345` |
+| **Utilisateur** | `user@charityconnect.com` | `User@12345` |
 
-## 🌍 Localization
+## 🌍 Localisation
 
-The application currently supports **English** and **French**. The language preference is handled via Spring's `LocaleResolver` and can be toggled through the footer/navigation.
+L'application détecte automatiquement la langue ou permet un changement manuel via le pied de page. Les fichiers de traduction sont situés dans `src/main/resources/messages`.
 
-## 🛡 Security & Performance
+## 🛡 Sécurité & Performance
 
-- **Cache Control**: Protected dashboard pages use a strict "no-cache" policy to prevent unauthorized access via the browser's history after logout.
-- **Live Stats**: The home page features a dynamic counter that simulates real-time activity for donations and volunteer hours to enhance user engagement.
-- **Embedded DB**: Zero-configuration setup for new developers thanks to Flapdoodle Embedded MongoDB.
+- **Protection History-Back** : Les tableaux de bord forcent la vérification de session pour empêcher le retour en arrière après déconnexion.
+- **Live Counters** : Les statistiques de la page d'accueil (dons, heures) s'animent en temps réel pour dynamiser l'interface.
+- **Embedded DB** : Facilitation du développement collaboratif sans configuration complexe.
 
 ---
 *© 2026 CharityConnect Team*

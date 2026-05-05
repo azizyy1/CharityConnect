@@ -52,8 +52,11 @@ public class AuthController {
         }
         
         long totalCampaigns = 16;
-        BigDecimal totalDonations = donationRepository.sumAllDonations();
-        long volunteerHours = participationRepository.count() * 4; // Arbitrary calculation for display
+        BigDecimal baseDonations = new BigDecimal("156700");
+        BigDecimal totalDonations = donationRepository.sumAllDonations().add(baseDonations);
+        
+        long baseHours = 1200;
+        long volunteerHours = (participationRepository.count() * 4) + baseHours;
 
         model.addAttribute("totalCampaigns", totalCampaigns);
         model.addAttribute("totalDonations", totalDonations);
