@@ -46,7 +46,7 @@
             <img th:src="${action.image != null && !action.image.isEmpty() ? action.image : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}" alt="Action Image" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
         </div>
         <div class="action-info-main">
-            <span class="category-badge" th:text="${action.category}">Category</span>
+            <span class="category-badge" th:text="${@categoryLabelService.resolve(action.category, #locale)}">Category</span>
             <h1 class="action-title" th:text="${action.title}">Action Title</h1>
             
             <div class="action-meta">

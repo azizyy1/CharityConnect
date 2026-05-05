@@ -44,7 +44,13 @@ public class DataInitializer {
                             .user(organizationUser)
                             .build()));
 
-            if (charityActionRepository.count() <= 1) {
+            if (charityActionRepository.count() <= 16) {
+                // Clear existing data to re-initialize with better variety if we only have default samples
+                if (charityActionRepository.count() > 0) {
+                    donationRepository.deleteAll();
+                    participationRepository.deleteAll();
+                    charityActionRepository.deleteAll();
+                }
                 class ActionData {
                     String title;
                     String category;
@@ -58,7 +64,7 @@ public class DataInitializer {
                 ActionData[] sampleActions = {
                     new ActionData(
                         "Orphan Care Essentials",
-                        "Children",
+                        "Youth",
                         "/images/orphan-care.jpg",
                         "Every child deserves a chance at a bright future. Our 'Orphan Care Essentials' program provides orphans with the basic necessities they need to thrive, including nutritious meals, clean clothing, and access to medical care. Your contribution helps us provide a safe and nurturing environment for these children, ensuring they have the resources they need to grow, learn, and succeed. By supporting this campaign, you are investing in the lives of vulnerable children and giving them the hope they need to build a better tomorrow."
                     ),
@@ -70,13 +76,13 @@ public class DataInitializer {
                     ),
                     new ActionData(
                         "Animal Rescue Initiative",
-                        "Animals",
+                        "Environment",
                         "/images/animal-rescue-initiative.jpg",
                         "Our furry friends often cannot speak for themselves. This initiative is dedicated to rescuing abandoned, abused, and neglected animals. We provide them with immediate veterinary care, shelter, and high-quality food. Our goal is to rehabilitate these animals and find them loving forever homes. Your support covers medical costs, vaccination, and the maintenance of our rescue centers. Together, we can end animal suffering and promote a community that values and protects its animals."
                     ),
                     new ActionData(
                         "Winter Clothing Drive",
-                        "Humanitarian",
+                        "Urgent",
                         "/images/winter-clothing-drive.png",
                         "As the temperatures drop, many families struggle to keep warm. A simple coat or a pair of gloves can make a world of difference. This campaign focuses on providing warm winter clothing—including jackets, sweaters, scarves, and boots—to homeless individuals and families in poverty. We distribute these items directly to those living on the streets or in unheated shelters. Your donation will directly purchase new thermal wear and help us collect and clean donated items for distribution."
                     ),
@@ -94,13 +100,13 @@ public class DataInitializer {
                     ),
                     new ActionData(
                         "Women Empowerment Projects",
-                        "Empowerment",
+                        "Education",
                         "/images/women-empowerment.png",
                         "When you empower a woman, you empower a community. Our projects focus on providing women with vocational training, literacy classes, and micro-loans to start their own small businesses. We create safe spaces for learning and growth, helping women gain financial independence and leadership skills. Your contribution supports training materials, expert mentors, and the seed capital needed for these women to transform their lives and the lives of their children."
                     ),
                     new ActionData(
                         "Urgent Medical Funds",
-                        "Health",
+                        "Urgent",
                         "/images/urgent-medical.jpg",
                         "Medical emergencies don't wait for a paycheck. This campaign provides immediate financial assistance for medication, diagnostic tests, and short-term treatments for those in crisis. We focus on providing aid within 24 hours of a verified request. Whether it's insulin for a diabetic patient or oxygen for someone with respiratory issues, your donation provides an immediate lifeline. We ensure that poverty does not mean a death sentence for those facing sudden health challenges."
                     ),
@@ -112,7 +118,7 @@ public class DataInitializer {
                     ),
                     new ActionData(
                         "Disaster Recovery Aid",
-                        "Relief",
+                        "Urgent",
                         "/images/disaster-recovery.jpg.avif",
                         "When disaster strikes, the road to recovery is long. This fund provides long-term support for communities affected by natural disasters such as floods or earthquakes. While emergency aid covers immediate needs, we focus on rebuilding homes, restoring clean water systems, and helping local businesses reopen. Your contribution ensures that communities are not forgotten once the news cameras leave. We stay for the duration of the rebuilding process to ensure a resilient recovery."
                     ),
@@ -148,7 +154,7 @@ public class DataInitializer {
                     ),
                     new ActionData(
                         "Safe Water Initiative",
-                        "Water",
+                        "Environment",
                         "/images/water-issues.jpg",
                         "Access to clean and safe water is a fundamental human right. Our 'Safe Water Initiative' works to provide sustainable solutions for communities facing water scarcity and contamination. By building wells, installing purification systems, and educating local residents on water management, we aim to ensure long-term health and prosperity. Your support directly funds the infrastructure and expertise needed to bring life-changing clean water to those who need it most."
                     )
@@ -171,6 +177,7 @@ public class DataInitializer {
                     String location = data.category.equals("Event") ? moroccanLocations[i % moroccanLocations.length] : "Various";
                     LocalDate startDate = data.category.equals("Event") ? LocalDate.now().plusMonths(1 + random.nextInt(6)) : LocalDate.now();
 
+                    int daysToAdd = 5 + random.nextInt(60);
                     CharityAction action = charityActionRepository.save(CharityAction.builder()
                         .title(data.title)
                         .description(data.description)
@@ -180,24 +187,46 @@ public class DataInitializer {
                         .targetAmount(target)
                         .collectedAmount(BigDecimal.ZERO)
                         .startDate(startDate)
-                        .endDate(startDate.plusDays(30))
+                        .endDate(startDate.plusDays(daysToAdd))
                         .status(ActionStatus.ACTIVE)
                         .organization(organization)
                         .build());
 
-                    // Generate more realistic and varied collected amounts
+                    // Generate more natural progress by category:
+                    // urgent causes are usually funded faster, while events are often still early.
                     double percentage;
-                    int diceRoll = random.nextInt(10);
-                    if (diceRoll < 3) {
-                        // 30% of actions are almost finished (75-95%)
-                        percentage = 0.75 + (random.nextDouble() * 0.20);
-                    } else if (diceRoll < 7) {
-                        // 40% of actions are moderately funded (30-60%)
-                        percentage = 0.30 + (random.nextDouble() * 0.30);
+                    if ("Urgent".equals(data.category)) {
+                        percentage = 0.78 + (random.nextDouble() * 0.18); // 78% - 96%
+                    } else if ("Health".equals(data.category)) {
+                        percentage = 0.52 + (random.nextDouble() * 0.28); // 52% - 80%
+                    } else if ("Food".equals(data.category)) {
+                        percentage = 0.45 + (random.nextDouble() * 0.30); // 45% - 75%
+                    } else if ("Education".equals(data.category) || "Youth".equals(data.category)) {
+                        percentage = 0.25 + (random.nextDouble() * 0.35); // 25% - 60%
+                    } else if ("Environment".equals(data.category)) {
+                        percentage = 0.18 + (random.nextDouble() * 0.35); // 18% - 53%
+                    } else if ("Event".equals(data.category)) {
+                        percentage = 0.05 + (random.nextDouble() * 0.22); // 5% - 27%
                     } else {
-                        // 30% of actions are just starting (5-20%)
-                        percentage = 0.05 + (random.nextDouble() * 0.15);
+                        percentage = 0.20 + (random.nextDouble() * 0.45); // fallback
                     }
+
+                    // Guarantee visible variety: some almost complete, others still at the beginning.
+                    if (i % 5 == 0) {
+                        percentage = Math.max(percentage, 0.90);
+                    } else if (i % 4 == 0) {
+                        percentage = Math.min(percentage, 0.22);
+                    }
+
+                    // Keep the first visible cards clearly mixed (almost done vs just started)
+                    // so the home/actions grids look natural at first glance.
+                    if (i < 6) {
+                        double[] showcaseProgress = {0.92, 0.64, 0.16, 0.85, 0.24, 0.09};
+                        double jitter = (random.nextDouble() - 0.5) * 0.06; // +/- 3%
+                        percentage = showcaseProgress[i] + jitter;
+                    }
+
+                    percentage = Math.max(0.05, Math.min(percentage, 0.98));
 
                     BigDecimal targetAmount = action.getTargetAmount();
                     BigDecimal targetCollected = targetAmount.multiply(BigDecimal.valueOf(percentage))
