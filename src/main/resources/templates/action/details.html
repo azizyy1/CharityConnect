@@ -9,36 +9,36 @@
 
 <div class="container">
     <div th:if="${param.mailSent != null}" class="alert alert-success">
-        <i class="fas fa-check-circle"></i> Thank you, your participation has been recorded. A confirmation email has been sent to the address you provided.
+        <i class="fas fa-check-circle"></i> <span th:text="#{actions.details.mail.sent}">Thank you, your participation has been recorded. A confirmation email has been sent to the address you provided.</span>
     </div>
     <div th:if="${param.mailSimulated != null}" class="alert alert-info" style="border-left: 4px solid #17a2b8; padding: 20px;">
-        <i class="fas fa-info-circle"></i> Thank you, your participation has been recorded.
+        <i class="fas fa-check-circle"></i> <span th:text="#{actions.details.mail.simulated}">Thank you, your participation has been recorded.</span>
         <div style="margin-top: 15px; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.05);">
             <p style="margin-bottom: 10px; font-size: 14px; color: #0c5460;">
-                <i class="fas fa-flask"></i> <strong>Simulation Mode:</strong> Real email sending is skipped because placeholder credentials (<code>your-gmail@gmail.com</code>) are used in <code>application.properties</code>.
+                <i class="fas fa-flask"></i> <strong th:text="#{actions.details.simulation.mode.title}">Simulation Mode:</strong> <span th:text="#{actions.details.simulation.mode}">Real email sending is skipped because placeholder credentials (<code>your-gmail@gmail.com</code>) are used in <code>application.properties</code>.</span>
             </p>
             <div th:if="${simulatedSubject}" style="margin-top: 15px;">
                 <h4 style="font-size: 15px; margin-bottom: 10px; color: #0c5460; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;">
-                    <i class="fas fa-envelope-open-text"></i> Simulated Email Content
+                    <i class="fas fa-envelope-open-text"></i> <span th:text="#{actions.details.simulated.content}">Simulated Email Content</span>
                 </h4>
-                <div style="font-size: 13px; margin-bottom: 5px;"><strong>To:</strong> <span th:text="${recipientEmail}"></span></div>
-                <div style="font-size: 13px; margin-bottom: 10px;"><strong>Subject:</strong> <span th:text="${simulatedSubject}"></span></div>
+                <div style="font-size: 13px; margin-bottom: 5px;"><strong th:text="#{actions.details.to}">To:</strong> <span th:text="${recipientEmail}"></span></div>
+                <div style="font-size: 13px; margin-bottom: 10px;"><strong th:text="#{actions.details.subject}">Subject:</strong> <span th:text="${simulatedSubject}"></span></div>
                 <pre style="background: white; padding: 10px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-family: inherit; font-size: 13px; color: #333; white-space: pre-wrap;" th:text="${simulatedBody}"></pre>
             </div>
             <p style="margin-top: 15px; font-size: 12px; color: #666;">
-                <i class="fas fa-lightbulb"></i> To enable real emails, update <code>spring.mail.username</code> and <code>spring.mail.password</code> in <code>application.properties</code>.
+                <i class="fas fa-lightbulb"></i> <span th:text="#{actions.details.enable.real}">To enable real emails, update <code>spring.mail.username</code> and <code>spring.mail.password</code> in <code>application.properties</code>.</span>
             </p>
         </div>
     </div>
     <div th:if="${param.participated != null && param.mailSent == null && param.mailSimulated == null && param.mailError == null}" class="alert alert-success">
-        <i class="fas fa-check-circle"></i> Thank you, your participation has been recorded.
+        <i class="fas fa-check-circle"></i> <span th:text="#{actions.details.mail.simulated}">Thank you, your participation has been recorded.</span>
     </div>
     <div th:if="${param.mailError != null}" class="alert alert-warning">
-        <i class="fas fa-exclamation-triangle"></i> Participation recorded, but we couldn't send the confirmation email.
+        <i class="fas fa-exclamation-triangle"></i> <span th:text="#{actions.details.mail.error}">Participation recorded, but we couldn't send the confirmation email.</span>
         <div th:if="${mailErrorDetail}" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 4px; font-family: monospace; font-size: 13px;">
-            <strong>Error details:</strong> <span th:text="${mailErrorDetail}">Error message</span>
+            <strong th:text="#{actions.details.error.details}">Error details:</strong> <span th:text="${mailErrorDetail}">Error message</span>
         </div>
-        <p style="margin-top: 10px; font-size: 14px;">Please check your SMTP configuration in <code>application.properties</code>.</p>
+        <p style="margin-top: 10px; font-size: 14px;" th:text="#{actions.details.check.smtp}">Please check your SMTP configuration in <code>application.properties</code>.</p>
     </div>
 
     <div class="action-header">
@@ -50,7 +50,7 @@
             <h1 class="action-title" th:text="${action.title}">Action Title</h1>
             
             <div class="action-meta">
-                <div><i class="fas fa-map-marker-alt"></i> <span th:text="${action.location ?: 'No location specified'}">Location</span></div>
+                <div><i class="fas fa-map-marker-alt"></i> <span th:text="${action.location ?: #messages.msg('actions.details.no.location')}">Location</span></div>
                 <div><i class="fas fa-calendar-alt"></i> <span th:text="${action.startDate}">Date</span></div>
             </div>
 
@@ -58,7 +58,7 @@
                 <div class="progress-stats">
                     <div>
                         <span class="collected-amount" th:text="${#numbers.formatDecimal(action.collectedAmount ?: 0, 1, 'WHITESPACE', 2, 'POINT') + ' DH'}">0.00 DH</span>
-                        <span class="target-amount" th:text="' raised of ' + ${#numbers.formatDecimal(action.targetAmount ?: 0, 1, 'WHITESPACE', 2, 'POINT') + ' DH'}">0.00 DH</span>
+                        <span class="target-amount" th:text="${#messages.msg('actions.details.raised.of', '', #numbers.formatDecimal(action.targetAmount ?: 0, 1, 'WHITESPACE', 2, 'POINT') + ' DH')}"> raised of 0.00 DH</span>
                     </div>
                     <div th:text="${progress + '%'}">0%</div>
                 </div>
@@ -72,46 +72,64 @@
     <div class="action-details-grid">
         <div class="main-content">
             <div class="content-card">
-                <h2 class="card-title">About this campaign</h2>
+                <h2 class="card-title" th:text="#{actions.details.about}">About this campaign</h2>
                 <div class="description-text" th:text="${action.description}">
                     Campaign description goes here...
+                </div>
+            </div>
+
+            <div th:if="${action.videoUrl != null && !action.videoUrl.isEmpty()}" class="content-card" style="margin-top: 20px;">
+                <h2 class="card-title" th:text="#{actions.details.gallery}">Media Gallery</h2>
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+                    <!-- Simple YouTube detection and embed -->
+                    <iframe th:if="${action.videoUrl.contains('youtube.com') || action.videoUrl.contains('youtu.be')}"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            th:src="${action.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}"
+                            allowfullscreen>
+                    </iframe>
+                    <!-- Generic video tag for other links -->
+                    <video th:unless="${action.videoUrl.contains('youtube.com') || action.videoUrl.contains('youtu.be')}"
+                           controls style="width: 100%; border-radius: 8px;">
+                        <source th:src="${action.videoUrl}" type="video/mp4">
+                        <span th:text="#{actions.details.video.unsupported}">Your browser does not support the video tag.</span>
+                    </video>
                 </div>
             </div>
         </div>
 
         <div class="sidebar">
             <div class="sidebar-card">
-                <h3 class="card-title">Make a Donation</h3>
+                <h3 class="card-title" th:text="#{actions.details.make.donation}">Make a Donation</h3>
                 <div th:if="${message}" class="alert alert-success" th:text="${message}" style="margin-bottom: 20px; font-size: 14px; padding: 10px; border-left: 4px solid #28a745; background: #d4edda; color: #155724; border-radius: 4px;"></div>
                 <form th:action="@{/actions/{id}/donate(id=${action.id})}" method="post" class="donation-form">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Amount (DH)</label>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;" th:text="#{actions.details.amount}">Amount (DH)</label>
                         <input type="number" name="amount" min="1" step="0.01" value="10.00" required>
                     </div>
                     <button type="submit" class="btn-action btn-primary">
-                        <i class="fas fa-heart"></i> Donate Now
+                        <i class="fas fa-heart"></i> <span th:text="#{actions.details.donate.now}">Donate Now</span>
                     </button>
                 </form>
             </div>
 
             <div class="sidebar-card">
-                <h3 class="card-title">Volunteer</h3>
+                <h3 class="card-title" th:text="#{actions.details.volunteer}">Volunteer</h3>
                 <div style="margin-top: 15px;">
                     <a th:href="@{/actions/{id}/volunteer(id=${action.id})}" class="btn-action btn-primary" style="background-color: var(--secondary-color); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;">
-                        <i class="fas fa-hands-helping" style="margin-right: 8px;"></i> Sign Up to Help
+                        <i class="fas fa-hands-helping" style="margin-right: 8px;"></i> <span th:text="#{actions.details.signup.help}">Sign Up to Help</span>
                     </a>
                 </div>
             </div>
 
             <div class="sidebar-card">
-                <h3 class="card-title">Organizer</h3>
+                <h3 class="card-title" th:text="#{actions.details.organizer}">Organizer</h3>
                 <div class="org-card">
                     <div class="org-icon">
                         <i class="fas fa-university"></i>
                     </div>
                     <div>
-                        <div style="font-weight: bold;" th:text="${action.organization != null ? action.organization.name : 'Unknown Organization'}">Organization Name</div>
-                        <div style="font-size: 14px; color: #777;">Verified Partner</div>
+                        <div style="font-weight: bold;" th:text="${action.organization != null ? action.organization.name : #messages.msg('actions.details.unknown.org')}">Organization Name</div>
+                        <div style="font-size: 14px; color: #777;" th:text="#{actions.details.verified}">Verified Partner</div>
                     </div>
                 </div>
             </div>

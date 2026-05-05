@@ -19,9 +19,11 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 
 @WebMvcTest(CharityActionController.class)
 class CharityActionControllerTest {
@@ -44,13 +46,16 @@ class CharityActionControllerTest {
     @MockBean
     private EmailService emailService;
 
+    @MockBean
+    private com.charityconnect.service.RecommendationService recommendationService;
+
     @Test
     @WithMockUser(username = "test@example.com")
     void participateShouldRedirectToSimulationWhenEmailSimulated() throws Exception {
-        CharityAction action = CharityAction.builder().id(1L).title("Test Action").status(ActionStatus.ACTIVE).build();
+        CharityAction action = CharityAction.builder().id("1").title("Test Action").status(ActionStatus.ACTIVE).build();
         User user = User.builder().email("test@example.com").firstName("Test").build();
 
-        when(charityActionRepository.findById(1L)).thenReturn(Optional.of(action));
+        when(charityActionRepository.findById("1")).thenReturn(Optional.of(action));
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
         when(emailService.sendVolunteerConfirmation(anyString(), anyString(), anyString()))
                 .thenReturn(new EmailService.MailResponse("SIMULATED", "Subj", "Body", null));
@@ -59,7 +64,7 @@ class CharityActionControllerTest {
                         .with(csrf())
                         .param("email", "test@example.com"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/actions/1?participated&mailSimulated"))
+                .andExpect(redirectedUrlPattern("/actions/1?participated&mailSimulated*"))
                 .andExpect(flash().attribute("simulatedSubject", "Subj"))
                 .andExpect(flash().attribute("simulatedBody", "Body"));
     }

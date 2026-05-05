@@ -8,9 +8,9 @@
 <header th:replace="~{fragments/layout :: header(false)}"></header>
 
 <section class="contact-hero">
-    <span class="section-tag">Get in Touch</span>
-    <h1 class="section-title">Contact Us</h1>
-    <p class="section-subtitle">
+    <span class="section-tag" th:text="#{contact.tag}">Get in Touch</span>
+    <h1 class="section-title" th:text="#{contact.title}">Contact Us</h1>
+    <p class="section-subtitle" th:text="#{contact.subtitle}">
         Have questions about our programs, or want to know how you can help? We'd love to hear from you. Our team is here to support you and provide all the information you need.
     </p>
 </section>
@@ -18,14 +18,14 @@
 <div class="container">
     <div class="contact-grid">
         <div class="contact-info">
-            <h2 class="contact-info-title">Contact Information</h2>
-            <p class="contact-info-desc">Feel free to reach out to us through any of the following channels. We aim to respond to all inquiries within 24 hours.</p>
+            <h2 class="contact-info-title" th:text="#{contact.info.title}">Contact Information</h2>
+            <p class="contact-info-desc" th:text="#{contact.info.desc}">Feel free to reach out to us through any of the following channels. We aim to respond to all inquiries within 24 hours.</p>
             
             <div class="info-list">
                 <div class="info-item">
                     <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div class="info-content">
-                        <h3>Our Location</h3>
+                        <h3 th:text="#{contact.info.location}">Our Location</h3>
                         <p>123 Boulevard d'Anfa, Suite 104<br>Casablanca 20000, Morocco</p>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="info-item">
                     <div class="info-icon"><i class="fas fa-phone"></i></div>
                     <div class="info-content">
-                        <h3>Phone Number</h3>
+                        <h3 th:text="#{contact.info.phone}">Phone Number</h3>
                         <p>+212 522-123456</p>
                     </div>
                 </div>
@@ -41,14 +41,14 @@
                 <div class="info-item">
                     <div class="info-icon"><i class="fas fa-envelope"></i></div>
                     <div class="info-content">
-                        <h3>Email Address</h3>
+                        <h3 th:text="#{contact.info.email}">Email Address</h3>
                         <p>contact@charityconnect.ma</p>
                     </div>
                 </div>
             </div>
 
             <div class="social-box">
-                <h3>Follow Us</h3>
+                <h3 th:text="#{contact.follow_us}">Follow Us</h3>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -62,26 +62,26 @@
             <form action="#" class="contact-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="Enter your full name" required>
+                        <label for="name" th:text="#{contact.form.name}">Full Name</label>
+                        <input type="text" id="name" th:placeholder="#{contact.form.name.placeholder}" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <label for="email" th:text="#{contact.form.email}">Email Address</label>
+                        <input type="email" id="email" th:placeholder="#{contact.form.email.placeholder}" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" placeholder="What is this regarding?" required>
+                    <label for="subject" th:text="#{contact.form.subject}">Subject</label>
+                    <input type="text" id="subject" th:placeholder="#{contact.form.subject.placeholder}" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" rows="6" placeholder="Write your message here..." required></textarea>
+                    <label for="message" th:text="#{contact.form.message}">Message</label>
+                    <textarea id="message" rows="6" th:placeholder="#{contact.form.message.placeholder}" required></textarea>
                 </div>
                 
-                <button type="submit" class="btn-send">Send Message <i class="fas fa-paper-plane"></i></button>
+                <button type="submit" class="btn-send"><span th:text="#{contact.form.send}">Send Message</span> <i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     </div>

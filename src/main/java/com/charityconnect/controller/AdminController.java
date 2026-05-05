@@ -55,7 +55,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/organizations/{id}/approve")
-    public String approveOrganization(@PathVariable Long id,
+    public String approveOrganization(@PathVariable String id,
                                       RedirectAttributes redirectAttributes) {
         Organization organization = organizationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Organization not found."));
@@ -121,7 +121,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/actions/{id}/archive")
-    public String archiveAction(@PathVariable Long id,
+    public String archiveAction(@PathVariable String id,
                                 RedirectAttributes redirectAttributes) {
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Action not found."));
@@ -133,7 +133,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/users/{id}/toggle-enabled")
-    public String toggleUserEnabled(@PathVariable Long id,
+    public String toggleUserEnabled(@PathVariable String id,
                                     RedirectAttributes redirectAttributes) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));

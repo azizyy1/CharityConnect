@@ -185,24 +185,6 @@ public class DataInitializer {
                         .status(ActionStatus.ACTIVE)
                         .organization(organization)
                         .build());
-
-                    // Add demo participations for some actions
-                    if (i < 3) {
-                        participationRepository.save(com.charityconnect.model.Participation.builder()
-                                .user(demoUser)
-                                .charityAction(action)
-                                .participationDate(java.time.LocalDateTime.now().minusDays(i + 1))
-                                .note("I'm happy to help with this important cause!")
-                                .build());
-
-                        donationRepository.save(com.charityconnect.model.Donation.builder()
-                                .amount(new BigDecimal(100 + random.nextInt(400)))
-                                .user(demoUser)
-                                .charityAction(action)
-                                .donationDate(java.time.LocalDateTime.now().minusDays(i + 1))
-                                .status(com.charityconnect.model.DonationStatus.SUCCESS)
-                                .build());
-                    }
                 }
             }
         };

@@ -1,15 +1,5 @@
 package com.charityconnect.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -20,8 +10,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-@Entity
+@Document(collection = "donations")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,39 +23,24 @@ import lombok.Setter;
 public class Donation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotNull(message = "Amount is required.")
     @Positive(message = "Donation amount must be positive.")
-    @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal amount;
 
     @NotNull(message = "Donation date is required.")
-    @Column(nullable = false)
-    private LocalDateTime donationDate;
+    @Builder.Default
+    private LocalDateTime donationDate = LocalDateTime.now();
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DonationStatus status;
+    @Builder.Default
+    private DonationStatus status = DonationStatus.SUCCESS;
 
     @Valid
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @DocumentReference
     private User user;
 
     @Valid
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "charity_action_id", nullable = false)
+    @DocumentReference
     private CharityAction charityAction;
-
-    @PrePersist
-    void onCreate() {
-        if (donationDate == null) {
-            donationDate = LocalDateTime.now();
-        }
-        if (status == null) {
-            status = DonationStatus.SUCCESS;
-        }
-    }
 }

@@ -34,11 +34,18 @@ public class SecurityConfig {
                         .successHandler(customSuccessHandler)
                         .permitAll())
                 .logout(logout -> logout
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll());
 
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
-        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+        http.headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
+                .cacheControl(cache -> {}) // Default headers: no-cache, no-store, max-age=0, must-revalidate
+        );
 
         return http.build();
     }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('500 Server Error', ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/layout :: header(false)}"></header>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h1>400</h1>
+        <h2>Bad Request</h2>
+        <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+        <p th:unless="${errorMessage}">We're experiencing some technical difficulties. Please try again later or contact support if the problem persists.</p>
+        
+        <a th:href="@{/}" class="btn-home">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+
+        <div th:if="${path}" class="debug-info">
+            Path: <span th:text="${path}"></span>
+        </div>
+    </div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

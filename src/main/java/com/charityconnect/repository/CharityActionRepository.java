@@ -6,9 +6,9 @@ import com.charityconnect.model.Organization;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface CharityActionRepository extends JpaRepository<CharityAction, Long> {
+public interface CharityActionRepository extends MongoRepository<CharityAction, String> {
 
     List<CharityAction> findByStatus(ActionStatus status);
 
@@ -20,7 +20,7 @@ public interface CharityActionRepository extends JpaRepository<CharityAction, Lo
 
     List<CharityAction> findByOrganization(Organization organization);
 
-    Optional<CharityAction> findByIdAndOrganization(Long id, Organization organization);
+    Optional<CharityAction> findByIdAndOrganization(String id, Organization organization);
 
     List<CharityAction> findByStatusOrderByStartDateDesc(ActionStatus status);
 

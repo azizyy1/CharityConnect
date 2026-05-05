@@ -4,9 +4,9 @@ import com.charityconnect.model.CharityAction;
 import com.charityconnect.model.Participation;
 import com.charityconnect.model.User;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface ParticipationRepository extends JpaRepository<Participation, Long> {
+public interface ParticipationRepository extends MongoRepository<Participation, String> {
 
     List<Participation> findByUserOrderByParticipationDateDesc(User user);
 

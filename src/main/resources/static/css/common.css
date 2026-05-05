@@ -45,7 +45,7 @@ header {
 }
 
 .logo i {
-    margin-right: 10px;
+    margin-inline-end: 10px;
 }
 
 nav {
@@ -88,6 +88,22 @@ nav a:hover, .btn-logout:hover {
     background-color: #d44834;
 }
 
+.btn-lang {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color) !important;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.btn-lang:hover {
+    background-color: var(--primary-color);
+    color: white !important;
+}
+
 .btn-logout {
     background: none;
     border: none;
@@ -95,7 +111,7 @@ nav a:hover, .btn-logout:hover {
     color: var(--text-dark);
     font-weight: 500;
     font-size: 16px;
-    margin-left: 20px;
+    margin-inline-start: 20px;
     transition: 0.3s;
     font-family: inherit;
     display: inline-flex;

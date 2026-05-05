@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:with="lang=${#locale.language}" th:lang="${lang}" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title, extraStyles)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <th:block th:replace="${extraStyles} ?: ~{}"></th:block>
+    <script>
+        // Prevent showing cached pages when using the back button after logout
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted || (typeof window.performance != "undefined" && window.performance.navigation.type === 2)) {
+                window.location.reload();
+            }
+        });
+    </script>
 </head>
 <body>
 
@@ -14,25 +22,28 @@
     <a th:href="@{/}" class="logo">CharityConnect</a>
 
     <nav>
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/actions}">Donations</a>
-        <a th:href="@{/about}">About</a>
-        <a th:href="@{/events}">Events</a>
-        <a th:href="@{/blog}">Blog</a>
-        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/}" th:text="#{nav.home}">Home</a>
+        <a th:href="@{/actions}" th:text="#{nav.donations}">Donations</a>
+        <a th:if="${#authorization.expression('hasRole(''USER'')')}" th:href="@{/recommendations}" th:text="#{nav.recommendations}">Recommendations</a>
+        <a th:href="@{/about}" th:text="#{nav.about}">About</a>
+        <a th:href="@{/events}" th:text="#{nav.events}">Events</a>
+        <a th:href="@{/blog}" th:text="#{nav.blog}">Blog</a>
+        <a th:href="@{/contact}" th:text="#{nav.contact}">Contact</a>
     </nav>
 
     <div class="header-actions">
+        <a th:if="${#locale.language == 'fr'}" th:href="@{${currentUri ?: ''}(lang='en')}" class="btn-lang">English</a>
+        <a th:if="${#locale.language != 'fr'}" th:href="@{${currentUri ?: ''}(lang='fr')}" class="btn-lang">Français</a>
         <th:block th:if="${#authorization.expression('isAuthenticated()')}">
             <th:block th:if="${#authorization.expression('hasRole(''ORGANIZATION'')')}">
-                <a th:href="@{/organization/profile}" class="btn-donate-now">Profile</a>
+                <a th:href="@{/organization/profile}" class="btn-donate-now" th:text="#{nav.profile}">Profile</a>
             </th:block>
             <th:block th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <a th:href="@{/user/profile}" class="btn-donate-now">Profile</a>
+                <a th:href="@{/user/profile}" class="btn-donate-now" th:text="#{nav.profile}">Profile</a>
             </th:block>
         </th:block>
         <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
-            <a th:href="@{/login}" class="btn-donate-now">Profile</a>
+            <a th:href="@{/login}" class="btn-donate-now" th:text="#{nav.login}">Profile</a>
         </th:block>
     </div>
 </header>
@@ -43,7 +54,7 @@
             <a th:href="@{/}" class="logo" style="color: #fff; margin-bottom: 25px; display: block;">
                 <i class="fas fa-heart"></i> CharityConnect
             </a>
-            <p>
+            <p th:text="#{footer.about.text}">
                 At CharityConnect, we stand beside the forgotten and underserved. Through community projects, emergency aid, and long-term support, we aim to restore hope where it's needed most.
             </p>
             <div class="social-icons">
@@ -54,34 +65,34 @@
             </div>
         </div>
         <div class="footer-col">
-            <h4>CharityConnect</h4>
+            <h4 th:text="#{nav.home}">CharityConnect</h4>
             <ul>
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/about}">About Us</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a th:href="@{/actions}">Donations</a></li>
-                <li><a th:href="@{/volunteer}">Volunteers</a></li>
+                <li><a th:href="@{/}" th:text="#{nav.home}">Home</a></li>
+                <li><a th:href="@{/about}" th:text="#{nav.about}">About Us</a></li>
+                <li><a href="#" th:text="#{nav.shop}">Shop</a></li>
+                <li><a th:href="@{/actions}" th:text="#{nav.donations}">Donations</a></li>
+                <li><a th:href="@{/volunteer}" th:text="#{nav.volunteer}">Volunteers</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Legal</h4>
+            <h4 th:text="#{footer.legal}">Legal</h4>
             <ul>
                 <li><a href="#">Cookie Policy</a></li>
                 <li><a href="#">Terms & Conditions</a></li>
                 <li><a href="#">Refund and Returns Policy</a></li>
                 <li><a href="#">Donation Policy</a></li>
-                <li><a th:href="@{/contact}">Contact Us</a></li>
+                <li><a th:href="@{/contact}" th:text="#{nav.contact}">Contact Us</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Stay Connected</h4>
+            <h4 th:text="#{footer.stay_connected}">Stay Connected</h4>
             <p><i class="fas fa-phone" style="margin-right: 10px;"></i> +212 522-123456</p>
             <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@charityconnect.ma</p>
             <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 123 Boulevard d'Anfa, Suite 104<br>Casablanca 20000, Morocco</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2025 CharityConnect. All rights reserved. Powered by <strong>Gloria Themes</strong>.</p>
+        <p>&copy; 2025 CharityConnect. <span th:text="#{footer.rights}">All rights reserved.</span> Powered by <strong>Gloria Themes</strong>.</p>
     </div>
 </footer>
 

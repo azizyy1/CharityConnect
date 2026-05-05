@@ -1,17 +1,24 @@
 package com.charityconnect.security;
 
+import com.charityconnect.model.User;
+import com.charityconnect.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -31,7 +38,17 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 break;
             }
             if ("ROLE_USER".equals(role)) {
-                redirectUrl = "/";
+                Optional<User> userOpt = userRepository.findByEmail(authentication.getName());
+                if (userOpt.isPresent()) {
+                    User user = userOpt.get();
+                    if (user.getInterests() == null || user.getInterests().isEmpty()) {
+                        redirectUrl = "/user/interests";
+                    } else {
+                        redirectUrl = "/";
+                    }
+                } else {
+                    redirectUrl = "/";
+                }
                 break;
             }
         }

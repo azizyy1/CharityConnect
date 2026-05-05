@@ -82,6 +82,29 @@ public class UserController {
         return "user/profile-edit";
     }
 
+    @GetMapping("/user/interests")
+    public String selectInterestsForm(Authentication authentication, Model model) {
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+        model.addAttribute("user", user);
+        return "user/interests";
+    }
+
+    @PostMapping("/user/interests")
+    public String saveInterests(@org.springframework.validation.annotation.Validated User formUser,
+                                 org.springframework.validation.BindingResult bindingResult,
+                                 Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        user.setInterests(formUser.getInterests());
+        userRepository.save(user);
+        
+        redirectAttributes.addFlashAttribute("message", "Interests updated successfully. Welcome!");
+        return "redirect:/";
+    }
+
     @PostMapping("/user/profile/edit")
     public String updateProfile(@org.springframework.validation.annotation.Validated User formUser,
                                  org.springframework.validation.BindingResult bindingResult,
@@ -97,6 +120,7 @@ public class UserController {
         user.setFirstName(formUser.getFirstName());
         user.setLastName(formUser.getLastName());
         user.setPhone(formUser.getPhone());
+        user.setInterests(formUser.getInterests());
 
         userRepository.save(user);
         redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");

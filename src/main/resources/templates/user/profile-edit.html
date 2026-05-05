@@ -39,6 +39,18 @@
                 </div>
             </div>
 
+            <div class="interests-section" style="margin-top: 30px;">
+                <label style="display: block; font-weight: 700; margin-bottom: 15px;">My Interests (for recommendations)</label>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <div th:each="cat : ${ {'Education', 'Health', 'Environment', 'Food', 'Youth', 'Urgent'} }">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff; padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd;">
+                            <input type="checkbox" th:field="*{interests}" th:value="${cat}">
+                            <span th:text="${cat}">Category</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <div style="margin-top: 20px;">
                 <button type="submit" class="btn-submit">
                     <i class="fas fa-save"></i> Save Changes

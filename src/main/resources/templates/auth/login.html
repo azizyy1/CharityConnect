@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:with="lang=${#locale.language}" th:lang="${lang}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in to CharityConnect</title>
+    <title th:text="#{auth.login.title} + ' - CharityConnect'">Sign in to CharityConnect</title>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
@@ -11,40 +11,40 @@
     <div class="auth-container">
         <a th:href="@{/}" class="close-btn">&times;</a>
         
-        <h2>Sign in to CharityConnect</h2>
+        <h2 th:text="#{auth.login.title}">Sign in to CharityConnect</h2>
 
-        <div th:if="${param.error}" class="alert alert-error">Invalid email or password.</div>
-        <div th:if="${param.logout}" class="alert alert-info">Successfully logged out.</div>
+        <div th:if="${param.error}" class="alert alert-error" th:text="#{auth.login.error}">Invalid email or password.</div>
+        <div th:if="${param.logout}" class="alert alert-info" th:text="#{auth.login.logout_success}">Successfully logged out.</div>
         <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
-        <div th:if="${param.organization_pending}" class="alert alert-info">Your organization registration is pending admin validation.</div>
-        <div th:if="${param.pending_admin_validation}" class="alert alert-info">Organization account created: pending admin validation.</div>
+        <div th:if="${param.organization_pending}" class="alert alert-info" th:text="#{auth.login.org_pending}">Your organization registration is pending admin validation.</div>
+        <div th:if="${param.pending_admin_validation}" class="alert alert-info" th:text="#{auth.login.org_pending}">Organization account created: pending admin validation.</div>
 
         <form th:action="@{/login}" method="post">
             <div class="form-group">
-                <input type="email" name="username" class="form-control" placeholder="Username or Email Address" required>
+                <input type="email" name="username" class="form-control" th:placeholder="#{auth.login.username.placeholder}" required>
                 <span class="input-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3y-3.5L15.5 7.5z"></path></svg>
                 </span>
             </div>
 
             <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" class="form-control" th:placeholder="#{auth.login.password.placeholder}" required>
             </div>
 
             <label class="checkbox-container">
                 <input type="checkbox" name="remember-me">
-                Remember Me
+                <span th:text="#{auth.login.remember_me}">Remember Me</span>
             </label>
 
             <button type="submit" class="btn-submit">
-                Sign In 
+                <span th:text="#{auth.login.submit}">Sign In</span> 
                 <span class="arrow-circle">&rarr;</span>
             </button>
         </form>
 
         <div class="auth-footer">
-            <a href="#">Lost Your Password?</a>
-            <a th:href="@{/register}">Create Account</a>
+            <a href="#" th:text="#{auth.login.lost_password}">Lost Your Password?</a>
+            <a th:href="@{/register}" th:text="#{auth.login.create_account}">Create Account</a>
         </div>
     </div>
 

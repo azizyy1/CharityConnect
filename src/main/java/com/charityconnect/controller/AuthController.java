@@ -10,11 +10,13 @@ import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
 import com.charityconnect.repository.DonationRepository;
 import com.charityconnect.repository.ParticipationRepository;
+import com.charityconnect.service.RecommendationService;
 import java.math.BigDecimal;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -37,16 +39,23 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final DonationRepository donationRepository;
     private final ParticipationRepository participationRepository;
+    private final RecommendationService recommendationService;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, Authentication authentication) {
         model.addAttribute("actions", charityActionRepository.findByStatus(ActionStatus.ACTIVE));
         
-        long activeCampaigns = charityActionRepository.countByStatus(ActionStatus.ACTIVE);
+        if (authentication != null && authentication.isAuthenticated()) {
+            userRepository.findByEmail(authentication.getName()).ifPresent(user -> {
+                model.addAttribute("recommendations", recommendationService.getRecommendations(user));
+            });
+        }
+        
+        long totalCampaigns = 16;
         BigDecimal totalDonations = donationRepository.sumAllDonations();
         long volunteerHours = participationRepository.count() * 4; // Arbitrary calculation for display
 
-        model.addAttribute("activeCampaigns", activeCampaigns);
+        model.addAttribute("totalCampaigns", totalCampaigns);
         model.addAttribute("totalDonations", totalDonations);
         model.addAttribute("volunteerHours", volunteerHours);
         
@@ -65,7 +74,7 @@ public class AuthController {
     }
 
     @GetMapping("/events/register/{id}")
-    public String registerEventPage(@PathVariable Long id, Model model) {
+    public String registerEventPage(@PathVariable String id, Model model) {
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found."));
         model.addAttribute("event", action);

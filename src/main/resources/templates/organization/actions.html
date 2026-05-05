@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Actions - CharityConnect</title>
+    <title th:text="#{org.sidebar.actions} + ' - CharityConnect'">My Actions - CharityConnect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/organization-actions.css}">
 </head>
@@ -16,34 +16,36 @@
         <div class="sidebar-menu">
             <a th:href="@{/organization/dashboard}">
                 <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
+                <span th:text="#{org.sidebar.dashboard}">Dashboard</span>
             </a>
             <a th:href="@{/organization/profile}">
-                <i class="fas fa-building"></i> <span>Profile</span>
+                <i class="fas fa-building"></i> <span th:text="#{org.sidebar.profile}">Profile</span>
             </a>
             <a th:href="@{/organization/actions}" class="active">
                 <i class="fas fa-hand-holding-heart"></i>
-                <span>My Actions</span>
+                <span th:text="#{org.sidebar.actions}">My Actions</span>
             </a>
             <a th:href="@{/actions}">
                 <i class="fas fa-globe"></i>
-                <span>Public List</span>
+                <span th:text="#{org.sidebar.public}">Public List</span>
             </a>
         </div>
         <div class="sidebar-footer">
-            <a th:href="@{/logout}" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sign Out</span>
-            </a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn" style="background: none; border: none; width: 100%; text-align: left; padding: 0; cursor: pointer; color: inherit; font-family: inherit; font-size: inherit;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span th:text="#{org.sidebar.signout}">Sign Out</span>
+                </button>
+            </form>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header">
-            <h1 th:text="'My Actions (' + ${organization.name} + ')'">My Actions</h1>
+            <h1 th:text="${#messages.msg('org.actions.title', organization.name)}">My Actions</h1>
             <a th:href="@{/organization/actions/new}" class="btn-create">
                 <i class="fas fa-plus"></i>
-                New Action
+                <span th:text="#{org.actions.new}">New Action</span>
             </a>
         </div>
 
@@ -53,12 +55,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Target</th>
-                        <th>Collected</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th th:text="#{org.actions.table.title}">Title</th>
+                        <th th:text="#{org.actions.table.category}">Category</th>
+                        <th th:text="#{org.actions.table.target}">Target</th>
+                        <th th:text="#{org.actions.table.collected}">Collected</th>
+                        <th th:text="#{org.actions.table.status}">Status</th>
+                        <th th:text="#{org.actions.table.actions}">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +87,7 @@
                                   th:action="@{/organization/actions/{id}/archive(id=${action.id})}"
                                   method="post" style="display:inline">
                                 <button type="submit" class="btn-icon btn-archive" title="Archive Action" 
-                                        onclick="return confirm('Are you sure you want to archive this action? This will stop accepting donations and remove it from the public list.')">
+                                        th:attr="onclick='return confirm(\'' + #{org.actions.confirm.archive} + '\')'">
                                     <i class="fas fa-archive"></i>
                                 </button>
                             </form>

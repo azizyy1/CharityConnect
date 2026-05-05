@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Volunteer Opportunities', ~{::link})}">
+<head th:replace="~{fragments/layout :: head(#{volunteer.list.title}, ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/events.css}">
 </head>
 <body>
@@ -8,9 +8,9 @@
 <header th:replace="~{fragments/layout :: header(false)}"></header>
 
 <section class="events-hero">
-    <span class="section-tag">Give your time, change a life.</span>
-    <h1 class="section-title">Volunteer Opportunities</h1>
-    <p class="section-subtitle">
+    <span class="section-tag" th:text="#{volunteer.list.tag}">Give your time, change a life.</span>
+    <h1 class="section-title" th:text="#{volunteer.list.title}">Volunteer Opportunities</h1>
+    <p class="section-subtitle" th:text="#{volunteer.list.subtitle}">
         Join our network of passionate volunteers and contribute to meaningful projects. Whether it's for an hour or a long-term commitment, your skills and dedication make a real impact on our community.
     </p>
 </section>
@@ -20,7 +20,7 @@
         <!-- Message if no opportunities -->
         <div th:if="${#lists.isEmpty(opportunities)}" style="padding: 40px; text-align: center; color: #777;">
             <i class="fas fa-hands-helping" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-            <p>No active volunteer opportunities at the moment. Please check back later!</p>
+            <p th:text="#{volunteer.list.empty}">No active volunteer opportunities at the moment. Please check back later!</p>
         </div>
 
         <!-- Opportunity Cards (using same layout as events) -->
@@ -35,7 +35,7 @@
             </div>
             <div class="event-organizer">
                 <span class="organizer-name" th:text="${opp.organization.name}">Organizer</span>
-                <span class="organizer-label">Organization</span>
+                <span class="organizer-label" th:text="#{volunteer.list.organization}">Organization</span>
             </div>
             <div class="event-location">
                 <span class="location-name" th:text="${opp.location}">Location</span>

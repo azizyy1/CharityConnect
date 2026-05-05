@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Our Events', ~{::link})}">
+<head th:replace="~{fragments/layout :: head(#{events.list.title}, ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/events.css}">
 </head>
 <body>
@@ -8,9 +8,9 @@
 <header th:replace="~{fragments/layout :: header(false)}"></header>
 
 <section class="events-hero">
-    <span class="section-tag">Join moments that make change.</span>
-    <h1 class="section-title">Our Events</h1>
-    <p class="section-subtitle">
+    <span class="section-tag" th:text="#{events.list.tag}">Join moments that make change.</span>
+    <h1 class="section-title" th:text="#{events.list.title}">Our Events</h1>
+    <p class="section-subtitle" th:text="#{events.list.subtitle}">
         From fundraising galas to workshops, CharityConnect organizes events that unite people for a common purpose. Each gathering is a chance to connect, inspire, and act — building a world where compassion drives transformation.
     </p>
 </section>
@@ -20,7 +20,7 @@
         <!-- Message if no events -->
         <div th:if="${#lists.isEmpty(events)}" style="padding: 40px; text-align: center; color: #777;">
             <i class="fas fa-calendar-times" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
-            <p>No upcoming events at the moment. Please check back later!</p>
+            <p th:text="#{events.list.empty}">No upcoming events at the moment. Please check back later!</p>
         </div>
 
         <!-- Event Cards -->
@@ -35,7 +35,7 @@
             </div>
             <div class="event-organizer">
                 <span class="organizer-name" th:text="${event.organization.name}">Youssef Amrani</span>
-                <span class="organizer-label">Organizer</span>
+                <span class="organizer-label" th:text="#{events.list.organizer}">Organizer</span>
             </div>
             <div class="event-location">
                 <span class="location-name" th:text="${event.location}">Palais des Congrès</span>

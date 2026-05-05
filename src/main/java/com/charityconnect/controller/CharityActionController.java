@@ -9,6 +9,7 @@ import com.charityconnect.repository.ParticipationRepository;
 import com.charityconnect.repository.UserRepository;
 import com.charityconnect.service.DonationService;
 import com.charityconnect.service.EmailService;
+import com.charityconnect.service.RecommendationService;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -29,6 +30,7 @@ public class CharityActionController {
     private final ParticipationRepository participationRepository;
     private final DonationService donationService;
     private final EmailService emailService;
+    private final RecommendationService recommendationService;
 
     @GetMapping("/actions")
     public String listActions(@RequestParam(required = false) String category,
@@ -45,8 +47,21 @@ public class CharityActionController {
         return "action/list";
     }
 
+    @GetMapping("/recommendations")
+    public String showRecommendations(Authentication authentication, Model model) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        model.addAttribute("recommendations", recommendationService.getRecommendations(user));
+        return "action/recommendations";
+    }
+
     @GetMapping("/actions/{id}")
-    public String actionDetails(@PathVariable Long id, Model model) {
+    public String actionDetails(@PathVariable String id, Model model) {
         CharityAction action = charityActionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Action not found."));
 
@@ -56,7 +71,7 @@ public class CharityActionController {
     }
 
     @GetMapping("/actions/{id}/volunteer")
-    public String volunteerForm(@PathVariable Long id, Authentication authentication, Model model) {
+    public String volunteerForm(@PathVariable String id, Authentication authentication, Model model) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return "redirect:/login";
         }
@@ -73,7 +88,7 @@ public class CharityActionController {
     }
 
     @PostMapping("/actions/{id}/donate")
-    public String donate(@PathVariable Long id,
+    public String donate(@PathVariable String id,
                          @RequestParam BigDecimal amount,
                          Authentication authentication,
                          RedirectAttributes redirectAttributes) {
@@ -81,14 +96,14 @@ public class CharityActionController {
     }
 
     @PostMapping("/actions/donate-home")
-    public String donateHome(@RequestParam Long actionId,
+    public String donateHome(@RequestParam String actionId,
                              @RequestParam BigDecimal amount,
                              Authentication authentication,
                              RedirectAttributes redirectAttributes) {
         return processDonation(actionId, amount, authentication, redirectAttributes);
     }
 
-    private String processDonation(Long id, BigDecimal amount, Authentication authentication, RedirectAttributes redirectAttributes) {
+    private String processDonation(String id, BigDecimal amount, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null || !authentication.isAuthenticated()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Please log in to make a donation.");
             return "redirect:/login";
@@ -105,7 +120,7 @@ public class CharityActionController {
         return "redirect:/actions/" + id;
     }
     @PostMapping("/actions/{id}/participate")
-    public String participate(@PathVariable Long id,
+    public String participate(@PathVariable String id,
                               @RequestParam(required = false) String note,
                               @RequestParam(required = false) String phone,
                               @RequestParam(required = false) String email,

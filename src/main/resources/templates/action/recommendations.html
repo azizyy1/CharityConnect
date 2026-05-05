@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head(#{actions.list.title}, ~{::link})}">
+<head th:replace="~{fragments/layout :: head(#{index.recommendations.tag}, ~{::link})}">
     <link rel="stylesheet" th:href="@{/css/actions.css}">
 </head>
 <body>
@@ -9,29 +9,23 @@
 
 <div class="container">
     <div class="page-header">
-        <h1 th:text="#{actions.list.title}">Current Donation Campaigns</h1>
-        <p th:text="#{actions.list.subtitle}">Help us make a difference by supporting these causes</p>
+        <h1 th:text="#{index.recommendations.tag}">Recommended for you</h1>
+        <p th:text="#{index.recommendations.title}">Based on your interests and past donations</p>
     </div>
 
-    <div class="search-bar">
-        <form th:action="@{/actions}" method="get">
-            <input type="text" name="category" th:placeholder="#{actions.list.search.category}">
-            <button type="submit" class="btn-filter" th:text="#{actions.list.filter}">Filter</button>
-        </form>
-        <form th:action="@{/actions}" method="get">
-            <input type="text" name="keyword" th:placeholder="#{actions.list.search.keyword}">
-            <button type="submit" class="btn-filter" th:text="#{actions.list.search}">Search</button>
-        </form>
+    <div th:if="${#lists.isEmpty(recommendations)}" class="no-recommendations" style="text-align: center; margin: 50px 0;">
+        <p th:text="#{profile.edit.interests.help}">Tell us what you're interested in to get personalized recommendations!</p>
+        <a th:href="@{/user/profile/edit}" class="btn-details" style="display: inline-block; margin-top: 20px;" th:text="#{profile.edit.title}">Update Profile</a>
     </div>
 
-    <div class="action-grid">
-        <div th:each="action : ${actions}" class="action-card">
+    <div class="action-grid" th:if="${not #lists.isEmpty(recommendations)}">
+        <div th:each="action : ${recommendations}" class="action-card">
             <div class="card-image">
                 <img th:src="${action.image != null && !action.image.isEmpty() ? action.image : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}" alt="Action Image" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
             </div>
             <div class="card-content">
-                <span class="card-category" th:text="#{${'category.' + action.category.toLowerCase()}}">Category</span>
-                <h2 class="card-title" th:text="${#messages.msgOrNull('demo.action.' + action.title.toLowerCase().split(' ')[0] + '.title') ?: action.title}">Action Title</h2>
+                <span class="card-category" th:text="${action.category}">Category</span>
+                <h2 class="card-title" th:text="${action.title}">Action Title</h2>
                 
                 <div class="card-progress">
                     <div class="progress-bar">

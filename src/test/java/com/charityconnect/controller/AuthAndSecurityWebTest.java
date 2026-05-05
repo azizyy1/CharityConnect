@@ -8,8 +8,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -65,6 +67,9 @@ class AuthAndSecurityWebTest {
     @MockBean
     private com.charityconnect.service.EmailService emailService;
 
+    @MockBean
+    private com.charityconnect.service.RecommendationService recommendationService;
+
     @Test
     void loginPageShouldBeAccessibleWithoutAuthentication() throws Exception {
         mockMvc.perform(get("/login"))
@@ -85,7 +90,7 @@ class AuthAndSecurityWebTest {
                         .param("password", "password123")
                         .param("phone", "0102030405"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login?registered"));
+                .andExpect(redirectedUrlPattern("/login?registered*"));
 
         verify(userRepository).save(any());
     }
@@ -123,6 +128,21 @@ class AuthAndSecurityWebTest {
                         .with(user("user@test.com").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/dashboard"));
+    }
+
+    @Test
+    void protectedUserRouteShouldHaveCacheControlHeaders() throws Exception {
+        User user = User.builder().email("user@test.com").firstName("Test").lastName("User").build();
+        when(userRepository.findByEmail("user@test.com")).thenReturn(java.util.Optional.of(user));
+        when(donationRepository.findByUserOrderByDonationDateDesc(any())).thenReturn(java.util.List.of());
+        when(participationRepository.findByUserOrderByParticipationDateDesc(any())).thenReturn(java.util.List.of());
+
+        mockMvc.perform(get("/user/dashboard")
+                        .with(user("user@test.com").roles("USER")))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate"))
+                .andExpect(header().string("Pragma", "no-cache"))
+                .andExpect(header().string("Expires", "0"));
     }
 
     @Test

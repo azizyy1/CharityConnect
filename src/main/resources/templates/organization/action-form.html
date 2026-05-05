@@ -28,10 +28,12 @@
             </a>
         </div>
         <div class="sidebar-footer">
-            <a th:href="@{/logout}" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sign Out</span>
-            </a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn" style="background: none; border: none; width: 100%; text-align: left; padding: 0; cursor: pointer; color: inherit; font-family: inherit; font-size: inherit;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -43,7 +45,7 @@
         <div class="form-card">
             <form th:object="${action}"
                   th:action="${formMode == 'create'} ? @{/organization/actions} : @{/organization/actions/{id}(id=${action.id})}"
-                  method="post">
+                  method="post" enctype="multipart/form-data">
                 
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -78,9 +80,18 @@
                     <div class="form-group">
                         <label>Image URL</label>
                         <input type="text" th:field="*{image}" class="form-control" placeholder="https://example.com/image.jpg" id="imageInput">
+                        <label style="margin-top: 5px; display: block; font-size: 0.8em; color: #666;">Or upload a file:</label>
+                        <input type="file" th:field="*{imageFile}" class="form-control" accept="image/*">
                         <div id="imagePreview" style="margin-top: 10px; display: none;">
                             <img src="" alt="Preview" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Video URL (YouTube/MP4)</label>
+                        <input type="text" th:field="*{videoUrl}" class="form-control" placeholder="https://www.youtube.com/watch?v=..." id="videoInput">
+                        <label style="margin-top: 5px; display: block; font-size: 0.8em; color: #666;">Or upload a video file:</label>
+                        <input type="file" th:field="*{videoFile}" class="form-control" accept="video/*">
                     </div>
 
                     <div class="form-group">

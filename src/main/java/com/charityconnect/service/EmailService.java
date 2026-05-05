@@ -1,8 +1,9 @@
 package com.charityconnect.service;
 
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,13 +28,15 @@ public class EmailService {
                 "Best regards,\n" +
                 "CharityConnect Team";
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        
         try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setFrom(fromEmail, "CharityConnect");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body);
+            
             boolean isPlaceholder = fromEmail == null || fromEmail.isBlank() || fromEmail.contains("your-gmail@gmail.com") 
                                     || mailPassword == null || mailPassword.contains("your-app-password");
             
@@ -44,7 +47,7 @@ public class EmailService {
                 return new MailResponse("SIMULATED", subject, body, null);
             }
             
-            System.out.println("[DEBUG_LOG] Sending email to: " + to + " from: " + fromEmail);
+            System.out.println("[DEBUG_LOG] Sending email to: " + to + " from: CharityConnect <" + fromEmail + ">");
             mailSender.send(message);
             System.out.println("[DEBUG_LOG] Email sent successfully to " + to + "!");
             return new MailResponse("SUCCESS", subject, body, null);

@@ -1,16 +1,5 @@
 package com.charityconnect.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,8 +10,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.web.multipart.MultipartFile;
 
-@Entity
+@Document(collection = "charity_actions")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,32 +25,27 @@ import lombok.Setter;
 public class CharityAction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Title is required.")
-    @Column(nullable = false)
     private String title;
 
     @NotBlank(message = "Description is required.")
-    @Column(length = 3000)
     private String description;
 
     @NotBlank(message = "Category is required.")
-    @Column(nullable = false)
     private String category;
 
     private String location;
 
     @NotNull(message = "Target amount is required.")
     @DecimalMin(value = "0.01", inclusive = true, message = "Target amount must be positive.")
-    @Column(nullable = false, precision = 14, scale = 2)
-    private BigDecimal targetAmount;
+    @Builder.Default
+    private BigDecimal targetAmount = BigDecimal.ZERO;
 
-    @NotNull(message = "Collected amount is required.")
     @DecimalMin(value = "0.00", inclusive = true, message = "Collected amount cannot be negative.")
-    @Column(nullable = false, precision = 14, scale = 2)
-    private BigDecimal collectedAmount;
+    @Builder.Default
+    private BigDecimal collectedAmount = BigDecimal.ZERO;
 
     @NotNull(message = "Start date is required.")
     private LocalDate startDate;
@@ -65,26 +54,17 @@ public class CharityAction {
     private LocalDate endDate;
 
     private String image;
+    private String videoUrl;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ActionStatus status;
+    @Transient
+    private MultipartFile imageFile;
 
-    @Valid
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "organization_id", nullable = false)
+    @Transient
+    private MultipartFile videoFile;
+
+    @Builder.Default
+    private ActionStatus status = ActionStatus.ACTIVE;
+
+    @DocumentReference
     private Organization organization;
-
-    @PrePersist
-    void onCreate() {
-        if (targetAmount == null) {
-            targetAmount = BigDecimal.ZERO;
-        }
-        if (collectedAmount == null) {
-            collectedAmount = BigDecimal.ZERO;
-        }
-        if (status == null) {
-            status = ActionStatus.ACTIVE;
-        }
-    }
 }

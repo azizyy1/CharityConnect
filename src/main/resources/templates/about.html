@@ -8,34 +8,34 @@
 <header th:replace="~{fragments/layout :: header(false)}"></header>
 
 <section class="hero-about">
-    <h1>About CharityConnect</h1>
+    <h1 th:text="#{about.title}">About CharityConnect</h1>
 </section>
 
 <div class="container">
     <div class="content-card">
-        <h2 class="section-title"><i class="fas fa-bullseye"></i> Our Mission</h2>
-        <p>
+        <h2 class="section-title"><i class="fas fa-bullseye"></i> <span th:text="#{about.mission.title}">Our Mission</span></h2>
+        <p th:text="#{about.mission.text1}">
             CharityConnect is a modern platform designed to bridge the gap between compassionate donors and impactful non-profit organizations. Our mission is to facilitate transparent, easy, and meaningful giving to support youth empowerment and social change worldwide.
         </p>
-        <p style="margin-top: 20px;">
+        <p style="margin-top: 20px;" th:text="#{about.mission.text2}">
             We believe that every small contribution can lead to a significant difference. By providing a secure and intuitive interface, we empower everyone to become a part of the solution to today's most pressing challenges.
         </p>
 
         <div class="role-grid">
             <div class="role-card">
                 <i class="fas fa-hand-holding-heart"></i>
-                <h3>For Donors</h3>
-                <p>Discover vetted causes, track your impact, and manage your contributions in one personal dashboard.</p>
+                <h3 th:text="#{about.role.donors.title}">For Donors</h3>
+                <p th:text="#{about.role.donors.text}">Discover vetted causes, track your impact, and manage your contributions in one personal dashboard.</p>
             </div>
             <div class="role-card">
                 <i class="fas fa-university"></i>
-                <h3>For Organizations</h3>
-                <p>Launch campaigns, manage volunteers, and reach a wider community of supporters to fuel your mission.</p>
+                <h3 th:text="#{about.role.orgs.title}">For Organizations</h3>
+                <p th:text="#{about.role.orgs.text}">Launch campaigns, manage volunteers, and reach a wider community of supporters to fuel your mission.</p>
             </div>
             <div class="role-card">
                 <i class="fas fa-shield-alt"></i>
-                <h3>Transparency</h3>
-                <p>Real-time progress tracking and verified organizational status ensure that every dollar goes where it's needed.</p>
+                <h3 th:text="#{about.role.transparency.title}">Transparency</h3>
+                <p th:text="#{about.role.transparency.text}">Real-time progress tracking and verified organizational status ensure that every dollar goes where it's needed.</p>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Volunteer Registration', ~{::style})}">
+<head th:replace="~{fragments/layout :: head(#{volunteer.form.title}, ~{::style})}">
     <style>
         .form-container {
             max-width: 600px;
@@ -61,32 +61,32 @@
 <div class="container">
     <div class="form-container">
         <div class="form-header">
-            <h1>Volunteer Registration</h1>
-            <p th:text="'Sign up to help with: ' + ${action.title}"></p>
+            <h1 th:text="#{volunteer.form.title}">Volunteer Registration</h1>
+            <p th:text="${#messages.msg('volunteer.form.subtitle', action.title)}"></p>
         </div>
 
         <form th:action="@{/actions/{id}/participate(id=${action.id})}" method="post">
             <div class="form-group">
-                <label for="fullName">Full Name</label>
+                <label for="fullName" th:text="#{volunteer.form.name}">Full Name</label>
                 <input type="text" id="fullName" name="fullName" th:value="${user.firstName + ' ' + user.lastName}" readonly>
             </div>
 
             <div class="form-group">
-                <label for="email">Email Address for Confirmation</label>
-                <input type="email" id="email" name="email" th:value="${user.email}" placeholder="Where should we send the confirmation email?" required>
+                <label for="email" th:text="#{volunteer.form.email}">Email Address for Confirmation</label>
+                <input type="email" id="email" name="email" th:value="${user.email}" th:placeholder="#{volunteer.form.email.placeholder}" required>
             </div>
 
             <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" th:value="${user.phone}" placeholder="Your phone number">
+                <label for="phone" th:text="#{volunteer.form.phone}">Phone Number</label>
+                <input type="tel" id="phone" name="phone" th:value="${user.phone}" th:placeholder="#{volunteer.form.phone.placeholder}">
             </div>
 
             <div class="form-group">
-                <label for="note">Why do you want to join? (Optional)</label>
-                <textarea id="note" name="note" placeholder="Tell us about your motivation or any relevant experience..."></textarea>
+                <label for="note" th:text="#{volunteer.form.note}">Why do you want to join? (Optional)</label>
+                <textarea id="note" name="note" th:placeholder="#{volunteer.form.note.placeholder}"></textarea>
             </div>
 
-            <button type="submit" class="btn-submit">
+            <button type="submit" class="btn-submit" th:text="#{volunteer.form.submit}">
                 Submit Registration
             </button>
         </form>

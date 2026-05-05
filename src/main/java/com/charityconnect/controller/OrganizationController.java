@@ -10,6 +10,13 @@ import com.charityconnect.repository.OrganizationRepository;
 import com.charityconnect.repository.UserRepository;
 import java.math.BigDecimal;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.core.Authentication;
@@ -83,24 +90,38 @@ public class OrganizationController {
             return "organization/action-form";
         }
 
-        Organization organization = getCurrentOrganization(authentication);
+        try {
+            Organization organization = getCurrentOrganization(authentication);
 
-        formAction.setId(null);
-        formAction.setOrganization(organization);
-        if (formAction.getCollectedAmount() == null) {
-            formAction.setCollectedAmount(BigDecimal.ZERO);
-        }
-        if (formAction.getStatus() == null) {
-            formAction.setStatus(ActionStatus.ACTIVE);
-        }
+            formAction.setId(null);
+            formAction.setOrganization(organization);
+            
+            handleFileUploads(formAction);
 
-        charityActionRepository.save(formAction);
-        redirectAttributes.addFlashAttribute("message", "Action created successfully.");
-        return "redirect:/organization/actions";
+            if (formAction.getCollectedAmount() == null) {
+                formAction.setCollectedAmount(BigDecimal.ZERO);
+            }
+            if (formAction.getStatus() == null) {
+                formAction.setStatus(ActionStatus.ACTIVE);
+            }
+
+            charityActionRepository.save(formAction);
+            redirectAttributes.addFlashAttribute("message", "Action created successfully.");
+            return "redirect:/organization/actions";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("formMode", "create");
+            return "organization/action-form";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Error: " + e.getMessage());
+            model.addAttribute("formMode", "create");
+            return "organization/action-form";
+        }
     }
 
     @GetMapping("/actions/{id}/edit")
-    public String editActionForm(@PathVariable Long id,
+    public String editActionForm(@PathVariable String id,
                                  Authentication authentication,
                                  Model model) {
         Organization organization = getCurrentOrganization(authentication);
@@ -113,8 +134,9 @@ public class OrganizationController {
     }
 
     @PostMapping("/actions/{id}")
-    public String updateAction(@Valid @PathVariable Long id,
-                               @ModelAttribute("action") CharityAction formAction, BindingResult bindingResult,
+    public String updateAction(@PathVariable String id,
+                               @Valid @ModelAttribute("action") CharityAction formAction,
+                               BindingResult bindingResult,
                                Authentication authentication,
                                RedirectAttributes redirectAttributes,
                                Model model) {
@@ -123,26 +145,54 @@ public class OrganizationController {
             model.addAttribute("formMode", "edit");
             return "organization/action-form";
         }
-        Organization organization = getCurrentOrganization(authentication);
-        CharityAction existingAction = charityActionRepository.findByIdAndOrganization(id, organization)
-                .orElseThrow(() -> new IllegalArgumentException("Action not found for this organization."));
 
-        existingAction.setTitle(formAction.getTitle());
-        existingAction.setDescription(formAction.getDescription());
-        existingAction.setCategory(formAction.getCategory());
-        existingAction.setLocation(formAction.getLocation());
-        existingAction.setTargetAmount(formAction.getTargetAmount());
-        existingAction.setStartDate(formAction.getStartDate());
-        existingAction.setEndDate(formAction.getEndDate());
-        existingAction.setImage(formAction.getImage());
+        try {
+            Organization organization = getCurrentOrganization(authentication);
+            CharityAction existingAction = charityActionRepository.findByIdAndOrganization(id, organization)
+                    .orElseThrow(() -> new IllegalArgumentException("Action not found for this organization."));
 
-        charityActionRepository.save(existingAction);
-        redirectAttributes.addFlashAttribute("message", "Action updated successfully.");
-        return "redirect:/organization/actions";
+            existingAction.setTitle(formAction.getTitle());
+            existingAction.setDescription(formAction.getDescription());
+            existingAction.setCategory(formAction.getCategory());
+            existingAction.setLocation(formAction.getLocation());
+            existingAction.setTargetAmount(formAction.getTargetAmount());
+            existingAction.setStartDate(formAction.getStartDate());
+            existingAction.setEndDate(formAction.getEndDate());
+
+            if (formAction.getImage() != null && !formAction.getImage().isBlank()) {
+                existingAction.setImage(formAction.getImage());
+            }
+            if (formAction.getVideoUrl() != null && !formAction.getVideoUrl().isBlank()) {
+                existingAction.setVideoUrl(formAction.getVideoUrl());
+            }
+
+            formAction.setId(existingAction.getId()); 
+            handleFileUploads(formAction);
+
+            if (formAction.getImage() != null && formAction.getImage().startsWith("/images/uploads/")) {
+                existingAction.setImage(formAction.getImage());
+            }
+            if (formAction.getVideoUrl() != null && formAction.getVideoUrl().startsWith("/videos/uploads/")) {
+                existingAction.setVideoUrl(formAction.getVideoUrl());
+            }
+
+            charityActionRepository.save(existingAction);
+            redirectAttributes.addFlashAttribute("message", "Action updated successfully.");
+            return "redirect:/organization/actions";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("formMode", "edit");
+            return "organization/action-form";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Error: " + e.getMessage());
+            model.addAttribute("formMode", "edit");
+            return "organization/action-form";
+        }
     }
 
     @PostMapping("/actions/{id}/archive")
-    public String archiveAction(@PathVariable Long id,
+    public String archiveAction(@PathVariable String id,
                                 Authentication authentication,
                                 RedirectAttributes redirectAttributes) {
         Organization organization = getCurrentOrganization(authentication);
@@ -188,6 +238,45 @@ public class OrganizationController {
         organizationRepository.save(organization);
         redirectAttributes.addFlashAttribute("message", "Organization profile updated successfully.");
         return "redirect:/organization/profile";
+    }
+
+    private void handleFileUploads(CharityAction action) {
+        String baseDir = "src/main/resources/static/";
+        
+        try {
+            // Handle image upload
+            if (action.getImageFile() != null && !action.getImageFile().isEmpty()) {
+                String fileName = saveFile(action.getImageFile(), baseDir + "images/uploads/");
+                action.setImage("/images/uploads/" + fileName);
+            }
+            
+            // Handle video upload
+            if (action.getVideoFile() != null && !action.getVideoFile().isEmpty()) {
+                String fileName = saveFile(action.getVideoFile(), baseDir + "videos/uploads/");
+                action.setVideoUrl("/videos/uploads/" + fileName);
+            }
+        } catch (IOException e) {
+            System.err.println("[DEBUG_LOG] Error saving uploaded file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private String saveFile(MultipartFile file, String uploadDirStr) throws IOException {
+        Path uploadPath = Paths.get(uploadDirStr);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        
+        String originalFileName = file.getOriginalFilename();
+        String extension = "";
+        if (originalFileName != null && originalFileName.contains(".")) {
+            extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+        
+        String fileName = UUID.randomUUID().toString() + extension;
+        Path path = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        return fileName;
     }
 
     private Organization getCurrentOrganization(Authentication authentication) {

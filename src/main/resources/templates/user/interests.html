@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Select Interests', ~{::link})}">
+    <link rel="stylesheet" th:href="@{/css/user-profile-edit.css}">
+    <style>
+        .onboarding-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .onboarding-container h1 {
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .onboarding-container p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .interest-item {
+            cursor: pointer;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .interest-item:hover {
+            border-color: #e5533d;
+            background: #fffafa;
+        }
+        .interest-item input {
+            width: 20px;
+            height: 20px;
+            accent-color: #e5533d;
+        }
+        .btn-start {
+            background: #e5533d;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-start:hover {
+            background: #d4422c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 83, 61, 0.3);
+        }
+        .skip-link {
+            display: block;
+            margin-top: 20px;
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .skip-link:hover {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header(false)}"></header>
+
+<div class="main-content">
+    <div class="onboarding-container">
+        <h1 th:text="#{interests.title}">Welcome!</h1>
+        <p th:text="#{interests.subtitle}">Tell us what you care about to get personalized recommendations.</p>
+        
+        <form th:action="@{/user/interests}" th:object="${user}" method="post">
+            <div class="interests-grid">
+                <div th:each="cat : ${ {'Education', 'Health', 'Environment', 'Food', 'Youth', 'Urgent'} }">
+                    <label class="interest-item">
+                        <input type="checkbox" th:field="*{interests}" th:value="${cat}">
+                        <span th:text="${cat}">Category</span>
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-start">
+                <span th:text="#{interests.btn}">Get Started</span> &rarr;
+            </button>
+            
+            <a th:href="@{/}" class="skip-link" th:text="#{interests.skip}">I'll do this later</a>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
