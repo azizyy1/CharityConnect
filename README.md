@@ -75,4 +75,20 @@ L'application détecte automatiquement la langue ou permet un changement manuel 
 - **Embedded DB** : Facilitation du développement collaboratif sans configuration complexe.
 
 ---
-*© 2026 CharityConnect Team*
+## 📄 Documentation & Démonstration
+
+* 📘 **Rapport du Projet**
+* 🎥 **Simulation / Démonstration**
+* 📊 **Présentation PowerPoint**
+
+🔗 Google Drive :
+https://drive.google.com/drive/folders/1fjCURipLtQkeLj2yt5TVWaDoccq2TFYc?usp=sharing
+
+## 👨‍💻 Équipe
+
+Projet réalisé par :
+
+* **Hajar Azizi**
+
+Dans le cadre du module **JEE — EMSI 2025/2026**.
+
