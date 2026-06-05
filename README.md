@@ -79,6 +79,7 @@ L'application détecte automatiquement la langue ou permet un changement manuel 
 
 * 📘 **Rapport du Projet**
 * 📊 **Présentation PowerPoint**
+* 🎥 **Simulation**
 
 🔗 Google Drive :
 https://drive.google.com/drive/folders/1fjCURipLtQkeLj2yt5TVWaDoccq2TFYc?usp=sharing
