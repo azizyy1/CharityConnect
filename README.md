@@ -78,7 +78,6 @@ L'application détecte automatiquement la langue ou permet un changement manuel 
 ## 📄 Documentation & Démonstration
 
 * 📘 **Rapport du Projet**
-* 🎥 **Simulation / Démonstration**
 * 📊 **Présentation PowerPoint**
 
 🔗 Google Drive :
